@@ -1,0 +1,54 @@
+version: '3.7'
+
+services:
+    backend:
+        container_name: django
+        tty: true
+        stdin_open: true
+        volumes:
+            - ./social_media_backend/:/social_media_backend
+        build:
+            context: ./social_media_backend
+        command: gunicorn --workers=4 --threads=8 --timeout 2000 --reload social_media.wsgi:application --bind 0.0.0.0:8000
+        ports:
+            - "8000:8000"
+    frontend:
+        container_name: react
+        build:
+            context: .
+            dockerfile: ./social_media_frontend/social_media_react/Dockerfile
+        volumes:
+            - ./social_media_frontend/social_media_react:/social_media_frontend/
+        ports:
+            - "3000:3000"
+
+    db_postgres:
+        container_name: postgres
+        image: postgres
+        environment:
+            POSTGRES_USER: myprojectuser
+            POSTGRES_PASSWORD: password
+            POSTGRES_DATABASE: myproject
+            PGDATA: /data/social_media
+        volumes:
+            - social_media:/data/social_media
+        ports:
+            - 5432:5432
+        restart: always
+        
+    nginx:
+        image: nginx:latest
+        ports:
+            - 80:8080
+        volumes:
+            - ./nginx/nginx-setup.conf:/etc/nginx/conf.d/default.conf:ro
+        depends_on:
+            - backend
+            - frontend
+            - db_postgres
+
+volumes:
+  social_media:
+  backend:
+  frontend:
+  nginx:
