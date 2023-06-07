@@ -4,7 +4,7 @@ import axios from 'axios'
 
 import { getCookie } from '../CsrfToken'
 import NavbarForNotAuthenticated from './NavbarForNotAuthenticated'
-import backgroundImage from './images/img_back.webp'
+import backgroundImage from './images/social_media_back.jpg'
 
 
 export default function LoginUser() {
@@ -38,7 +38,7 @@ export default function LoginUser() {
         });
     }
     return (
-        <div style={{backgroundImage:`url(${backgroundImage})`,backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', width: '100%', height: '600px',}}>
+        <div style={{backgroundImage:`url(${backgroundImage})`,backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', width: '100%', height: '600px'}}>
             <NavbarForNotAuthenticated />
             <div>
                 <form id="userLoginForm" onSubmit={userLogin}>

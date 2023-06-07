@@ -1,6 +1,6 @@
 import React from 'react'
 import NavbarForNotAuthenticated from './NavbarForNotAuthenticated'
-import backgroundImage from './images/img_back.webp'
+import backgroundImage from './images/social_media_back.jpg'
 
 
 export default function HomePageNotAuthenticated() {
