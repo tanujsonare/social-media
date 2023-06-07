@@ -8,3 +8,6 @@ class Tweet(models.Model):
     image = models.FileField(upload_to="images/", null=True, blank=True)
     created_at = models.DateTimeField(auto_now=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ("created_at",)
