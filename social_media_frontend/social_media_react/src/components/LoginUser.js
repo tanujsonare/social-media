@@ -1,9 +1,10 @@
 import React from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import axios from 'axios'
 
 import { getCookie } from '../CsrfToken'
 import NavbarForNotAuthenticated from './NavbarForNotAuthenticated'
+import backgroundImage from './images/img_back.webp'
 
 
 export default function LoginUser() {
@@ -37,21 +38,24 @@ export default function LoginUser() {
         });
     }
     return (
-        <>
+        <div style={{backgroundImage:`url(${backgroundImage})`,backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', width: '100%', height: '600px',}}>
             <NavbarForNotAuthenticated />
             <div>
                 <form id="userLoginForm" onSubmit={userLogin}>
                     <div className="form-group mx-4">
-                        <label htmlFor="userName" className="d-flex my-3">Username*</label>
+                        <label htmlFor="userName" className="d-flex my-3 text-light">Username*</label>
                         <input type="text" className="form-control" id="username" placeholder="Enter your username" />
                     </div>
                     <div className="form-group mx-4">
-                        <label htmlFor="userPassword" className="d-flex my-3">Password*</label>
+                        <label htmlFor="userPassword" className="d-flex my-3 text-light">Password*</label>
                         <input type="password" className="form-control" id="password" placeholder="Enter your password" />
                     </div>
-                    <button type="submit" className="btn btn-primary d-flex my-3 mx-4">Submit</button>
+                    <div className='my-3 mx-4 flex-row d-flex'>
+                        <button type="submit" className="btn btn-outline-light">Submit</button>
+                        <Link className='text-light mx-4 mt-2' to="/register" >Click here to Register</Link>
+                    </div>
                 </form>
             </div>
-        </>
+        </div>
     )
 }

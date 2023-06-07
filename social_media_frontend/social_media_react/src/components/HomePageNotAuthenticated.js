@@ -1,13 +1,14 @@
 import React from 'react'
 import NavbarForNotAuthenticated from './NavbarForNotAuthenticated'
+import backgroundImage from './images/img_back.webp'
 
 
 export default function HomePageNotAuthenticated() {
   return (
-    <div>
+    <div style={{backgroundImage:`url(${backgroundImage})`,backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', width: '100%', height: '600px',}}>
       <NavbarForNotAuthenticated />
       <div className='text-center my-4'>
-        <h3 className='text-danger'>Please Login First to Use</h3>
+        <h2 className='text-white my-4'>Please Login First to Use</h2>
       </div>
     </div>
   )
