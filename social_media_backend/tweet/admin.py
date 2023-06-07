@@ -1,3 +1,10 @@
 from django.contrib import admin
 
-# Register your models here.
+from . import models
+
+
+@admin.register(models.Tweet)
+class TweetAdmin(admin.ModelAdmin):
+    list_display=[
+        'user',
+    ]
