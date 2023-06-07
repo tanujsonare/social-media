@@ -1,9 +1,10 @@
 import React from 'react'
-import {useNavigate} from 'react-router-dom';
+import {useNavigate, Link} from 'react-router-dom';
 import axios from 'axios';
 
 import { getCookie } from '../CsrfToken';
 import NavbarForNotAuthenticated from './NavbarForNotAuthenticated'
+import backgroundImage from './images/img_back.webp'
 
 
 export default function RegisterUser() {
@@ -69,29 +70,32 @@ export default function RegisterUser() {
     };
 
     return (
-        <>
-            <NavbarForNotAuthenticated />
+        <div style={{backgroundImage:`url(${backgroundImage})`,backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', width: '100%', height: '600px',}}>
+        <NavbarForNotAuthenticated />
             <div className='mx-4'>
                 <form id="userRegistrationForm" onSubmit={submitUserRegistration}>
                     <div className="form-group mx-4">
-                        <label htmlFor="userName" className="d-flex my-3">Username*</label>
+                        <label htmlFor="userName" className="d-flex my-3 text-light">Username*</label>
                         <input type="text" className="form-control" id="username" placeholder="Enter your username" />
                     </div>
                     <div className="form-group mx-4">
-                        <label htmlFor="userEmail" className="d-flex my-3">Email address*</label>
+                        <label htmlFor="userEmail" className="d-flex my-3 text-light">Email address*</label>
                         <input type="email" className="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter your email" />
                     </div>
                     <div className="form-group mx-4">
-                        <label htmlFor="userBio" className="d-flex my-3">Bio (optional)</label>
+                        <label htmlFor="userBio" className="d-flex my-3 text-light">Bio (optional)</label>
                         <input type="text" className="form-control" id="bio" placeholder="Enter your bio" />
                     </div>
                     <div className="form-group mx-4">
-                        <label htmlFor="userPassword" className="d-flex my-3">Password*</label>
+                        <label htmlFor="userPassword" className="d-flex my-3 text-light">Password*</label>
                         <input type="password" className="form-control" id="password" placeholder="Enter your password" />
                     </div>
-                    <button type="submit" className="btn btn-primary d-flex my-3 mx-4">Submit</button>
+                    <div className='mx-4 my-4 flex-row d-flex'>
+                        <button type="submit" className="btn btn-outline-light">Submit</button>
+                        <Link className="text-light mx-4 mt-2" to="/login">Click here to login</Link>
+                    </div>
                 </form>
             </div>
-        </>
+        </div>
     )
 }
