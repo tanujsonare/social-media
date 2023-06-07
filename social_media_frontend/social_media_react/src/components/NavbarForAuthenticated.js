@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 export default function NavbarForAuthenticated(props) {
   return (
     <div>
-      <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+      <nav className="navbar navbar-expand-lg navbar-dark" style={{backgroundColor:"rgb(1 4 6 / 46%)"}}>
         <Link className="navbar-brand mx-2" to="/">TweeMe</Link>
         <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>
