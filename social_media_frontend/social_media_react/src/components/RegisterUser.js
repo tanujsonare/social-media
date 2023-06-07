@@ -4,7 +4,7 @@ import axios from 'axios';
 
 import { getCookie } from '../CsrfToken';
 import NavbarForNotAuthenticated from './NavbarForNotAuthenticated'
-import backgroundImage from './images/img_back.webp'
+import backgroundImage from './images/social_media_back.jpg'
 
 
 export default function RegisterUser() {
