@@ -15,7 +15,7 @@ import LogoutUser from './components/LogoutUser';
 function App() {
   const userToken = localStorage.getItem("user_token");
   const userName = localStorage.getItem("user_name");
-  // const userId = localStorage.getItem("user_id");
+  const userId = localStorage.getItem("user_id");
 
   return (
     <div className="App">
@@ -29,7 +29,7 @@ function App() {
       {userToken && <Router>
         <Routes>
           <Route path='/logout' element={<LogoutUser userName={userName} userToken={userToken}/>} />
-          <Route path='/' element={<HomePageAuthenticated userName={userName} userToken={userToken} />} />
+          <Route path='/' element={<HomePageAuthenticated userName={userName} userToken={userToken} userId={userId} />} />
         </Routes>
         </Router>}
     </div>

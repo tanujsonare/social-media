@@ -1,7 +1,10 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
+import axios from 'axios';
 
 import NavbarForAuthenticated from './NavbarForAuthenticated'
 import backgroundImage from './images/social_media_back.jpg'
+import { getCookie } from '../CsrfToken';
+
 
 export default function HomePageAuthenticated(props) {
   const [getTweet, setGetTweet] = useState([]);
@@ -14,7 +17,7 @@ export default function HomePageAuthenticated(props) {
       }
     })
     .catch(error => {
-      alert(error.response.data.error_message);
+      console.log(error.response.data);
     });
   }
 
@@ -48,13 +51,15 @@ export default function HomePageAuthenticated(props) {
         alert(error.response.data.error);
     });
   }
+
+
   return (
-    <div style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', width: '100%', minHeight: '700px' }}>
+    <div className="" style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', width: '100%', minHeight: '700px' }}>
       <NavbarForAuthenticated userName={props.userName} userToken={props.userToken} />
       <div className='mx-4 my-4 d-flex'>
         <div className='mr-auto p-2 w-50'>
           {getTweet.map((element) => {
-            return <div className="card w-50 mb-3 my-4 mx-4" key={element.id}>
+            return <div className="card w-50 mb-3 my-4 mx-4">
               <h6 className="card-header d-flex jsutify-content-start mx-3 my-2">{props.userName}</h6>
               {/* <img className="card-img-top my-4" src={backgroundImage} style={{ display: "block", marginLeft: "auto", marginRight: "auto", width: "40%", height: "100px" }} alt="Card image cap" /> */}
               <div className="card-body">
@@ -84,7 +89,7 @@ export default function HomePageAuthenticated(props) {
             </form>
           </div>
         </div>
-    </div>
+      </div>
     </div>
   )
 }
