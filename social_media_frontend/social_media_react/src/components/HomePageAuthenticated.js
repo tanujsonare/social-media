@@ -4,12 +4,87 @@ import NavbarForAuthenticated from './NavbarForAuthenticated'
 import backgroundImage from './images/social_media_back.jpg'
 
 export default function HomePageAuthenticated(props) {
+  const [getTweet, setGetTweet] = useState([]);
+
+  const getAllTweet = async () => {
+    await axios.get(`http://127.0.0.1/api/get_tweet?user_id=` + props.userId
+    ).then(response => {
+      if (response.data) {
+        setGetTweet(response.data.tweets);
+      }
+    })
+    .catch(error => {
+      alert(error.response.data.error_message);
+    });
+  }
+
+  useEffect(() => {
+    getAllTweet();
+  }, [])
+
+  const addNewTweet = async(e)=>{
+    e.preventDefault();
+    const formData = document.getElementById("addTweetForm");
+    const data = {};
+    for (let i = 0; i < formData.length-1; i++) {
+      data[formData[i].id] = formData[i].value;
+    }
+    data["user"] = props.userId
+
+    const headers = {
+        'X-CSRFToken': getCookie("csrftoken")
+    };
+
+    await axios.post('http://127.0.0.1/api/add_tweet',
+        data,
+        { headers }
+    ).then(response => {
+        console.log(response.data);
+        let form = document.getElementById("addTweetForm");
+        form.reset();
+        getAllTweet();
+    })
+    .catch(error => {
+        alert(error.response.data.error);
+    });
+  }
   return (
-    <div style={{backgroundImage:`url(${backgroundImage})`,backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', width: '100%', height: '600px'}}>
-        <NavbarForAuthenticated userName={props.userName} userToken={props.userToken}/>
-        <div className='my-4 text-light'>
-            You are loggend In.
+    <div style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', width: '100%', minHeight: '700px' }}>
+      <NavbarForAuthenticated userName={props.userName} userToken={props.userToken} />
+      <div className='mx-4 my-4 d-flex'>
+        <div className='mr-auto p-2 w-50'>
+          {getTweet.map((element) => {
+            return <div className="card w-50 mb-3 my-4 mx-4" key={element.id}>
+              <h6 className="card-header d-flex jsutify-content-start mx-3 my-2">{props.userName}</h6>
+              {/* <img className="card-img-top my-4" src={backgroundImage} style={{ display: "block", marginLeft: "auto", marginRight: "auto", width: "40%", height: "100px" }} alt="Card image cap" /> */}
+              <div className="card-body">
+                <p className="card-text">{element.content}</p>
+                <p className="card-text"><small className="text-muted">{element.created_at} ago</small></p>
+                <div className='card-footer d-flex jsutify-content-start'>
+                  {/* <i className="fa-sharp fa-regular fa-heart fa-beat-fade d-flex" tweetid={element.id} style={{ color: "#595959"}}></i> */}
+                  <i class="fa-sharp fa-solid fa-heart fa-lg my-2" tweetid={element.id} style={{color: "#e85e5e"}}></i>
+                  <i className="fa-solid fa-pen mx-5" tweetid={element.id} style={{ color: "#696363"}}></i>
+                  <i className="fa-solid fa-trash mx-1" tweetid={element.id} style={{ color: "#696363"}}></i>
+                </div>
+              </div>
+            </div>
+          })}
         </div>
+        <div className="card p-2 my-4 w-50 h-50">
+          <h5 className="card-header">New Tweet</h5>
+          <div className="card-body">
+            <form id="addTweetForm" onSubmit={addNewTweet}>
+              <div className="form-group mx-4">
+                <label className="my-2 d-flex" htmlFor="tweetContent">Tweet Content*</label>
+                <textarea className="form-control" id="content" rows="10" placeholder="Please write your tweet content here."></textarea>
+              </div>
+              <div className='my-4 mx-4 flex-row d-flex justify-content-center'>
+                <button type="submit" className="btn btn-dark">Tweet</button>
+              </div>
+            </form>
+          </div>
+        </div>
+    </div>
     </div>
   )
 }
