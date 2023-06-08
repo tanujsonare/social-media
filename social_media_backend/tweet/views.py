@@ -20,3 +20,15 @@ class GetTweet(APIView):
             response = {"tweets": serializer.data}
             return Response(response, status.HTTP_200_OK)
         return Response(response, status.HTTP_400_BAD_REQUEST)
+    
+
+class AddTweet(APIView):
+    def post(self, request, format=None):
+        serializer = serializers.AddTweetSerializer(data=request.data, context={"request":request})
+        try:
+            if serializer.is_valid():
+                serializer.save()
+                response = {"tweet": serializer.data}
+                return Response(response, status=status.HTTP_201_CREATED)
+        except:
+            return Response({"error_message": "Please Fill all fields properly!!!"}, status=status.HTTP_400_BAD_REQUEST)
