@@ -3,7 +3,8 @@ from rest_framework import serializers
 from . import models
 
 
-class GetTweetSerializer(serializers.ModelSerializer):
+class GetTweetSerializer(serializers.ModelSerializer):   
+    
     class Meta:
         model = models.Tweet
         fields = [
@@ -11,4 +12,14 @@ class GetTweetSerializer(serializers.ModelSerializer):
             "user",
             "content",
             "created_at",
+        ]
+
+
+class AddTweetSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = models.Tweet
+        fields = [
+            "user",
+            "content",
         ]
