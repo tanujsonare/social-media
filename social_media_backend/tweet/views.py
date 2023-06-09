@@ -17,7 +17,7 @@ class GetTweet(APIView):
         user = CustomUser.objects.get(id=user_id)
         if user:
             queryset = models.Tweet.objects.filter(user=user)
-            serializer = serializers.GetTweetSerializer(queryset, many=True)
+            serializer = serializers.GetTweetSerializer(queryset, many=True, context = {"user_id": user_id})
             response = {"tweets": serializer.data}
             return Response(response, status.HTTP_200_OK)
         return Response(response, status.HTTP_400_BAD_REQUEST)
@@ -36,15 +36,18 @@ class AddTweet(APIView):
         
 
 class AddLike(APIView):
-    def post(self, request, format=None):
-        tweet_id = request.POST.get("tweet_id")
+    def get(self, request, format=None):
+        tweet_id = request.GET.get("tweet_id")
+        user_id = request.GET.get("user_id")
         if not tweet_id:
             raise Exception({"tweet_id": "This field is required."})
+        if not user_id:
+            raise Exception({"user_id": "This field is required."})
+        user = CustomUser.objects.get(id=user_id)
         tweet = models.Tweet.objects.get(id=tweet_id)
-        if tweet:
-            like, created = models.Like.objects.get_or_create(user=request.user, tweet=tweet)
+        if tweet and user:
+            like, created = models.Like.objects.get_or_create(user=user, tweet=tweet)
             if created:
                 tweet.add_like()
                 return Response({"message":"Tweet liked successfully!!!"})
-        return Response({"error_message": "Tweet not found !!!!"}, status=status.HTTP_400_BAD_REQUEST)
-        
+        return Response({"error_message": "Tweet not found !!!!"}, status=status.HTTP_400_BAD_REQUEST)        
