@@ -20,13 +20,16 @@ export default function NavbarForAuthenticated(props) {
         <div className="d-flex justify-content-end">
             <ul className="navbar-nav mr-auto">
                 <li className="nav-item active">
+                    <Link className="nav-link" to="/profile"> Profile </Link>
+                </li>
+                <li className="nav-item active">
                     <Link className="nav-link active" to="/"> {props.userName} </Link>
                 </li>
                 <li className="nav-item">
                     <Link className="nav-link" to="/logout">Logout</Link>
                 </li>
             </ul>
-            <form className="d-flex " role="search">
+            <form className="d-flex mx-3" role="search">
                 <input className="form-control me-2 mx-4" type="search" placeholder="Search" aria-label="Search" />
                 <button className="btn btn-outline-success" type="submit">Search</button>
             </form>

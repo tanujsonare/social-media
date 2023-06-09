@@ -52,6 +52,20 @@ export default function HomePageAuthenticated(props) {
     });
   }
 
+  const addLike = async(e) =>{
+    const tweetId = e.target.getAttribute("tweetid")
+    await axios.get(`http://127.0.0.1/api/add_like?tweet_id=${tweetId}&user_id=${props.userId}`
+    ).then(response => {
+      if (response.data) {
+        alert(response.data.message);
+        getAllTweet();
+      }
+    })
+    .catch(error => {
+      console.log(error.response.data);
+    });
+  }
+
 
   return (
     <div className="" style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', width: '100%', minHeight: '700px' }}>
@@ -59,17 +73,17 @@ export default function HomePageAuthenticated(props) {
       <div className='mx-4 my-4 d-flex'>
         <div className='mr-auto p-2 w-50'>
           {getTweet.map((element) => {
-            return <div className="card w-50 mb-3 my-4 mx-4">
+            return <div className="card w-50 mb-3 my-4 mx-4" key={element.id}>
               <h6 className="card-header d-flex jsutify-content-start mx-3 my-2">{props.userName}</h6>
-              {/* <img className="card-img-top my-4" src={backgroundImage} style={{ display: "block", marginLeft: "auto", marginRight: "auto", width: "40%", height: "100px" }} alt="Card image cap" /> */}
+              {/* <img className="card-i-mg-top my-4" src={backgroundImage} style={{ display: "block", marginLeft: "auto", marginRight: "auto", width: "40%", height: "100px" }} alt="Card image cap" /> */}
               <div className="card-body">
                 <p className="card-text">{element.content}</p>
                 <p className="card-text"><small className="text-muted">{element.created_at} ago</small></p>
                 <div className='card-footer d-flex jsutify-content-start'>
-                  {/* <i className="fa-sharp fa-regular fa-heart fa-beat-fade d-flex" tweetid={element.id} style={{ color: "#595959"}}></i> */}
-                  <i class="fa-sharp fa-solid fa-heart fa-lg my-2" tweetid={element.id} style={{color: "#e85e5e"}}></i>
-                  <i className="fa-solid fa-pen mx-5" tweetid={element.id} style={{ color: "#696363"}}></i>
-                  <i className="fa-solid fa-trash mx-1" tweetid={element.id} style={{ color: "#696363"}}></i>
+                  {!element.is_liked && <span className='text-dark'><i className="fa-sharp fa-regular fa-heart fa-beat fa-lg" tweetid={element.id} style={{ color: "#595959"}} onClick={addLike}></i> {element.likes} likes </span>}
+                  {element.is_liked && <span className='text-dark'><i class="fa-sharp fa-solid fa-heart fa-lg " tweetid={element.id} style={{color: "#e85e5e"}}></i> {element.likes} likes </span>}
+                  <i className="fa-solid fa-pen mx-3" tweetid={element.id} style={{ color: "#696363"}}></i>
+                  <i className="fa-solid fa-trash mx-4" tweetid={element.id} style={{ color: "#696363"}}></i>
                 </div>
               </div>
             </div>
