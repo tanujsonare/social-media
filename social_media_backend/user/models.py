@@ -20,6 +20,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     is_superuser = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     last_login = models.DateTimeField(null=True)
+    followers = models.ManyToManyField('self', related_name='following', symmetrical=False, blank=True)
 
     USERNAME_FIELD = "username"
     objects = CustomUserManager()
