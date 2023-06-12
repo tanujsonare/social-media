@@ -16,7 +16,7 @@ class GetTweet(APIView):
             raise Exception({"user_id": "This field is required."})
         user = CustomUser.objects.get(id=user_id)
         if user:
-            queryset = models.Tweet.objects.filter(user=user)
+            queryset = models.Tweet.objects.all()
             serializer = serializers.GetTweetSerializer(queryset, many=True, context = {"user_id": user_id})
             response = {"tweets": serializer.data}
             return Response(response, status.HTTP_200_OK)
@@ -50,4 +50,22 @@ class AddLike(APIView):
             if created:
                 tweet.add_like()
                 return Response({"message":"Tweet liked successfully!!!"})
-        return Response({"error_message": "Tweet not found !!!!"}, status=status.HTTP_400_BAD_REQUEST)        
+        return Response({"error_message": "Tweet not found !!!!"}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class AddFollowers(APIView):
+    def get(self, request, format=None):
+        requested_user_id = request.GET.get("requested_user_id")
+        follow_user_id = request.GET.get("follow_user_id")
+        if not requested_user_id:
+            raise Exception({"requested_user_id": "This field is required."})
+        if not follow_user_id:
+            raise Exception({"follow_user_id": "This field is required."})
+        requested_user = CustomUser.objects.get(id=requested_user_id)
+        follow_user = CustomUser.objects.get(id=follow_user_id)
+        if requested_user and follow_user:
+            follow_user.followers.add(requested_user)
+            return Response({"message":f"Now Your following {follow_user.username} !!!"})
+        else:
+            return Response({"error_message": "User not found !!!!"}, status=status.HTTP_400_BAD_REQUEST)
+            
