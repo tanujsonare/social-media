@@ -57,7 +57,6 @@ export default function HomePageAuthenticated(props) {
     await axios.get(`http://127.0.0.1/api/add_like?tweet_id=${tweetId}&user_id=${props.userId}`
     ).then(response => {
       if (response.data) {
-        alert(response.data.message);
         getAllTweet();
       }
     })
@@ -66,6 +65,28 @@ export default function HomePageAuthenticated(props) {
     });
   }
 
+  const addFollow = async(e) =>{
+    const followUserId = e.target.getAttribute("followuserid");
+    const requestedUserId = props.userId;
+    await props.followUser(requestedUserId, followUserId);
+    await getAllTweet();
+  }
+
+  const getDateAndTime = (createdAt)=>{
+    let dateAndTime = new Date(createdAt)
+    const options = {
+      timeZone: 'Asia/Kolkata',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+    };
+    if (dateAndTime){
+      let CreatedAtDateTime = dateAndTime.toLocaleString('en-In', options).split(',')
+      return ("Tweet on " + CreatedAtDateTime)
+    }
+  }
 
   return (
     <div className="" style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', width: '100%', minHeight: '700px' }}>
@@ -74,16 +95,19 @@ export default function HomePageAuthenticated(props) {
         <div className='mr-auto p-2 w-50'>
           {getTweet.map((element) => {
             return <div className="card w-50 mb-3 my-4 mx-4" key={element.id}>
-              <h6 className="card-header d-flex jsutify-content-start mx-3 my-2">{props.userName}</h6>
+              <div className='card-header d-flex justify-content-between'>
+                <h6 className="mx-2 my-2 p-2">{element.user_name}</h6>
+                {element.user != props.userId && !element.is_following && <button className='btn btn-dark btn-sm mx-1 my-2 rounded-5' onClick={addFollow} followuserid={element.user}> Follow <i className="fa-solid fa-circle-plus" style={{color: "#fff",}}></i></button>}
+              </div>
               {/* <img className="card-i-mg-top my-4" src={backgroundImage} style={{ display: "block", marginLeft: "auto", marginRight: "auto", width: "40%", height: "100px" }} alt="Card image cap" /> */}
               <div className="card-body">
                 <p className="card-text">{element.content}</p>
-                <p className="card-text"><small className="text-muted">{element.created_at} ago</small></p>
+                <p className="card-text"><small className="text-muted">{getDateAndTime(element.created_at)}</small></p>
                 <div className='card-footer d-flex jsutify-content-start'>
                   {!element.is_liked && <span className='text-dark'><i className="fa-sharp fa-regular fa-heart fa-beat fa-lg" tweetid={element.id} style={{ color: "#595959"}} onClick={addLike}></i> {element.likes} likes </span>}
-                  {element.is_liked && <span className='text-dark'><i class="fa-sharp fa-solid fa-heart fa-lg " tweetid={element.id} style={{color: "#e85e5e"}}></i> {element.likes} likes </span>}
-                  <i className="fa-solid fa-pen mx-3" tweetid={element.id} style={{ color: "#696363"}}></i>
-                  <i className="fa-solid fa-trash mx-4" tweetid={element.id} style={{ color: "#696363"}}></i>
+                  {element.is_liked && <span className='text-dark'><i className="fa-sharp fa-solid fa-heart fa-lg " tweetid={element.id} style={{color: "#e85e5e"}}></i> {element.likes} likes </span>}
+                  {props.userId === element.user && <i className="fa-solid fa-pen mx-3" tweetid={element.id} style={{ color: "#696363"}}></i>}
+                  {props.userId === element.user && <i className="fa-solid fa-trash mx-4" tweetid={element.id} style={{ color: "#696363"}}></i>}
                 </div>
               </div>
             </div>
