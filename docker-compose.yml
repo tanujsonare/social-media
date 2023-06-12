@@ -9,7 +9,11 @@ services:
             - ./social_media_backend/:/social_media_backend
         build:
             context: ./social_media_backend
-        command: gunicorn --workers=4 --threads=8 --timeout 2000 --reload social_media.wsgi:application --bind 0.0.0.0:8000
+        command: sh -c "python manage.py showmigrations &&
+                    python manage.py makemigrations &&
+                    python manage.py migrate &&
+                    python manage.py collectstatic --no-input --clear && 
+                    gunicorn --workers=4 --threads=8 --timeout 2000 --reload social_media.wsgi:application --bind 0.0.0.0:8000"
         ports:
             - "8000:8000"
     frontend:
