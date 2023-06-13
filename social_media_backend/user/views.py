@@ -1,7 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .serializers import RegisterNewUserSerializers
+from . import serializers
 from rest_framework.authtoken.models import Token
 
 from .models import CustomUser
@@ -9,7 +9,7 @@ from .models import CustomUser
 
 class RegisterUserView(APIView):
     def post(self, request, format=None):
-        serializer = RegisterNewUserSerializers(data=request.data, context={'request': request})
+        serializer = serializers.RegisterNewUserSerializer(data=request.data, context={'request': request})
         try:
             serializer.is_valid(raise_exception=True)
             serializer.save()
@@ -38,3 +38,13 @@ class UserLoginView(APIView):
                     return Response(response_data, status=status.HTTP_200_OK)            
         except:
             return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
+        
+
+class GetUserProfile(APIView):
+    def get(self, request, format=None):
+        user_id = request.GET.get("user_id")
+        if not user_id:
+            raise Exception({"user_id": "This field is required."})
+        user = CustomUser.objects.get(id=user_id)
+        if user:
+            pass
