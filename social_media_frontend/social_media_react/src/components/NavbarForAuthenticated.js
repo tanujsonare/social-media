@@ -20,10 +20,7 @@ export default function NavbarForAuthenticated(props) {
         <div className="d-flex justify-content-end">
             <ul className="navbar-nav mr-auto">
                 <li className="nav-item active">
-                    <Link className="nav-link" to="/profile"> Profile </Link>
-                </li>
-                <li className="nav-item active">
-                    <Link className="nav-link active" to="/"> {props.userName} </Link>
+                    <Link className="nav-link active" to="/profile"> {props.userName} </Link>
                 </li>
                 <li className="nav-item">
                     <Link className="nav-link" to="/logout">Logout</Link>
