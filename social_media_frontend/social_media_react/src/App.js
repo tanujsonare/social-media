@@ -18,7 +18,6 @@ function App() {
   const userToken = localStorage.getItem("user_token");
   const userName = localStorage.getItem("user_name");
   const userId = localStorage.getItem("user_id");
-  // const [followUser, setFollowUser] = useState();
   const followUser = async(requestedUserId, followUserId)=>{
     await axios.get(`http://127.0.0.1/api/add_follower?requested_user_id=${requestedUserId}&follow_user_id=${followUserId}`
     ).then(response => {
