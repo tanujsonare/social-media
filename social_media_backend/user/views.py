@@ -47,4 +47,7 @@ class GetUserProfile(APIView):
             raise Exception({"user_id": "This field is required."})
         user = CustomUser.objects.get(id=user_id)
         if user:
-            pass
+            serializer = serializers.GetUserProfileSerializer(user)
+            response = {"user_profile": serializer.data}
+            return Response(response, status.HTTP_200_OK)
+        return Response(status.HTTP_400_BAD_REQUEST)
