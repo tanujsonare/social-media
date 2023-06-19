@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom'
 
 import NavbarForAuthenticated from './NavbarForAuthenticated'
 import backgroundImage from './images/social_media_back.jpg'
@@ -7,6 +8,7 @@ import { getCookie } from '../CsrfToken';
 
 
 export default function HomePageAuthenticated(props) {
+  const navigate = useNavigate();
   const [getTweet, setGetTweet] = useState([]);
 
   const getAllTweet = async () => {
@@ -73,7 +75,7 @@ export default function HomePageAuthenticated(props) {
   }
 
   const getDateAndTime = (createdAt)=>{
-    let dateAndTime = new Date(createdAt)
+    let dateAndTime = new Date(createdAt);
     const options = {
       timeZone: 'Asia/Kolkata',
       year: 'numeric',
@@ -83,9 +85,14 @@ export default function HomePageAuthenticated(props) {
       minute: 'numeric',
     };
     if (dateAndTime){
-      let CreatedAtDateTime = dateAndTime.toLocaleString('en-In', options).split(',')
-      return ("Tweet on " + CreatedAtDateTime)
+      let CreatedAtDateTime = dateAndTime.toLocaleString('en-In', options).split(',');
+      return ("Tweet on " + CreatedAtDateTime);
     }
+  }
+
+  const showUserProfile = (e) =>{
+    const userId = e.target.getAttribute("userid")
+    navigate(`/profile?user_id=${userId}`);
   }
 
   return (
@@ -96,7 +103,7 @@ export default function HomePageAuthenticated(props) {
           {getTweet.map((element) => {
             return <div className="card w-50 mb-3 my-4 mx-4" key={element.id}>
               <div className='card-header d-flex justify-content-between'>
-                <h6 className="mx-2 my-2 p-2">{element.user_name}</h6>
+                <h6 className="mx-2 my-2 p-2" role="button" onClick={showUserProfile} userid={element.user}>{element.user_name}</h6>
                 {element.user != props.userId && !element.is_following && <button className='btn btn-dark btn-sm mx-1 my-2 rounded-5' onClick={addFollow} followuserid={element.user}> Follow <i className="fa-solid fa-circle-plus" style={{color: "#fff",}}></i></button>}
               </div>
               {/* <img className="card-i-mg-top my-4" src={backgroundImage} style={{ display: "block", marginLeft: "auto", marginRight: "auto", width: "40%", height: "100px" }} alt="Card image cap" /> */}
