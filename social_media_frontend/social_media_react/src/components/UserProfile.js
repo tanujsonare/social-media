@@ -6,8 +6,10 @@ import NavbarForAuthenticated from './NavbarForAuthenticated'
 export default function UserProfile(props) {
     const [userData, setUserData] = useState(null);
     var userId;
-    if (window.location.href.includes("user_id")){
-        const userId = window.location.href.split("user_id=")[1]
+    if (window.location.href.includes("user_id=")){
+        userId = window.location.href.split("user_id=")[1];
+    }else{
+        userId = props.userId;
     }
     // to call get_user_profile api 
     useEffect(() => {
