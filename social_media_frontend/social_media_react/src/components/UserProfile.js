@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react'
 
 import backgroundImage from './images/social_media_back.jpg'
+import tweetBackgroundImage from './images/tweet_image.jpg'
 import NavbarForAuthenticated from './NavbarForAuthenticated'
 
 export default function UserProfile(props) {
@@ -33,13 +34,15 @@ export default function UserProfile(props) {
             <NavbarForAuthenticated userName={props.userName} userToken={props.userToken} />
             <div className='my-5'>
                 <div className="container d-flex justify-content-center align-items-center my-4">
-                    <div className="card w-40">
-                        <div className='d-flex justify-content-end'>
-                            {userData && userData.username !== props.userName && !userData.is_following && <button className='btn btn-dark btn-sm mx-1 my-2 rounded-5' onClick={followUser} followuserid={userData.id}> Follow <i className="fa-solid fa-circle-plus" style={{color: "#fff",}}></i></button>}
-                        </div>
-                        <div className="user text-center">
-                            <div className="profile my-3">
-                                <img src={backgroundImage} className="rounded-circle" width="100" height="100" />
+                    <div className="card" style={{minHeight:"380px", minWidth:"400px"}}>
+                        <div style={{ backgroundImage: `url(${tweetBackgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', width: '100%', height: '220px' }}>
+                            <div className='d-flex justify-content-end my-1'>
+                                {userData && userData.username !== props.userName && !userData.is_following && <button className='btn btn-dark btn-sm mx-2 rounded-5' onClick={followUser} followuserid={userData.id}> Follow <i className="fa-solid fa-circle-plus" style={{color: "#fff",}}></i></button>}
+                            </div>
+                            <div className="user text-center">
+                                <div className="profile">
+                                    <img src={backgroundImage} className="rounded-circle" width="100" height="100" />
+                                </div>
                             </div>
                         </div>
 
