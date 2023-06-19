@@ -32,8 +32,8 @@ function App() {
     });
   }
   
-  const getUserProfile = async(userId)=>{
-    await axios.get(`http://127.0.0.1/api/get_user_profile?user_id=${userId}`
+  const getUserProfile = async(userid)=>{
+    await axios.get(`http://127.0.0.1/api/get_user_profile?user_id=${userid}&requested_user_id=${userId}`
     ).then(response => {
       if (response.data) {
         setUserProfileData(response.data.user_profile)
@@ -56,7 +56,7 @@ function App() {
         <Routes>
           <Route path='/logout' element={<LogoutUser userName={userName} userToken={userToken}/>} />
           <Route path='/' element={<HomePageAuthenticated userName={userName} userToken={userToken} userId={userId} followUser={followUser} />} />
-          <Route path='/profile' element={<UserProfile userName={userName} userToken={userToken} userId={userId} getUserProfile={getUserProfile} userProfileData={userProfileData} />} />
+          <Route path='/profile' element={<UserProfile userName={userName} userToken={userToken} userId={userId} getUserProfile={getUserProfile} userProfileData={userProfileData} followUser={followUser} />} />
         </Routes>
         </Router>}
     </div>
