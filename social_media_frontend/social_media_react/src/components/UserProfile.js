@@ -1,38 +1,50 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 
 import backgroundImage from './images/social_media_back.jpg'
 import NavbarForAuthenticated from './NavbarForAuthenticated'
 
 export default function UserProfile(props) {
+    const [userData, setUserData] = useState(null);
+    var userId;
+    if (window.location.href.includes("user_id")){
+        const userId = window.location.href.split("user_id=")[1]
+    }
+    // to call get_user_profile api 
+    useEffect(() => {
+        props.getUserProfile(userId);
+    }, [userId]);
+
+    // to get user profile data
+    useEffect(() => {
+        setUserData(props.userProfileData);
+    }, [props.userProfileData]);
+
     return (
         <div style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', width: '100%', minHeight: '700px' }}>
             <NavbarForAuthenticated userName={props.userName} userToken={props.userToken} />
-            <div className='my-4'>
+            <div className='my-5'>
                 <div className="container d-flex justify-content-center align-items-center my-4">
-                    <div className="card w-50 h-100">
+                    <div className="card w-40">
+                        <div className='d-flex justify-content-end'>
+                            {userData && userData.username !== props.userName && <button className='btn btn-dark btn-sm mx-1 my-2 rounded-5'> Follow <i className="fa-solid fa-circle-plus" style={{color: "#fff",}}></i></button>}
+                        </div>
                         <div className="user text-center">
                             <div className="profile my-3">
                                 <img src={backgroundImage} className="rounded-circle" width="100" height="100" />
                             </div>
                         </div>
 
-                        <div className="mt-5 text-center">
-                            <h4 className="mb-0">Benjamin Tims</h4>
-                            <span className="text-muted d-block mb-2">Los Angles</span>
-                            <button className="btn btn-primary btn-sm follow">Follow</button>
-                            <div className="d-flex justify-content-between align-items-center mt-4 px-4">
-                                <div className="stats">
+                        <div className="mt-2 text-center">
+                            <h4 className="mb-0">{userData && userData.username}</h4>
+                            <h6 className="mb-2 mt-2">{userData && userData.bio}</h6>
+                            <div className="d-flex justify-content-center align-items-center mt-4 mb-4 px-3">
+                                <div className="stats mx-4">
+                                    <h6 className="mb-0">Email</h6>
+                                    <span>{userData && userData.email ? userData.email: "Email not available"}</span>
+                                </div>
+                                <div className="stats mx-4">
                                     <h6 className="mb-0">Followers</h6>
-                                    <span>8,797</span>
-                                </div>
-                                <div className="stats">
-                                    <h6 className="mb-0">Projects</h6>
-                                    <span>142</span>
-                                </div>
-
-                                <div className="stats">
-                                    <h6 className="mb-0">Ranks</h6>
-                                    <span>129</span>
+                                    <span>{userData && userData.followers_count}</span>
                                 </div>
                             </div>
                         </div>
