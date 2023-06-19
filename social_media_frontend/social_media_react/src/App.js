@@ -5,6 +5,7 @@ import {
   Route
 } from "react-router-dom";
 import axios from 'axios';
+import { useState } from 'react';
 
 import RegisterUser from './components/RegisterUser';
 import LoginUser from './components/LoginUser';
@@ -18,6 +19,7 @@ function App() {
   const userToken = localStorage.getItem("user_token");
   const userName = localStorage.getItem("user_name");
   const userId = localStorage.getItem("user_id");
+  const [userProfileData, setUserProfileData] = useState()
   const followUser = async(requestedUserId, followUserId)=>{
     await axios.get(`http://127.0.0.1/api/add_follower?requested_user_id=${requestedUserId}&follow_user_id=${followUserId}`
     ).then(response => {
@@ -29,7 +31,18 @@ function App() {
       console.log(error.response.data);
     });
   }
-
+  
+  const getUserProfile = async(userId)=>{
+    await axios.get(`http://127.0.0.1/api/get_user_profile?user_id=${userId}`
+    ).then(response => {
+      if (response.data) {
+        setUserProfileData(response.data.user_profile)
+      }
+    })
+    .catch(error => {
+      console.log(error.response.data);
+    });
+  }
   return (
     <div className="App">
       {!userToken && <Router>
@@ -43,7 +56,7 @@ function App() {
         <Routes>
           <Route path='/logout' element={<LogoutUser userName={userName} userToken={userToken}/>} />
           <Route path='/' element={<HomePageAuthenticated userName={userName} userToken={userToken} userId={userId} followUser={followUser} />} />
-          <Route path='/profile' element={<UserProfile userName={userName} userToken={userToken} userId={userId}/>} />
+          <Route path='/profile' element={<UserProfile userName={userName} userToken={userToken} userId={userId} getUserProfile={getUserProfile} userProfileData={userProfileData} />} />
         </Routes>
         </Router>}
     </div>
