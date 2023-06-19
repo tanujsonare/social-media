@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 
 import NavbarForAuthenticated from './NavbarForAuthenticated'
 import backgroundImage from './images/social_media_back.jpg'
+import tweetLogo from './images/tweet_log.png'
 import { getCookie } from '../CsrfToken';
 
 
@@ -102,9 +103,10 @@ export default function HomePageAuthenticated(props) {
         <div className='mr-auto p-2 w-50'>
           {getTweet.map((element) => {
             return <div className="card w-50 mb-3 my-4 mx-4" key={element.id}>
-              <div className='card-header d-flex justify-content-between'>
-                <h6 className="mx-2 my-2 p-2" role="button" onClick={showUserProfile} userid={element.user}>{element.user_name}</h6>
-                {element.user != props.userId && !element.is_following && <button className='btn btn-dark btn-sm mx-1 my-2 rounded-5' onClick={addFollow} followuserid={element.user}> Follow <i className="fa-solid fa-circle-plus" style={{color: "#fff",}} followuserid={element.user}></i></button>}
+              <div className='card-header d-flex justify-content-start'>
+                <img src={tweetLogo} className="rounded-circle my-2" width="30" height="30" onClick={showUserProfile} userid={element.user} role='button'/>
+                <h6 className="my-2 p-2" role="button" onClick={showUserProfile} userid={element.user}>{element.user_name}</h6>
+                {element.user != props.userId && !element.is_following && <button className='btn btn-dark mx-auto btn-sm my-2 rounded-5 me-0' onClick={addFollow} followuserid={element.user}> Follow <i className="fa-solid fa-circle-plus" style={{color: "#fff",}} followuserid={element.user}></i></button>}
               </div>
               {/* <img className="card-i-mg-top my-4" src={backgroundImage} style={{ display: "block", marginLeft: "auto", marginRight: "auto", width: "40%", height: "100px" }} alt="Card image cap" /> */}
               <div className="card-body">
@@ -113,8 +115,8 @@ export default function HomePageAuthenticated(props) {
                 <div className='card-footer d-flex jsutify-content-start'>
                   {!element.is_liked && <span className='text-dark'><i className="fa-sharp fa-regular fa-heart fa-beat fa-lg" tweetid={element.id} style={{ color: "#595959"}} onClick={addLike} role="button"></i> {element.likes} likes </span>}
                   {element.is_liked && <span className='text-dark'><i className="fa-sharp fa-solid fa-heart fa-lg " tweetid={element.id} style={{color: "#e85e5e"}}></i> {element.likes} likes </span>}
-                  {props.userId == element.user && <i className="fa-solid fa-pen mx-3" tweetid={element.id} style={{ color: "#696363"}}></i>}
-                  {props.userId == element.user && <i className="fa-solid fa-trash mx-4" tweetid={element.id} style={{ color: "#696363"}}></i>}
+                  {props.userId == element.user && <i className="fa-solid fa-pen mx-4" tweetid={element.id} style={{ color: "#696363"}}></i>}
+                  {props.userId == element.user && <i className="fa-solid fa-trash me-0 mx-4" tweetid={element.id} style={{ color: "#696363"}}></i>}
                 </div>
               </div>
             </div>
