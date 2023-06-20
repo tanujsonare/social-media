@@ -7,12 +7,11 @@ class Tweet(models.Model):
     content = models.TextField(blank=True, null=True)
     image = models.FileField(upload_to="images/", null=True, blank=True)
     created_at = models.DateTimeField(auto_now=True)
-    updated_at = models.DateTimeField(auto_now=True)
-    likes = models.IntegerField(default=0)
+    # likes = models.IntegerField(default=0)
 
-    def add_like(self):
-        self.likes += 1
-        self.save()
+    # def add_like(self):
+    #     self.likes += 1
+    #     self.save()
 
     class Meta:
         ordering = ['-id']
