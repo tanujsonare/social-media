@@ -3,6 +3,7 @@ import React, {useEffect, useState} from 'react'
 import backgroundImage from './images/social_media_back.jpg'
 import tweetBackgroundImage from './images/tweet_image.jpg'
 import NavbarForAuthenticated from './NavbarForAuthenticated'
+import defaultProfileImage from './images/default_profile_img.webp'
 
 export default function UserProfile(props) {
     const [userData, setUserData] = useState(null);
@@ -37,11 +38,11 @@ export default function UserProfile(props) {
                     <div className="card" style={{minHeight:"380px", minWidth:"400px"}}>
                         <div style={{ backgroundImage: `url(${tweetBackgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', width: '100%', height: '220px' }}>
                             <div className='d-flex justify-content-end my-1'>
-                                {userData && userData.username !== props.userName && !userData.is_following && <button className='btn btn-dark btn-sm mx-2 rounded-5' onClick={followUser} followuserid={userData.id}> Follow <i className="fa-solid fa-circle-plus" style={{color: "#fff",}} followuserid={userData.id}></i></button>}
+                                {userData && userData.username !== props.userName && !userData.is_following && <button className='btn btn-dark btn-sm mx-2 my-2 rounded-5' onClick={followUser} followuserid={userData.id}> Follow <i className="fa-solid fa-circle-plus" style={{color: "#fff",}} followuserid={userData.id}></i></button>}
                             </div>
                             <div className="user text-center">
-                                <div className="profile">
-                                    <img src={userData && userData.profile_image} className="rounded-circle" width="100" height="100" />
+                                <div className="profile my-2">
+                                    <img src={userData && userData.profile_image ? userData.profile_image : defaultProfileImage} className="rounded-circle" width="100" height="100" />
                                 </div>
                             </div>
                         </div>
