@@ -55,6 +55,8 @@ export default function HomePageAuthenticated(props) {
         console.log(response.data);
         let form = document.getElementById("addTweetForm");
         form.reset();
+        let uploadTextBtn = document.getElementsByClassName("uploaded_image_name")
+        uploadTextBtn[0].textContent = "";
         getAllTweet();
     })
     .catch(error => {
@@ -103,6 +105,14 @@ export default function HomePageAuthenticated(props) {
     navigate(`/profile?user_id=${userId}`);
   }
 
+  const checkUploadImage = (e)=>{
+    const file = e.target.files[0]
+    if (file != null && file!= undefined){
+      let uploadTextBtn = document.getElementsByClassName("uploaded_image_name")
+      uploadTextBtn[0].textContent = e.target.files[0].name;
+    }
+  }
+
   return (
     <div className="" style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', width: '100%', minHeight: '700px' }}>
       <NavbarForAuthenticated userName={props.userName} userToken={props.userToken} />
@@ -133,15 +143,18 @@ export default function HomePageAuthenticated(props) {
           <h5 className="card-header">New Tweet</h5>
           <div className="card-body">
             <form id="addTweetForm" onSubmit={addNewTweet}>
-            <div className="form-group tweet_image_upload">
-              <label htmlFor="tweetimage" className='my-2 d-flex mx-4'>Upload Image (optional)</label>
-              <div className='d-flex mx-5 file btn btn-lg file form-control-file col-xl-12 mx-5 font-weight-bold'>
-                Choose file
-                <input type="file" className="" id="image" accept="image/*" />
+              <div className="form-group tweet_image_upload">
+                <label htmlFor="tweetimage" className='my-2 d-flex mx-4'>Upload Image (optional)</label>
+                <div className='d-flex justify-content-start'>
+                  <div className='d-flex file btn btn-lg file form-control-file col-xl-12 mx-5 font-weight-bold'>
+                    Choose file
+                    <input type="file" className="upload_tweet_image" onChange={checkUploadImage} id="image" accept="image/*" />
+                  </div>
+                  <label htmlFor="tweetimage" className='ms-0 my-2 uploaded_image_name'></label>
+                </div>  
               </div>
-            </div>
-              <div className="form-group mx-4">
-                <label className="my-2 d-flex" htmlFor="tweetContent">Tweet Content*</label>
+              <div className="form-group mx-4 my-4">
+                <label className="my-3 d-flex" htmlFor="tweetContent">Tweet Content*</label>
                 <textarea className="form-control" id="content" rows="10" placeholder="Please write your tweet content here."></textarea>
               </div>
               <div className='my-4 mx-4 flex-row d-flex justify-content-center'>
