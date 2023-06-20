@@ -121,7 +121,7 @@ export default function HomePageAuthenticated(props) {
           {getTweet.map((element) => {
             return <div className="card w-50 mb-3 my-4 mx-4" key={element.id}>
               <div className='card-header d-flex justify-content-start'>
-                <img src={tweetLogo} className="rounded-circle my-2" width="30" height="30" onClick={showUserProfile} userid={element.user} role='button'/>
+                <img src={element.user_profile_image ? element.user_profile_image : tweetLogo} className="rounded-circle my-2" width="30" height="30" onClick={showUserProfile} userid={element.user} role='button'/>
                 <h6 className="my-2 p-2" role="button" onClick={showUserProfile} userid={element.user}>{element.user_name}</h6>
                 {element.user != props.userId && !element.is_following && <button className='btn btn-dark mx-auto btn-sm my-2 rounded-5 me-0' onClick={addFollow} followuserid={element.user}> Follow <i className="fa-solid fa-circle-plus" style={{color: "#fff",}} followuserid={element.user}></i></button>}
               </div>

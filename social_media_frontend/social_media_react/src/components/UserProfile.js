@@ -41,7 +41,7 @@ export default function UserProfile(props) {
                             </div>
                             <div className="user text-center">
                                 <div className="profile">
-                                    <img src={backgroundImage} className="rounded-circle" width="100" height="100" />
+                                    <img src={userData && userData.profile_image} className="rounded-circle" width="100" height="100" />
                                 </div>
                             </div>
                         </div>
