@@ -6,12 +6,7 @@ class Tweet(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     content = models.TextField(blank=True, null=True)
     image = models.FileField(upload_to="images/", null=True, blank=True)
-    created_at = models.DateTimeField(auto_now=True)
-    # likes = models.IntegerField(default=0)
-
-    # def add_like(self):
-    #     self.likes += 1
-    #     self.save()
+    created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         ordering = ['-id']
