@@ -31,16 +31,23 @@ export default function HomePageAuthenticated(props) {
   const addNewTweet = async(e)=>{
     e.preventDefault();
     const formData = document.getElementById("addTweetForm");
-    const data = {};
+    var data = new FormData();
     for (let i = 0; i < formData.length-1; i++) {
-      data[formData[i].id] = formData[i].value;
+      if (formData[i].id == "image"){
+        if (formData[i].files != null && formData[i].files != undefined){
+          const file = formData[i].files[0];
+          data.append(formData[i].id, file, file.name);
+        }
+      }else{
+        data.append(formData[i].id, formData[i].value);
+      }
     }
-    data["user"] = props.userId
+    data.append("user", props.userId);
 
     const headers = {
         'X-CSRFToken': getCookie("csrftoken")
     };
-
+    console.log(data)
     await axios.post('http://127.0.0.1/api/add_tweet',
         data,
         { headers }
@@ -108,9 +115,9 @@ export default function HomePageAuthenticated(props) {
                 <h6 className="my-2 p-2" role="button" onClick={showUserProfile} userid={element.user}>{element.user_name}</h6>
                 {element.user != props.userId && !element.is_following && <button className='btn btn-dark mx-auto btn-sm my-2 rounded-5 me-0' onClick={addFollow} followuserid={element.user}> Follow <i className="fa-solid fa-circle-plus" style={{color: "#fff",}} followuserid={element.user}></i></button>}
               </div>
-              {/* <img className="card-i-mg-top my-4" src={backgroundImage} style={{ display: "block", marginLeft: "auto", marginRight: "auto", width: "40%", height: "100px" }} alt="Card image cap" /> */}
               <div className="card-body">
-                <p className="card-text">{element.content}</p>
+              {element.image && <img className="card-i-mg-top" src={element.image} style={{ display: "block", marginLeft: "auto", marginRight: "auto", width: "100%", height: "150px" }} alt="Card image cap" />}
+                <p className="card-text my-3">{element.content}</p>
                 <p className="card-text"><small className="text-muted">{getDateAndTime(element.created_at)}</small></p>
                 <div className='card-footer d-flex jsutify-content-start'>
                   {!element.is_liked && <span className='text-dark'><i className="fa-sharp fa-regular fa-heart fa-beat fa-lg" tweetid={element.id} style={{ color: "#595959"}} onClick={addLike} role="button"></i> {element.likes} likes </span>}
@@ -126,6 +133,10 @@ export default function HomePageAuthenticated(props) {
           <h5 className="card-header">New Tweet</h5>
           <div className="card-body">
             <form id="addTweetForm" onSubmit={addNewTweet}>
+            <div className="form-group">
+              <label htmlFor="tweetimage" className='my-2 d-flex mx-4'>Upload Image (optional)</label>
+              <input type="file" className="form-control-file col-xl-12 mx-5" id="image" />
+            </div>
               <div className="form-group mx-4">
                 <label className="my-2 d-flex" htmlFor="tweetContent">Tweet Content*</label>
                 <textarea className="form-control" id="content" rows="10" placeholder="Please write your tweet content here."></textarea>
