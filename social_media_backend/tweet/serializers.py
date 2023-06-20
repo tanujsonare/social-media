@@ -17,6 +17,7 @@ class GetTweetSerializer(serializers.ModelSerializer):
             "content",
             "created_at",
             "likes",
+            "image",
             "is_liked",
             "user_name",
             "is_following"
@@ -60,4 +61,5 @@ class AddTweetSerializer(serializers.ModelSerializer):
         fields = [
             "user",
             "content",
+            "image",
         ]
