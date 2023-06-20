@@ -46,9 +46,16 @@ export default function RegisterUser() {
 
 
         const formData = document.getElementById("userRegistrationForm");
-        const data = {};
+        var data = new FormData();
         for (let i = 0; i < formData.length - 1; i++) {
-            data[formData[i].id] = formData[i].value;
+            if (formData[i].id == "profile_image"){
+                if (formData[i].files != null && formData[i].files != undefined){
+                    const file = formData[i].files[0];
+                    data.append(formData[i].id, file, file.name);
+                }
+            }else{
+                data.append(formData[i].id, formData[i].value);
+            }
         }
 
         const headers = {
@@ -87,7 +94,7 @@ export default function RegisterUser() {
                         <div className='d-flex justify-content-start'>
                             <div className='d-flex file btn btn-lg file form-control-file col-xl-12 mx-5 font-weight-bold'>
                                 Choose file
-                                <input type="file" className="profile_image" onChange={checkUploadImage} id="image" accept="image/*" />
+                                <input type="file" className="profile_image" onChange={checkUploadImage} id="profile_image" accept="image/*" />
                             </div>
                             <label htmlFor="tweetimage" className='ms-0 my-2 uploaded_profile_image text-light'></label>
                         </div>
