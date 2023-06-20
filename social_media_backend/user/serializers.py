@@ -8,7 +8,7 @@ class RegisterNewUserSerializer(serializers.ModelSerializer):
         fields = [
             "username",
             "email",
-            # "profile_image",
+            "profile_image",
             "bio",
             "password"
         ]
@@ -24,6 +24,7 @@ class GetUserProfileSerializer(serializers.ModelSerializer):
             "username",
             "email",
             "bio",
+            "profile_image"
             "followers_count",
             "is_following",
         ]
