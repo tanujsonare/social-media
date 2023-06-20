@@ -8,6 +8,8 @@ class GetTweetSerializer(serializers.ModelSerializer):
     is_liked = serializers.SerializerMethodField(read_only=True)
     user_name= serializers.SerializerMethodField(read_only=True)
     is_following = serializers.SerializerMethodField(read_only=True)
+    user_profile_image = serializers.SerializerMethodField(read_only=True)
+    likes = serializers.SerializerMethodField(read_only=True)
     
     class Meta:
         model = models.Tweet
@@ -20,7 +22,8 @@ class GetTweetSerializer(serializers.ModelSerializer):
             "image",
             "is_liked",
             "user_name",
-            "is_following"
+            "is_following",
+            "user_profile_image"
         ]
 
     def get_is_liked(self, obj):
@@ -52,6 +55,15 @@ class GetTweetSerializer(serializers.ModelSerializer):
                             is_following = True
                             return is_following
         return is_following
+    
+    def get_user_profile_image(self, obj):
+        if obj.user.profile_image:
+            profile_image = obj.user.profile_image.url
+            return profile_image if profile_image else None
+        
+    def get_likes(self, obj):
+        liked_tweet = models.Like.objects.filter(tweet=obj)
+        return liked_tweet.count() if liked_tweet else 0
 
 
 class AddTweetSerializer(serializers.ModelSerializer):

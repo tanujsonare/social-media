@@ -24,7 +24,7 @@ class GetUserProfileSerializer(serializers.ModelSerializer):
             "username",
             "email",
             "bio",
-            "profile_image"
+            "profile_image",
             "followers_count",
             "is_following",
         ]

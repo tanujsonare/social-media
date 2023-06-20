@@ -48,7 +48,6 @@ class AddLike(APIView):
         if tweet and user:
             like, created = models.Like.objects.get_or_create(user=user, tweet=tweet)
             if created:
-                tweet.add_like()
                 return Response({"message":"Tweet liked successfully!!!"})
         return Response({"error_message": "Tweet not found !!!!"}, status=status.HTTP_400_BAD_REQUEST)
 

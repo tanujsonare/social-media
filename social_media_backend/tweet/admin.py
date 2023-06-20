@@ -4,8 +4,8 @@ from . import models
 @admin.register(models.Tweet)
 class TweetAdmin(admin.ModelAdmin):
     list_display=[
+        'id',
         'user',
-        'likes'
     ]
 
 @admin.register(models.Like)
