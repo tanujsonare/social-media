@@ -143,7 +143,7 @@ export default function HomePageAuthenticated(props) {
           <h5 className="card-header">New Tweet</h5>
           <div className="card-body">
             <form id="addTweetForm" onSubmit={addNewTweet}>
-              <div className="form-group tweet_image_upload">
+              <div className="form-group upload_button">
                 <label htmlFor="tweetimage" className='my-2 d-flex mx-4'>Upload Image (optional)</label>
                 <div className='d-flex justify-content-start'>
                   <div className='d-flex file btn btn-lg file form-control-file col-xl-12 mx-5 font-weight-bold'>

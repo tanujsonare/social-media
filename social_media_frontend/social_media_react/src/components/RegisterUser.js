@@ -1,5 +1,5 @@
 import React from 'react'
-import {useNavigate, Link} from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 
 import { getCookie } from '../CsrfToken';
@@ -24,14 +24,14 @@ export default function RegisterUser() {
         // xmlRequest.setRequestHeader("Content-type", "application/json");
         // xmlRequest.setRequestHeader("X-Requested-With", "XMLHttpRequest");
         // xmlRequest.setRequestHeader("X-CSRFToken", csrftoken);
-    
+
         // xmlRequest.onload = function () {
         //     debugger;
         //     if (xmlRequest.status === 201) {
         //         navigate("/login");
         //     }
         // };
-    
+
         // const formData = document.getElementById("userRegistrationForm");
         // const data = {};
         // for (let i = 0; i < 4; i++) {
@@ -41,14 +41,14 @@ export default function RegisterUser() {
         // xmlRequest.onerror = function () {
         //     alert("Filled details are not valid!!!");
         // };
-    
+
         // xmlRequest.send(JSON.stringify(data));
 
 
         const formData = document.getElementById("userRegistrationForm");
         const data = {};
-        for (let i = 0; i < formData.length-1; i++) {
-        data[formData[i].id] = formData[i].value;
+        for (let i = 0; i < formData.length - 1; i++) {
+            data[formData[i].id] = formData[i].value;
         }
 
         const headers = {
@@ -60,20 +60,38 @@ export default function RegisterUser() {
             { headers }
         ).then(response => {
             console.log(response.data);
-            if (response.status === 201){
+            if (response.status === 201) {
                 navigate("/login");
             }
         })
-        .catch(error => {
-            alert(error.response.data.error_message);
-        });
+            .catch(error => {
+                alert(error.response.data.error_message);
+            });
     };
 
+    const checkUploadImage = (e)=>{
+        const file = e.target.files[0]
+        if (file != null && file!= undefined){
+          let uploadTextBtn = document.getElementsByClassName("uploaded_profile_image")
+          uploadTextBtn[0].textContent = e.target.files[0].name;
+        }
+    }
+
     return (
-        <div style={{backgroundImage:`url(${backgroundImage})`,backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', width: '100%', height: '600px',}}>
-        <NavbarForNotAuthenticated />
+        <div style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', width: '100%', minHeight: '700px' }}>
+            <NavbarForNotAuthenticated />
             <div className='mx-4'>
                 <form id="userRegistrationForm" onSubmit={submitUserRegistration}>
+                    <div className="form-group upload_button">
+                        <label htmlFor="profileimage" className='my-4 d-flex mx-4 text-light'>Upload Image (optional)</label>
+                        <div className='d-flex justify-content-start'>
+                            <div className='d-flex file btn btn-lg file form-control-file col-xl-12 mx-5 font-weight-bold'>
+                                Choose file
+                                <input type="file" className="profile_image" onChange={checkUploadImage} id="image" accept="image/*" />
+                            </div>
+                            <label htmlFor="tweetimage" className='ms-0 my-2 uploaded_profile_image text-light'></label>
+                        </div>
+                    </div>
                     <div className="form-group mx-4">
                         <label htmlFor="userName" className="d-flex my-3 text-light">Username*</label>
                         <input type="text" className="form-control" id="username" placeholder="Enter your username" />
