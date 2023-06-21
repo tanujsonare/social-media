@@ -119,6 +119,10 @@ export default function HomePageAuthenticated(props) {
     navigate(`/tweet_detail?tweet_id=${tweetId}`);
   }
 
+  const removeTweetLike = async(e)=>{
+    await props.removeLike(e);
+    await getAllTweet();
+  }
   return (
     <div className="" style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', width: '100%', minHeight: '700px' }}>
       <NavbarForAuthenticated userName={props.userName} userToken={props.userToken} />
@@ -133,12 +137,11 @@ export default function HomePageAuthenticated(props) {
               </div>
               <div className="card-body">
                 {element.image && <img className="card-i-mg-top" src={element.image} style={{ display: "block", marginLeft: "auto", marginRight: "auto", width: "100%", height: "150px" }} alt="Card image cap" />}
-                {/* <p className="card-text my-3" style={{textAlign: "justify"}}>{element.content.length > 90 ? element.content.slice(0, 90) + '.....' : element.content}</p> */}
                 {element.content && element.content.length > 90 ? <p className="card-text my-3" style={{textAlign: "justify"}}>{element.content.slice(0, 90) + "...."}<a className="mx-2" style={{color:"#4c72b9"}} tweetid={element.id} onClick={tweetDetail} role='button'>read more</a></p> : <p className="card-text my-3" style={{textAlign: "justify"}}>{element.content}</p>}
                 <p className="card-text"><small className="text-muted">{getDateAndTime(element.created_at)}</small></p>
                 <div className='card-footer d-flex jsutify-content-start'>
                   {!element.is_liked && <span className='text-dark'><i className="fa-sharp fa-regular fa-heart fa-beat fa-lg" tweetid={element.id} style={{ color: "#595959"}} onClick={addLike} role="button"></i> {element.likes} likes </span>}
-                  {element.is_liked && <span className='text-dark'><i className="fa-sharp fa-solid fa-heart fa-lg" tweetid={element.id} style={{color: "#e85e5e"}}></i> {element.likes} likes </span>}
+                  {element.is_liked && <span className='text-dark'><i className="fa-sharp fa-solid fa-heart fa-lg" tweetid={element.id} style={{color: "#e85e5e"}} onClick={removeTweetLike} role='button'></i> {element.likes} likes </span>}
                   {props.userId == element.user && <i className="fa-solid fa-pen mx-3" tweetid={element.id} style={{ color: "#696363"}}></i>}
                   {props.userId == element.user && <i className="fa-solid fa-trash mx-3" tweetid={element.id} style={{ color: "#696363"}}></i>}
                   <i className="fa-solid fa-up-right-and-down-left-from-center mx-4 me-0" tweetid={element.id} style={{ color: "#696363"}} onClick={tweetDetail} role='button'></i>
