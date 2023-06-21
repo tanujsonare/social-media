@@ -88,8 +88,7 @@ class RemoveLike(APIView):
         if not tweet_id:
             raise Exception({"tweet_id": "This field is required."})
         try:
-            breakpoint()
-            liked_tweet = models.Like.objects.get(tweet__id=tweet_id, user__id=requested_user_id)
+            liked_tweet = liked_tweet = get_object_or_404(models.Like, tweet__id=tweet_id, user__id=requested_user_id)
             liked_tweet.delete()
             return Response({"response": "Like removed !!"}, status=status.HTTP_200_OK)
         except:
