@@ -123,6 +123,15 @@ export default function HomePageAuthenticated(props) {
     await props.removeLike(e);
     await getAllTweet();
   }
+  
+  const requestDeleteTweet = async(e)=>{
+    const confirmed = window.confirm("Are you sure you want to delete this tweet?");
+    if (confirmed){
+      await props.deleteTweet(e);
+      await getAllTweet();
+    }
+  }
+
   return (
     <div className="" style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', width: '100%', minHeight: '700px' }}>
       <NavbarForAuthenticated userName={props.userName} userToken={props.userToken} />
@@ -143,7 +152,7 @@ export default function HomePageAuthenticated(props) {
                   {!element.is_liked && <span className='text-dark'><i className="fa-sharp fa-regular fa-heart fa-beat fa-lg" tweetid={element.id} style={{ color: "#595959"}} onClick={addLike} role="button"></i> {element.likes} likes </span>}
                   {element.is_liked && <span className='text-dark'><i className="fa-sharp fa-solid fa-heart fa-lg" tweetid={element.id} style={{color: "#e85e5e"}} onClick={removeTweetLike} role='button'></i> {element.likes} likes </span>}
                   {props.userId == element.user && <i className="fa-solid fa-pen mx-3" tweetid={element.id} style={{ color: "#696363"}}></i>}
-                  {props.userId == element.user && <i className="fa-solid fa-trash mx-3" tweetid={element.id} style={{ color: "#696363"}}></i>}
+                  {props.userId == element.user && <i className="fa-solid fa-trash mx-3" tweetid={element.id} style={{ color: "#696363"}} onClick={requestDeleteTweet} role='button'></i>}
                   <i className="fa-solid fa-up-right-and-down-left-from-center mx-4 me-0" tweetid={element.id} style={{ color: "#696363"}} onClick={tweetDetail} role='button'></i>
                 </div>
               </div>
