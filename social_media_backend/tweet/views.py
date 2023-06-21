@@ -94,4 +94,18 @@ class RemoveLike(APIView):
         except:
             return Response(status.HTTP_400_BAD_REQUEST)
 
-            
+
+class DeleteTweet(APIView):
+    def delete(self, request, format=None):
+        user_id = request.data.get("user_id")
+        tweet_id = request.data.get("tweet_id")
+        if not user_id:
+            raise Exception({"user_id": "This field is required."})
+        if not tweet_id:
+            raise Exception({"tweet_id": "This field is required."})
+        try:
+            tweet = get_object_or_404(models.Tweet, id=tweet_id, user__id=user_id)
+            tweet.delete()
+            return Response({"message": "Tweet deleted !!"}, status=status.HTTP_200_OK)
+        except:
+            return Response(status.HTTP_400_BAD_REQUEST)
