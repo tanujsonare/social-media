@@ -14,6 +14,7 @@ import HomePageAuthenticated from './components/HomePageAuthenticated';
 import LogoutUser from './components/LogoutUser';
 import UserProfile from './components/UserProfile';
 import TweetDetail from './components/TweetDetail';
+import { getCookie } from './CsrfToken';
 
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
   const userName = localStorage.getItem("user_name");
   const userId = localStorage.getItem("user_id");
   const [userProfileData, setUserProfileData] = useState()
+
   const followUser = async(requestedUserId, followUserId)=>{
     await axios.get(`http://127.0.0.1/api/add_follower?requested_user_id=${requestedUserId}&follow_user_id=${followUserId}`
     ).then(response => {
@@ -57,6 +59,29 @@ function App() {
       console.log(error.response.data);
     });
   }
+  
+  const deleteTweet = async(e)=>{
+    const tweetId = e.target.getAttribute("tweetid");
+    let data = new FormData();
+    data.append("tweet_id", tweetId)
+    data.append("user_id", userId)
+    
+    const headers = {
+      'X-CSRFToken': getCookie("csrftoken")
+    };
+
+    await axios.delete(`http://127.0.0.1/api/delete_tweet`,
+      { data,
+      headers}
+    ).then(response => {
+      if (response.data) {
+        console.log(response.data.message);
+      }
+    })
+    .catch(error => {
+      console.log(error.response.data);
+    });
+  }
 
   return (
     <div className="App">
@@ -70,9 +95,9 @@ function App() {
       {userToken && <Router>
         <Routes>
           <Route path='/logout' element={<LogoutUser userName={userName} userToken={userToken}/>} />
-          <Route path='/' element={<HomePageAuthenticated userName={userName} userToken={userToken} userId={userId} followUser={followUser} removeLike={removeLike} />} />
+          <Route path='/' element={<HomePageAuthenticated userName={userName} userToken={userToken} userId={userId} followUser={followUser} removeLike={removeLike} deleteTweet={deleteTweet} />} />
           <Route path='/profile' element={<UserProfile userName={userName} userToken={userToken} userId={userId} getUserProfile={getUserProfile} userProfileData={userProfileData} followUser={followUser} />} />
-          <Route path='/tweet_detail' element={<TweetDetail userName={userName} userToken={userToken} userId={userId} removeLike={removeLike}/>} />
+          <Route path='/tweet_detail' element={<TweetDetail userName={userName} userToken={userToken} userId={userId} removeLike={removeLike} deleteTweet={deleteTweet} />} />
         </Routes>
         </Router>}
     </div>
