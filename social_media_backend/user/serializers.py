@@ -16,6 +16,7 @@ class RegisterNewUserSerializer(serializers.ModelSerializer):
 
 class GetUserProfileSerializer(serializers.ModelSerializer):
     followers_count = serializers.SerializerMethodField(read_only=True)
+    following_count = serializers.SerializerMethodField(read_only=True)
     is_following = serializers.SerializerMethodField(read_only=True)
     class Meta:
         model = CustomUser
@@ -27,11 +28,16 @@ class GetUserProfileSerializer(serializers.ModelSerializer):
             "profile_image",
             "followers_count",
             "is_following",
+            "following_count",
         ]
 
     def get_followers_count(self, obj):
-        followers_count = obj.followers.count()
-        return followers_count if followers_count else 0
+        followers_count = obj.followers
+        return followers_count.count() if followers_count else 0
+    
+    def get_following_count(self, obj):
+        followers_count = obj.following
+        return followers_count.count() if followers_count else 0
     
     def get_is_following(self, obj):
         requested_user_id = self.context.get("requested_user_id") if self.context else None
