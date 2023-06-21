@@ -56,6 +56,10 @@ export default function UserProfile(props) {
                                     <span>{userData && userData.email ? userData.email: "Email not available"}</span>
                                 </div>
                                 <div className="stats mx-4">
+                                    <h6 className="mb-0">Following</h6>
+                                    <span>{userData && userData.following_count}</span>
+                                </div>
+                                <div className="stats mx-4">
                                     <h6 className="mb-0">Followers</h6>
                                     <span>{userData && userData.followers_count}</span>
                                 </div>

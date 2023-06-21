@@ -35,7 +35,7 @@ export default function HomePageAuthenticated(props) {
     var data = new FormData();
     for (let i = 0; i < formData.length-1; i++) {
       if (formData[i].id == "image"){
-        if (formData[i].files != null && formData[i].files != undefined){
+        if (formData[i].files[0] != null && formData[i].files[0] != undefined){
           const file = formData[i].files[0];
           data.append(formData[i].id, file, file.name);
         }
@@ -128,7 +128,7 @@ export default function HomePageAuthenticated(props) {
               </div>
               <div className="card-body">
               {element.image && <img className="card-i-mg-top" src={element.image} style={{ display: "block", marginLeft: "auto", marginRight: "auto", width: "100%", height: "150px" }} alt="Card image cap" />}
-                <p className="card-text my-3">{element.content}</p>
+                <p className="card-text my-3" style={{textAlign: "justify"}}>{element.content}</p>
                 <p className="card-text"><small className="text-muted">{getDateAndTime(element.created_at)}</small></p>
                 <div className='card-footer d-flex jsutify-content-start'>
                   {!element.is_liked && <span className='text-dark'><i className="fa-sharp fa-regular fa-heart fa-beat fa-lg" tweetid={element.id} style={{ color: "#595959"}} onClick={addLike} role="button"></i> {element.likes} likes </span>}
@@ -141,7 +141,7 @@ export default function HomePageAuthenticated(props) {
           })}
         </div>
         <div className="card p-2 my-4 w-50 h-50">
-          <h5 className="card-header">New Tweet</h5>
+          <h5 className="card-header">New Post</h5>
           <div className="card-body">
             <form id="addTweetForm" onSubmit={addNewTweet}>
               <div className="form-group upload_button">
@@ -155,11 +155,11 @@ export default function HomePageAuthenticated(props) {
                 </div>  
               </div>
               <div className="form-group mx-4 my-4">
-                <label className="my-3 d-flex" htmlFor="tweetContent">Tweet Content*</label>
+                <label className="my-3 d-flex" htmlFor="tweetContent">Post Content*</label>
                 <textarea className="form-control" id="content" rows="10" placeholder="Please write your tweet content here."></textarea>
               </div>
               <div className='my-4 mx-4 flex-row d-flex justify-content-center'>
-                <button type="submit" className="btn btn-dark">Tweet</button>
+                <button type="submit" className="btn btn-dark">Post</button>
               </div>
             </form>
           </div>
