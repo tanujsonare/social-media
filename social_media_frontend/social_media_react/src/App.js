@@ -45,6 +45,19 @@ function App() {
     });
   }
 
+  const removeLike = async(e)=>{
+    const tweetId = e.target.getAttribute("tweetid");
+    await axios.get(`http://127.0.0.1/api/remove_like?requested_user_id=${userId}&tweet_id=${tweetId}`
+    ).then(response => {
+      if (response.data) {
+        console.log(response.data.message);
+      }
+    })
+    .catch(error => {
+      console.log(error.response.data);
+    });
+  }
+
   return (
     <div className="App">
       {!userToken && <Router>
@@ -57,9 +70,9 @@ function App() {
       {userToken && <Router>
         <Routes>
           <Route path='/logout' element={<LogoutUser userName={userName} userToken={userToken}/>} />
-          <Route path='/' element={<HomePageAuthenticated userName={userName} userToken={userToken} userId={userId} followUser={followUser} />} />
+          <Route path='/' element={<HomePageAuthenticated userName={userName} userToken={userToken} userId={userId} followUser={followUser} removeLike={removeLike} />} />
           <Route path='/profile' element={<UserProfile userName={userName} userToken={userToken} userId={userId} getUserProfile={getUserProfile} userProfileData={userProfileData} followUser={followUser} />} />
-          <Route path='/tweet_detail' element={<TweetDetail userName={userName} userToken={userToken} userId={userId} getUserProfile={getUserProfile}/>} />
+          <Route path='/tweet_detail' element={<TweetDetail userName={userName} userToken={userToken} userId={userId} removeLike={removeLike}/>} />
         </Routes>
         </Router>}
     </div>
