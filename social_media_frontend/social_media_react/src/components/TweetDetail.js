@@ -78,10 +78,10 @@ export default function TweetDetail(props) {
     }
 
     return (
-        <div style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', width: '100%', minHeight: '700px' }}>
+        <div style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', width: '100%', minHeight: '700px', paddingBottom:"20px" }}>
             <NavbarForAuthenticated userName={props.userName} userToken={props.userToken} />
-            <div className='d-flex justify-content-center my-4 text-light'>
-                {tweetDetail && <div className="card w-50 mb-3 my-4 mx-4" key={tweetDetail.id} style={{minWidth:"60%"}}>
+            <div className='d-flex justify-content-center my-3 text-light'>
+                {tweetDetail && <div className="card w-50 my-4 mx-4" key={tweetDetail.id} style={{minWidth:"60%"}}>
                     <div className='card-header d-flex justify-content-start'>
                         <img src={tweetDetail.user_profile_image ? tweetDetail.user_profile_image : defaultProfileImage} className="rounded-circle my-2" width="30" height="30" onClick={showUserProfile} userid={tweetDetail.user} role='button' />
                         <h6 className="my-2 p-2" role="button" onClick={showUserProfile} userid={tweetDetail.user}>{tweetDetail.user_name}</h6>
