@@ -2,6 +2,7 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from django.shortcuts import get_object_or_404
 
 # Create your views here.
 from . import serializers
@@ -12,15 +13,24 @@ from user.models import CustomUser
 class GetTweet(APIView):
     def get(self, request, format=None):
         user_id = request.GET.get("user_id")
+        tweet_id = request.GET.get("tweet_id")
         if not user_id:
             raise Exception({"user_id": "This field is required."})
-        user = CustomUser.objects.get(id=user_id)
-        if user:
+        if tweet_id:
+            try:
+                queryset = get_object_or_404(models.Tweet, id=tweet_id)
+                serializer = serializers.GetTweetSerializer(queryset, context = {"user_id": user_id})
+                response = {"tweet": serializer.data}
+                return Response(response, status.HTTP_200_OK)
+            except:
+                return Response(response, status.HTTP_400_BAD_REQUEST)
+        if not tweet_id:
             queryset = models.Tweet.objects.all()
-            serializer = serializers.GetTweetSerializer(queryset, many=True, context = {"user_id": user_id})
-            response = {"tweets": serializer.data}
-            return Response(response, status.HTTP_200_OK)
-        return Response(response, status.HTTP_400_BAD_REQUEST)
+            if queryset:
+                serializer = serializers.GetTweetSerializer(queryset, many=True, context = {"user_id": user_id})
+                response = {"tweets": serializer.data}
+                return Response(response, status.HTTP_200_OK)
+            return Response(response, status.HTTP_400_BAD_REQUEST)
     
 
 class AddTweet(APIView):
