@@ -23,14 +23,14 @@ class GetTweet(APIView):
                 response = {"tweet": serializer.data}
                 return Response(response, status.HTTP_200_OK)
             except:
-                return Response(response, status.HTTP_400_BAD_REQUEST)
+                return Response(status.HTTP_400_BAD_REQUEST)
         if not tweet_id:
             queryset = models.Tweet.objects.all()
             if queryset:
                 serializer = serializers.GetTweetSerializer(queryset, many=True, context = {"user_id": user_id})
                 response = {"tweets": serializer.data}
                 return Response(response, status.HTTP_200_OK)
-            return Response(response, status.HTTP_400_BAD_REQUEST)
+            return Response(status.HTTP_400_BAD_REQUEST)
     
 
 class AddTweet(APIView):
@@ -77,4 +77,22 @@ class AddFollowers(APIView):
             return Response({"message":f"Now Your following {follow_user.username} !!!"})
         else:
             return Response({"error_message": "User not found !!!!"}, status=status.HTTP_400_BAD_REQUEST)
+        
+
+class RemoveLike(APIView):
+    def get(self, request, format=None):
+        requested_user_id = request.GET.get("requested_user_id")
+        tweet_id = request.GET.get("tweet_id")
+        if not requested_user_id:
+            raise Exception({"requested_user_id": "This field is required."})
+        if not tweet_id:
+            raise Exception({"tweet_id": "This field is required."})
+        try:
+            breakpoint()
+            liked_tweet = models.Like.objects.get(tweet__id=tweet_id, user__id=requested_user_id)
+            liked_tweet.delete()
+            return Response({"response": "Like removed !!"}, status=status.HTTP_200_OK)
+        except:
+            return Response(status.HTTP_400_BAD_REQUEST)
+
             
