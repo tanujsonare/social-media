@@ -76,6 +76,14 @@ export default function TweetDetail(props) {
         await props.removeLike(e);
         await getTweetDetail();
     }
+    
+    const requestDeleteTweet = async(e)=>{
+        const confirmed = window.confirm("Are you sure you want to delete this tweet?");
+        if (confirmed){
+            await props.deleteTweet(e);
+            navigate("/");
+        }
+    }
 
     return (
         <div style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', width: '100%', minHeight: '700px', paddingBottom:"20px" }}>
@@ -88,14 +96,14 @@ export default function TweetDetail(props) {
                         {tweetDetail.user != props.userId && !tweetDetail.is_following && <button className='btn btn-dark mx-auto btn-sm my-2 rounded-5 me-0' onClick={addFollow} followuserid={tweetDetail.user}> Follow <i className="fa-solid fa-circle-plus" style={{ color: "#fff", }} followuserid={tweetDetail.user}></i></button>}
                     </div>
                     <div className="card-body">
-                        {tweetDetail.image && <img className="card-i-mg-top" src={tweetDetail.image} style={{ display: "block", marginLeft: "auto", marginRight: "auto", width: "60%", height: "200px" }} alt="Card image cap" />}
+                        {tweetDetail.image && <img className="card-i-mg-top" src={tweetDetail.image} style={{ display: "block", marginLeft: "auto", marginRight: "auto", width: "60%", height: "230px" }} alt="Card image cap" />}
                         <p className="card-text my-3" style={{ textAlign: "justify" }}>{tweetDetail.content}</p>
                         <p className="card-text"><small className="text-muted">{getDateAndTime(tweetDetail.created_at)}</small></p>
                         <div className='card-footer d-flex justify-content-between'>
                             {!tweetDetail.is_liked && <span className='text-dark'><i className="fa-sharp fa-regular fa-heart fa-beat fa-lg" tweetid={tweetDetail.id} style={{ color: "#595959" }} onClick={addLike} role="button"></i> {tweetDetail.likes} likes </span>}
                             {tweetDetail.is_liked && <span className='text-dark'><i className="fa-sharp fa-solid fa-heart fa-lg " tweetid={tweetDetail.id} style={{ color: "#e85e5e" }} onClick={removeTweetLike} role='button'></i> {tweetDetail.likes} likes </span>}
                             {props.userId == tweetDetail.user && <i className="fa-solid fa-pen" tweetid={tweetDetail.id} style={{ color: "#696363" }}></i>}
-                            {props.userId == tweetDetail.user && <i className="fa-solid fa-trash me-0" tweetid={tweetDetail.id} style={{ color: "#696363" }}></i>}
+                            {props.userId == tweetDetail.user && <i className="fa-solid fa-trash me-0" tweetid={tweetDetail.id} style={{ color: "#696363" }} onClick={requestDeleteTweet} role='button'></i>}
                         </div>
                     </div>
                 </div>}
