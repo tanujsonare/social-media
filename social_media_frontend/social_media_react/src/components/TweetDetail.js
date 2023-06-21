@@ -72,6 +72,11 @@ export default function TweetDetail(props) {
         }
     }
 
+    const removeTweetLike = async(e)=>{
+        await props.removeLike(e);
+        await getTweetDetail();
+    }
+
     return (
         <div style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', width: '100%', minHeight: '700px' }}>
             <NavbarForAuthenticated userName={props.userName} userToken={props.userToken} />
@@ -88,7 +93,7 @@ export default function TweetDetail(props) {
                         <p className="card-text"><small className="text-muted">{getDateAndTime(tweetDetail.created_at)}</small></p>
                         <div className='card-footer d-flex justify-content-between'>
                             {!tweetDetail.is_liked && <span className='text-dark'><i className="fa-sharp fa-regular fa-heart fa-beat fa-lg" tweetid={tweetDetail.id} style={{ color: "#595959" }} onClick={addLike} role="button"></i> {tweetDetail.likes} likes </span>}
-                            {tweetDetail.is_liked && <span className='text-dark'><i className="fa-sharp fa-solid fa-heart fa-lg " tweetid={tweetDetail.id} style={{ color: "#e85e5e" }}></i> {tweetDetail.likes} likes </span>}
+                            {tweetDetail.is_liked && <span className='text-dark'><i className="fa-sharp fa-solid fa-heart fa-lg " tweetid={tweetDetail.id} style={{ color: "#e85e5e" }} onClick={removeTweetLike} role='button'></i> {tweetDetail.likes} likes </span>}
                             {props.userId == tweetDetail.user && <i className="fa-solid fa-pen" tweetid={tweetDetail.id} style={{ color: "#696363" }}></i>}
                             {props.userId == tweetDetail.user && <i className="fa-solid fa-trash me-0" tweetid={tweetDetail.id} style={{ color: "#696363" }}></i>}
                         </div>
