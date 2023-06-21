@@ -13,6 +13,7 @@ import HomePageNotAuthenticated from './components/HomePageNotAuthenticated';
 import HomePageAuthenticated from './components/HomePageAuthenticated';
 import LogoutUser from './components/LogoutUser';
 import UserProfile from './components/UserProfile';
+import TweetDetail from './components/TweetDetail';
 
 
 function App() {
@@ -43,6 +44,7 @@ function App() {
       console.log(error.response.data);
     });
   }
+
   return (
     <div className="App">
       {!userToken && <Router>
@@ -57,6 +59,7 @@ function App() {
           <Route path='/logout' element={<LogoutUser userName={userName} userToken={userToken}/>} />
           <Route path='/' element={<HomePageAuthenticated userName={userName} userToken={userToken} userId={userId} followUser={followUser} />} />
           <Route path='/profile' element={<UserProfile userName={userName} userToken={userToken} userId={userId} getUserProfile={getUserProfile} userProfileData={userProfileData} followUser={followUser} />} />
+          <Route path='/tweet_detail' element={<TweetDetail userName={userName} userToken={userToken} userId={userId} getUserProfile={getUserProfile}/>} />
         </Routes>
         </Router>}
     </div>
