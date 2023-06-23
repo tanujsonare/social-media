@@ -146,7 +146,7 @@ export default function HomePageAuthenticated(props) {
               </div>
               <div className="card-body">
                 {element.image && <img className="card-i-mg-top" src={element.image} style={{ display: "block", marginLeft: "auto", marginRight: "auto", width: "100%", height: "150px" }} alt="Card image cap" />}
-                {element.content && element.content.length > 90 ? <p className="card-text my-3" style={{textAlign: "justify"}}>{element.content.slice(0, 90) + "...."}<a className="mx-2" style={{color:"#4c72b9"}} tweetid={element.id} onClick={tweetDetail} role='button'>read more</a></p> : <p className="card-text my-3" style={{textAlign: "justify"}}>{element.content}</p>}
+                {element.content && element.content.length > 60 ? <p className="card-text my-3" style={{textAlign: "justify"}}>{element.content.slice(0, 60) + "...."}<a className="mx-2" style={{color:"#4c72b9"}} tweetid={element.id} onClick={tweetDetail} role='button'>read more</a></p> : <p className="card-text my-3" style={{textAlign: "justify"}}>{element.content}</p>}
                 <p className="card-text"><small className="text-muted">{getDateAndTime(element.created_at)}</small></p>
                 <div className='card-footer d-flex jsutify-content-start'>
                   {!element.is_liked && <span className='text-dark'><i className="fa-sharp fa-regular fa-heart fa-beat fa-lg" tweetid={element.id} style={{ color: "#595959"}} onClick={addLike} role="button"></i> {element.likes} likes </span>}
