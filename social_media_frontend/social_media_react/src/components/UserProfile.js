@@ -115,7 +115,11 @@ export default function UserProfile(props) {
                                             <div className="d-flex flex-row align-items-center"><img className="rounded-circle" src={element.profile_image ? element.profile_image.includes("media/") ? element.profile_image : "/media/" + element.profile_image : defaultProfileImage} width="30" height="30"  onClick={showUserProfile} userid={element.id} role='button'/>
                                                 <div className="d-flex flex-column align-items-start ml-2"><span className="font-weight-bold mx-3">{element.username}</span></div>
                                             </div>
-                                            <div className="d-flex flex-row align-items-center mt-2"><button className="btn btn-dark btn-sm" type="button">Follow</button></div>
+                                            <div className="d-flex flex-row align-items-center mt-2">
+                                                {userData.username == props.userName && element.is_following && <button className="btn btn-danger btn-sm" type="button">Remove</button>}
+                                                {userData.username !== props.userName && element.is_following && <button className="btn btn-dark btn-sm" type="button" disabled>Following</button>}
+                                                {element.username !== props.userName && !element.is_following && <button className="btn btn-dark btn-sm" type="button">Follow</button>}
+                                            </div>
                                         </div>
                                     })
                                     }
