@@ -85,7 +85,7 @@ export default function UserProfile(props) {
                                             <div className="d-flex flex-row align-items-center mt-2">
                                                 {userData.username == props.userName && element.is_following && <button className="btn btn-dark btn-sm" type="button">Unfollow</button>}
                                                 {userData.username !== props.userName && element.is_following && <button className="btn btn-dark btn-sm" type="button" disabled>Following</button>}
-                                                {element.username !== props.userName && !element.is_following && <button className="btn btn-dark btn-sm" type="button">Follow</button>}
+                                                {element.username !== props.userName && !element.is_following && <button className="btn btn-dark btn-sm" type="button" followuserid={element.id} onClick={followUser}>Follow</button>}
                                             </div>
                                         </div>
                                     })
@@ -118,7 +118,7 @@ export default function UserProfile(props) {
                                             <div className="d-flex flex-row align-items-center mt-2">
                                                 {userData.username == props.userName && element.is_following && <button className="btn btn-danger btn-sm" type="button">Remove</button>}
                                                 {userData.username !== props.userName && element.is_following && <button className="btn btn-dark btn-sm" type="button" disabled>Following</button>}
-                                                {element.username !== props.userName && !element.is_following && <button className="btn btn-dark btn-sm" type="button">Follow</button>}
+                                                {element.username !== props.userName && !element.is_following && <button className="btn btn-dark btn-sm" type="button" followuserid={element.id} onClick={followUser}>Follow</button>}
                                             </div>
                                         </div>
                                     })
