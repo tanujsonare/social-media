@@ -9,4 +9,5 @@ urlpatterns = [
     path("api/remove_like", views.RemoveLike.as_view(), name="remove_like"),
     path("api/delete_tweet", views.DeleteTweet.as_view(), name="delete_tweet"),
     path("api/unfollow_user", views.UnFollowUsers.as_view(), name="unfollow_user"),
+    path("api/remove_follower", views.RemoveFollower.as_view(), name="remove_follower"),
 ]
