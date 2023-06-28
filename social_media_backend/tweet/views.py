@@ -123,6 +123,6 @@ class UnFollowUsers(APIView):
         unfollow_user = CustomUser.objects.get(id=unfollow_user_id)
         if requested_user and unfollow_user:
             requested_user.following.remove(unfollow_user)
-            return Response({"message":f"Unfollow {unfollow_user.username} !!!"})
+            return Response({"message":f" You unfollowed {unfollow_user.username} !!!"})
         else:
             return Response({"error_message": "User not found !!!!"}, status=status.HTTP_400_BAD_REQUEST)
