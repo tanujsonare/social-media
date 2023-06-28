@@ -61,8 +61,8 @@ export default function UserProfile(props) {
     }
 
     const unfollowUser = async (e) => {
-        const followUserId = e.target.getAttribute("unfollowuserid");
-        await props.unFollowUser(followUserId);
+        const unfollowUserId = e.target.getAttribute("unfollowuserid");
+        await props.unFollowUser(unfollowUserId);
         props.getUserProfile(userId);
     }
 
