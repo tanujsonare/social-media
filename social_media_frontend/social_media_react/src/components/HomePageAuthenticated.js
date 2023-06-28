@@ -132,6 +132,12 @@ export default function HomePageAuthenticated(props) {
     }
   }
 
+  const unFollow = async (e) => {
+    const unfollowUserId = e.target.getAttribute("unfollowuserid");
+    await props.unFollowUser(unfollowUserId);
+    await getAllTweet();
+  }
+
   return (
     <div className="" style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', width: '100%', minHeight: '700px' }}>
       <NavbarForAuthenticated userName={props.userName} userToken={props.userToken} />
@@ -143,6 +149,7 @@ export default function HomePageAuthenticated(props) {
                 <img src={element.user_profile_image ? element.user_profile_image : defaultProfileImage} className="rounded-circle my-2" width="30" height="30" onClick={showUserProfile} userid={element.user} role='button'/>
                 <h6 className="my-2 p-2" role="button" onClick={showUserProfile} userid={element.user}>{element.user_name}</h6>
                 {element.user != props.userId && !element.is_following && <button className='btn btn-dark mx-auto btn-sm my-2 rounded-5 me-0' onClick={addFollow} followuserid={element.user}> Follow <i className="fa-solid fa-circle-plus" style={{color: "#fff",}} followuserid={element.user}></i></button>}
+                {element.user != props.userId && element.is_following && <button className='btn btn-secondary mx-auto btn-sm my-2 rounded-5 me-0' onClick={unFollow} unfollowuserid={element.user}> Unfollow </button>}
               </div>
               <div className="card-body">
                 {element.image && <img className="card-i-mg-top" src={element.image} style={{ display: "block", marginLeft: "auto", marginRight: "auto", width: "100%", height: "150px" }} alt="Card image cap" />}
