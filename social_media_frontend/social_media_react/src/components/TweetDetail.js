@@ -85,6 +85,12 @@ export default function TweetDetail(props) {
         }
     }
 
+    const unFollow = async (e) => {
+        const unfollowUserId = e.target.getAttribute("unfollowuserid");
+        await props.unFollowUser(unfollowUserId);
+        await getTweetDetail();
+    }
+
     return (
         <div style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', width: '100%', minHeight: '700px', paddingBottom:"20px" }}>
             <NavbarForAuthenticated userName={props.userName} userToken={props.userToken} />
@@ -94,6 +100,7 @@ export default function TweetDetail(props) {
                         <img src={tweetDetail.user_profile_image ? tweetDetail.user_profile_image : defaultProfileImage} className="rounded-circle my-2" width="30" height="30" onClick={showUserProfile} userid={tweetDetail.user} role='button' />
                         <h6 className="my-2 p-2" role="button" onClick={showUserProfile} userid={tweetDetail.user}>{tweetDetail.user_name}</h6>
                         {tweetDetail.user != props.userId && !tweetDetail.is_following && <button className='btn btn-dark mx-auto btn-sm my-2 rounded-5 me-0' onClick={addFollow} followuserid={tweetDetail.user}> Follow <i className="fa-solid fa-circle-plus" style={{ color: "#fff", }} followuserid={tweetDetail.user}></i></button>}
+                        {tweetDetail.user != props.userId && tweetDetail.is_following && <button className='btn btn-secondary mx-auto btn-sm my-2 rounded-5 me-0' onClick={unFollow} unfollowuserid={tweetDetail.user}> unfollow </button>}
                     </div>
                     <div className="card-body">
                         {tweetDetail.image && <img className="card-i-mg-top" src={tweetDetail.image} style={{ display: "block", marginLeft: "auto", marginRight: "auto", width: "60%", height: "230px" }} alt="Card image cap" />}
