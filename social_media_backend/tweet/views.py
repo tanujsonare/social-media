@@ -126,3 +126,20 @@ class UnFollowUsers(APIView):
             return Response({"message":f" You unfollowed {unfollow_user.username} !!!"})
         else:
             return Response({"error_message": "User not found !!!!"}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class RemoveFollower(APIView):
+    def get(self, request, format=None):
+        requested_user_id = request.GET.get("requested_user_id")
+        follower_user_id = request.GET.get("follower_user_id")
+        if not requested_user_id:
+            raise Exception({"requested_user_id": "This field is required."})
+        if not follower_user_id:
+            raise Exception({"follower_user_id": "This field is required."})
+        requested_user = CustomUser.objects.get(id=requested_user_id)
+        follower_user = CustomUser.objects.get(id=follower_user_id)
+        if requested_user and follower_user:
+            requested_user.followers.remove(follower_user)
+            return Response({"message":f" You removed {follower_user.username} from followers!!!"})
+        else:
+            return Response({"error_message": "User not found !!!!"}, status=status.HTTP_400_BAD_REQUEST)
