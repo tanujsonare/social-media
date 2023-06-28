@@ -65,6 +65,12 @@ export default function UserProfile(props) {
         await props.unFollowUser(unfollowUserId);
         props.getUserProfile(userId);
     }
+    
+    const removeFollower = async (e) => {
+        const followerId = e.target.getAttribute("followerid");
+        await props.removeFollower(followerId);
+        props.getUserProfile(userId);
+    }
 
     return (
         <div style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', width: '100%', minHeight: '700px' }}>
@@ -122,7 +128,7 @@ export default function UserProfile(props) {
                                                 <div className="d-flex flex-column align-items-start ml-2"><span className="font-weight-bold mx-3">{element.username}</span></div>
                                             </div>
                                             <div className="d-flex flex-row align-items-center mt-2">
-                                                {userData.username == props.userName && element.is_following && <button className="btn btn-danger btn-sm" type="button">Remove</button>}
+                                                {userData.username == props.userName && element.is_following && <button className="btn btn-danger btn-sm" type="button" followerid={element.id} onClick={removeFollower} >Remove</button>}
                                                 {userData.username !== props.userName && element.is_following && <button className="btn btn-dark btn-sm" type="button" disabled>Following</button>}
                                                 {element.username !== props.userName && !element.is_following && <button className="btn btn-dark btn-sm" type="button" followuserid={element.id} onClick={followUser}>Follow</button>}
                                             </div>
