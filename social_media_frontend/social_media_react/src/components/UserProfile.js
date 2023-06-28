@@ -60,6 +60,12 @@ export default function UserProfile(props) {
         navigate(`/profile?user_id=${userId}`);
     }
 
+    const unfollowUser = async (e) => {
+        const followUserId = e.target.getAttribute("unfollowuserid");
+        await props.unFollowUser(followUserId);
+        props.getUserProfile(userId);
+    }
+
     return (
         <div style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', width: '100%', minHeight: '700px' }}>
             <NavbarForAuthenticated userName={props.userName} userToken={props.userToken} />
@@ -83,7 +89,7 @@ export default function UserProfile(props) {
                                                 <div className="d-flex flex-column align-items-start ml-2"><span className="font-weight-bold mx-3">{element.username}</span></div>
                                             </div>
                                             <div className="d-flex flex-row align-items-center mt-2">
-                                                {userData.username == props.userName && element.is_following && <button className="btn btn-dark btn-sm" type="button">Unfollow</button>}
+                                                {userData.username == props.userName && element.is_following && <button className="btn btn-dark btn-sm" type="button" onClick={unfollowUser} unfollowuserid={element.id} >Unfollow</button>}
                                                 {userData.username !== props.userName && element.is_following && <button className="btn btn-dark btn-sm" type="button" disabled>Following</button>}
                                                 {element.username !== props.userName && !element.is_following && <button className="btn btn-dark btn-sm" type="button" followuserid={element.id} onClick={followUser}>Follow</button>}
                                             </div>
