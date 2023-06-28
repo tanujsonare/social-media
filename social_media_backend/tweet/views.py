@@ -109,3 +109,20 @@ class DeleteTweet(APIView):
             return Response({"message": "Tweet deleted !!"}, status=status.HTTP_200_OK)
         except:
             return Response(status.HTTP_400_BAD_REQUEST)
+
+
+class UnFollowUsers(APIView):
+    def get(self, request, format=None):
+        requested_user_id = request.GET.get("requested_user_id")
+        unfollow_user_id = request.GET.get("unfollow_user_id")
+        if not requested_user_id:
+            raise Exception({"requested_user_id": "This field is required."})
+        if not unfollow_user_id:
+            raise Exception({"unfollow_user_id": "This field is required."})
+        requested_user = CustomUser.objects.get(id=requested_user_id)
+        unfollow_user = CustomUser.objects.get(id=unfollow_user_id)
+        if requested_user and unfollow_user:
+            requested_user.following.remove(unfollow_user)
+            return Response({"message":f"Unfollow {unfollow_user.username} !!!"})
+        else:
+            return Response({"error_message": "User not found !!!!"}, status=status.HTTP_400_BAD_REQUEST)
