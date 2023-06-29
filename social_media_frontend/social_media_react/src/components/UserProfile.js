@@ -84,15 +84,15 @@ export default function UserProfile(props) {
                             <div className="col-md-6 card">
                                 <div className="p-3 bg-white text-center">
                                     <header className="card-header d-flex justify-content-between align-items-center">
-                                        <h3 className="text-center flex-grow-1">User followed by {userData && userData.username}</h3>
+                                        <h3 className="text-center flex-grow-1">User followed by {userData && userData.username !== props.userName ? userData.username : "You"}</h3>
                                         <span onClick={hideFollowingModal} className="text-end mb-5" role="button" style={{ fontSize: "30px" }}>
                                             &times;
                                         </span>
                                     </header>
                                     {userData && userData.following_user && userData.following_user.map((element) => {
-                                    return <div className="d-flex flex-row justify-content-between align-items-center my-3">
+                                    return <div className="d-flex flex-row justify-content-between align-items-center my-3" key={element.id}>
                                             <div className="d-flex flex-row align-items-center"><img className="rounded-circle" src={element.profile_image ? element.profile_image.includes("media/") ? element.profile_image : "/media/" + element.profile_image : defaultProfileImage} width="30" height="30"  onClick={showUserProfile} userid={element.id} role='button'/>
-                                                <div className="d-flex flex-column align-items-start ml-2"><span className="font-weight-bold mx-3">{element.username}</span></div>
+                                                <div className="d-flex flex-column align-items-start ml-2"><span className="font-weight-bold mx-3">{element.username == props.userName ? element.username + " (you)" : element.username}</span></div>
                                             </div>
                                             <div className="d-flex flex-row align-items-center mt-2">
                                                 {userData.username == props.userName && element.is_following && <button className="btn btn-dark btn-sm" type="button" onClick={unfollowUser} unfollowuserid={element.id} >Unfollow</button>}
@@ -117,20 +117,21 @@ export default function UserProfile(props) {
                             <div className="col-md-6 card">
                                 <div className="p-3 bg-white text-center">
                                     <header className="card-header d-flex justify-content-between align-items-center">
-                                        <h3 className="text-center flex-grow-1">Followers of {userData && userData.username}</h3>
+                                        <h3 className="text-center flex-grow-1">{userData && userData.username !== props.userName ? "Followers of " + userData.username : "Your Followers"}</h3>
                                         <span onClick={hideFollowersModal} className="text-end mb-5" role="button" style={{ fontSize: "30px" }}>
                                             &times;
                                         </span>
                                     </header>
                                     {userData && userData.followers_user && userData.followers_user.map((element) => {
-                                    return <div className="d-flex flex-row justify-content-between align-items-center my-3">
+                                    return <div className="d-flex flex-row justify-content-between align-items-center my-3" key={element.id}>
                                             <div className="d-flex flex-row align-items-center"><img className="rounded-circle" src={element.profile_image ? element.profile_image.includes("media/") ? element.profile_image : "/media/" + element.profile_image : defaultProfileImage} width="30" height="30"  onClick={showUserProfile} userid={element.id} role='button'/>
-                                                <div className="d-flex flex-column align-items-start ml-2"><span className="font-weight-bold mx-3">{element.username}</span></div>
+                                                <div className="d-flex flex-column align-items-start ml-2"><span className="font-weight-bold mx-3">{element.username == props.userName ? element.username +" (you)" : element.username}</span></div>
                                             </div>
-                                            <div className="d-flex flex-row align-items-center mt-2">
+                                            <div className="d-flex flex-row align-items-center mt-2 mx-2">
                                                 {userData.username == props.userName && element.is_following && <button className="btn btn-danger btn-sm" type="button" followerid={element.id} onClick={removeFollower} >Remove</button>}
                                                 {userData.username !== props.userName && element.is_following && <button className="btn btn-dark btn-sm" type="button" disabled>Following</button>}
                                                 {element.username !== props.userName && !element.is_following && <button className="btn btn-dark btn-sm" type="button" followuserid={element.id} onClick={followUser}>Follow</button>}
+                                                {userData.username == props.userName && !element.is_following && <i className="fa-solid fa-trash mx-2" style={{ color: "#dc3545"}} role='button' followerid={element.id} onClick={removeFollower} ></i>}
                                             </div>
                                         </div>
                                     })
