@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 import os
 from decouple import config
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -44,7 +45,6 @@ INSTALLED_APPS = [
     # Packages 
     "rest_framework",
     'rest_framework.authtoken',
-
 
     # apps
     "user",
@@ -96,8 +96,6 @@ WSGI_APPLICATION = "social_media.wsgi.application"
 #         'PORT': config("DB_PORT", default=""),
 #     }
 # }
-
-import dj_database_url
 
 DATABASES = {
     'default': dj_database_url.parse('postgres://myprojectuser:password@db_postgres/myprojectuser')
