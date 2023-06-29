@@ -116,7 +116,9 @@ export default function HomePageAuthenticated(props) {
 
   const tweetDetail = (e)=>{
     const tweetId = e.target.getAttribute("tweetid");
-    navigate(`/tweet_detail?tweet_id=${tweetId}`);
+    if (tweetId){
+      navigate(`/tweet_detail?tweet_id=${tweetId}`);
+    }
   }
 
   const removeTweetLike = async(e)=>{
@@ -144,7 +146,7 @@ export default function HomePageAuthenticated(props) {
       <div className='mx-4 my-4 d-flex'>
         <div className='mr-auto p-2 w-50'>
           {getTweet.map((element) => {
-            return <div className="card w-50 mb-3 my-4 mx-4" key={element.id}>
+            return <div className="card mb-3 my-4 mx-4" key={element.id} style={{minWidth:"400px"}}>
               <div className='card-header d-flex justify-content-start'>
                 <img src={element.user_profile_image ? element.user_profile_image : defaultProfileImage} className="rounded-circle my-2" width="30" height="30" onClick={showUserProfile} userid={element.user} role='button'/>
                 <h6 className="my-2 p-2" role="button" onClick={showUserProfile} userid={element.user}>{element.user_name}</h6>
@@ -152,9 +154,11 @@ export default function HomePageAuthenticated(props) {
                 {element.user != props.userId && element.is_following && <button className='btn btn-secondary mx-auto btn-sm my-2 rounded-5 me-0' onClick={unFollow} unfollowuserid={element.user}> Unfollow </button>}
               </div>
               <div className="card-body">
-                {element.image && <img className="card-i-mg-top" src={element.image} style={{ display: "block", marginLeft: "auto", marginRight: "auto", width: "100%", height: "150px" }} alt="Card image cap" />}
-                {element.content && element.content.length > 60 ? <p className="card-text my-3" style={{textAlign: "justify"}}>{element.content.slice(0, 60) + "...."}<a className="mx-2" style={{color:"#4c72b9"}} tweetid={element.id} onClick={tweetDetail} role='button'>read more</a></p> : <p className="card-text my-3" style={{textAlign: "justify"}}>{element.content}</p>}
-                <p className="card-text"><small className="text-muted">{getDateAndTime(element.created_at)}</small></p>
+                <div id="tweet_content" tweetid={element.id} onClick={tweetDetail} role='button'>
+                  {element.image && <img className="card-i-mg-top" tweetid={element.id} src={element.image} style={{ display: "block", marginLeft: "auto", marginRight: "auto", width: "100%", height: "250px" }} alt="Card image cap" />}
+                  {element.content && element.content.length > 60 ? <p className="card-text my-3" tweetid={element.id} style={{textAlign: "justify"}}>{element.content.slice(0, 60) + "...."}<a className="mx-2" style={{color:"#4c72b9"}} tweetid={element.id} onClick={tweetDetail} role='button'>read more</a></p> : <p className="card-text my-3" tweetid={element.id} style={{textAlign: "justify"}}>{element.content}</p>}
+                  <p className="card-text" tweetid={element.id}><small className="text-muted" tweetid={element.id}>{getDateAndTime(element.created_at)}</small></p>
+                </div>
                 <div className='card-footer d-flex jsutify-content-start'>
                   {!element.is_liked && <span className='text-dark'><i className="fa-sharp fa-regular fa-heart fa-beat fa-lg" tweetid={element.id} style={{ color: "#595959"}} onClick={addLike} role="button"></i> {element.likes} likes </span>}
                   {element.is_liked && <span className='text-dark'><i className="fa-sharp fa-solid fa-heart fa-lg" tweetid={element.id} style={{color: "#e85e5e"}} onClick={removeTweetLike} role='button'></i> {element.likes} likes </span>}
