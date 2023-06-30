@@ -106,6 +106,18 @@ function App() {
       console.log(error.response.data);
     });
   }
+  
+  const searchUser = async(username)=>{
+    await axios.get(`http://127.0.0.1/api/get_user_profile?user_id=${username}&requested_user_id=${userId}`
+    ).then(response => {
+      if (response.data) {
+        setUserProfileData(response.data.user_profile)
+      }
+    })
+    .catch(error => {
+      console.log(error.response.data);
+    });
+  }
 
   return (
     <div className="App">
