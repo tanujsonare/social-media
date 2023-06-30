@@ -1,9 +1,15 @@
 import React, {useState} from 'react'
 import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
 
 import tweetLogo from './images/tweet_log.png'
 
 export default function NavbarForAuthenticated(props) {
+  const navigate = useNavigate();
+  const searchUserProfile = (e) =>{
+    e.preventDefault();
+    const searchText = e.target.firstChild.value;
+  }
   return (
     <div>
       <nav className="navbar navbar-expand-lg navbar-dark" style={{backgroundColor:"rgb(1 4 6 / 46%)"}}>
@@ -30,8 +36,8 @@ export default function NavbarForAuthenticated(props) {
                     <Link className="nav-link" to="/logout">Logout</Link>
                 </li>
             </ul>
-            <form className="d-flex mx-3" role="search">
-                <input className="form-control me-2 mx-4" type="search" placeholder="Search" aria-label="Search" />
+            <form className="d-flex mx-3" role="search" onSubmit={searchUserProfile}>
+                <input className="form-control me-2 mx-4" type="search" placeholder="Enter username to search" aria-label="Search" />
                 <button className="btn btn-outline-success" type="submit">Search</button>
             </form>
           </div>
