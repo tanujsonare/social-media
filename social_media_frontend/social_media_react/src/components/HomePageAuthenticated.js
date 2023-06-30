@@ -156,7 +156,7 @@ export default function HomePageAuthenticated(props) {
               <div className="card-body">
                 <div id="tweet_content" tweetid={element.id} onClick={tweetDetail} role='button'>
                   {element.image && <img className="card-i-mg-top" tweetid={element.id} src={element.image} style={{ display: "block", marginLeft: "auto", marginRight: "auto", width: "100%", height: "250px" }} alt="Card image cap" />}
-                  {element.content && element.content.length > 60 ? <p className="card-text my-3" tweetid={element.id} style={{textAlign: "justify"}}>{element.content.slice(0, 60) + "...."}<a className="mx-2" style={{color:"#4c72b9"}} tweetid={element.id} onClick={tweetDetail} role='button'>read more</a></p> : <p className="card-text my-3" tweetid={element.id} style={{textAlign: "justify"}}>{element.content}</p>}
+                  {element.content && element.content.length > 100 ? <p className="card-text my-3" tweetid={element.id} style={{textAlign: "justify"}}>{element.content.slice(0, 100) + "...."}<a className="mx-2" style={{color:"#4c72b9"}} tweetid={element.id} onClick={tweetDetail} role='button'>read more</a></p> : <p className="card-text my-3" tweetid={element.id} style={{textAlign: "justify"}}>{element.content}</p>}
                   <p className="card-text" tweetid={element.id}><small className="text-muted" tweetid={element.id}>{getDateAndTime(element.created_at)}</small></p>
                 </div>
                 <div className='card-footer d-flex jsutify-content-start'>
@@ -170,7 +170,7 @@ export default function HomePageAuthenticated(props) {
             </div>
           })}
         </div>
-        <div className="card p-2 my-4 w-50 h-50">
+        <div className="card p-2 my-4 mx-5 me-0" style={{minWidth: "500px", height:"550px"}}>
           <h5 className="card-header">New Post</h5>
           <div className="card-body">
             <form id="addTweetForm" onSubmit={addNewTweet}>
