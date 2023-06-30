@@ -42,15 +42,19 @@ class UserLoginView(APIView):
 
 class GetUserProfile(APIView):
     def get(self, request, format=None):
+        user_name = request.GET.get("user_name")
         user_id = request.GET.get("user_id")
         requested_user_id = request.GET.get("requested_user_id")
-        if not user_id:
-            raise Exception({"user_id": "This field is required."})
-        if not requested_user_id:
-            raise Exception({"requested_user_id": "This field is required."})
-        user = CustomUser.objects.get(id=user_id)
-        if user:
-            serializer = serializers.GetUserProfileSerializer(user, context={"requested_user_id": requested_user_id})
-            response = {"user_profile": serializer.data}
-            return Response(response, status.HTTP_200_OK)
+        if user_id and requested_user_id:
+            user = CustomUser.objects.get(id=user_id)
+            if user:
+                serializer = serializers.GetUserProfileSerializer(user, context={"requested_user_id": requested_user_id})
+                response = {"user_profile": serializer.data}
+                return Response(response, status.HTTP_200_OK)
+        if user_name and requested_user_id:
+            user = CustomUser.objects.get(username=user_name)
+            if user:
+                serializer = serializers.GetUserProfileSerializer(user, context={"requested_user_id": requested_user_id})
+                response = {"user_profile": serializer.data}
+                return Response(response, status.HTTP_200_OK)
         return Response(status.HTTP_400_BAD_REQUEST)
