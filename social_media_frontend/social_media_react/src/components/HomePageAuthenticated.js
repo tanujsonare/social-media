@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom'
 
 import NavbarForAuthenticated from './NavbarForAuthenticated'
 import backgroundImage from './images/social_media_back.jpg'
-// import tweetLogo from './images/tweet_log.png'
 import defaultProfileImage from './images/default_profile_img.webp'
 import { getCookie } from '../CsrfToken';
 
@@ -149,7 +148,7 @@ export default function HomePageAuthenticated(props) {
             return <div className="card search_card mb-3 my-4 mx-4" key={element.id} style={{minWidth:"400px"}}>
               <div className='card-header d-flex justify-content-start'>
                 <img src={element.user_profile_image ? element.user_profile_image : defaultProfileImage} className="rounded-circle my-2" width="30" height="30" onClick={showUserProfile} userid={element.user} role='button'/>
-                <h6 className="my-2 p-2" role="button" onClick={showUserProfile} userid={element.user}>{element.user_name}</h6>
+                <h6 className="my-2 p-2" role="button" onClick={showUserProfile} userid={element.user}>{element.user_name == props.userName ? element.user_name + '  (you)' : element.user_name}</h6>
                 {element.user != props.userId && !element.is_following && <button className='btn btn-dark mx-auto btn-sm my-2 rounded-5 me-0 follow_button' onClick={addFollow} followuserid={element.user}> Follow <i className="fa-solid fa-circle-plus follow_button" style={{color: "#fff",}} followuserid={element.user}></i></button>}
                 {element.user != props.userId && element.is_following && <button className='btn btn-secondary mx-auto btn-sm my-2 rounded-5 me-0 unfollow_button' onClick={unFollow} unfollowuserid={element.user}> Unfollow </button>}
               </div>

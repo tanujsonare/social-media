@@ -103,7 +103,7 @@ export default function TweetDetail(props) {
                         {tweetDetail.user != props.userId && tweetDetail.is_following && <button className='btn btn-secondary mx-auto btn-sm my-2 rounded-5 me-0' onClick={unFollow} unfollowuserid={tweetDetail.user}> unfollow </button>}
                     </div>
                     <div className="card-body">
-                        {tweetDetail.image && <img className="card-i-mg-top" src={tweetDetail.image} style={{ display: "block", marginLeft: "auto", marginRight: "auto", width: "70%", height: "280px" }} alt="Card image cap" />}
+                        {tweetDetail.image && <img className="card-i-mg-top" src={tweetDetail.image} style={{ display: "block", marginLeft: "auto", marginRight: "auto", width: "90%", height: "340px" }} alt="Card image cap" />}
                         <p className="card-text my-3" style={{ textAlign: "justify" }}>{tweetDetail.content}</p>
                         <p className="card-text"><small className="text-muted">{getDateAndTime(tweetDetail.created_at)}</small></p>
                         <div className='card-footer d-flex justify-content-between'>
