@@ -15,25 +15,26 @@ export default function SearchBar(props) {
     }
     const [usersData, setUsersData] = useState([]);
 
+    const getSearchUsers = async () => {
+        await axios.get(`http://127.0.0.1/api/search_user?requested_user_id=${props.userId}&user_name=${searchText}`
+        ).then(response => {
+            setUsersData(response.data.user_profiles)
+        })
+            .catch(error => {
+                console.log(error.response.data);
+            });
+    }
+
     useEffect(() => {
-        const getSearchUsers = async () => {
-            await axios.get(`http://127.0.0.1/api/search_user?requested_user_id=${props.userId}&user_name=${searchText}`
-            ).then(response => {
-                setUsersData(response.data.user_profiles)
-            })
-                .catch(error => {
-                    console.log(error.response.data);
-                });
-        }
         getSearchUsers();
     }, searchText)
 
     return (
         <div style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', width: '100%', minHeight: '700px' }}>
-            <NavbarForAuthenticated userName={props.userName} userToken={props.userToken} />
+            <NavbarForAuthenticated userName={props.userName} userToken={props.userToken}/>
             <div className="row my-2">
                 {usersData && usersData.map((element) => {
-                    return <div className="col-md-11 mx-auto d-flex justify-content-center">
+                    return <div className="col-md-11 mx-auto d-flex justify-content-center" key={element.id}>
                         <div className="card my-2" style={{ minWidth: "700px", maxWidth:"700px" }}>
                             <div className='d-flex justify-content-start'>
                                 <img className="card-i-mg-top" src={element.profile_image ? element.profile_image : defaultProfileImage} style={{ width: "30%", minHeight:"100px", maxHeight: "200px", backgroundSize: 'cover' }} />
@@ -56,6 +57,9 @@ export default function SearchBar(props) {
                                             </div>
                                         </div>
                                     </div>
+                                </div>
+                                <div className='d-flex justify-content-end'>
+                                    <button className='btn btn-dark btn-sm my-5 rounded-5' style={{marginBottom:"164px !important"}}> Follow <i className="fa-solid fa-circle-plus" style={{color: "#fff",}} ></i></button>
                                 </div>
                             </div>
                         </div>
