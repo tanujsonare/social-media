@@ -15,7 +15,7 @@ export default function SearchBar(props) {
             searchText = text[1];
         }
     }
-    const [usersData, setUsersData] = useState([]);
+    const [usersData, setUsersData] = useState(null);
 
     const getSearchUsers = async () => {
         await axios.get(`http://127.0.0.1/api/search_user?requested_user_id=${props.userId}&user_name=${searchText}`
@@ -59,7 +59,7 @@ export default function SearchBar(props) {
             <div className="row my-2">
                 {usersData && usersData.map((element) => {
                     return <div className="col-md-11 mx-auto d-flex justify-content-center" key={element.id}>
-                        <div className="card my-2" style={{ minWidth: "700px", maxWidth: "700px" }} onClick={seeUserProfile} userid={element.id} role='button'>
+                        <div className="search_card card my-2" style={{ minWidth: "700px", maxWidth: "700px" }} onClick={seeUserProfile} userid={element.id} role='button'>
                             <div className="card-body d-flex">
                                 <img className="card-i-mg-top" src={element.profile_image ? element.profile_image : defaultProfileImage} style={{ width: "30%", minHeight: "100px", maxHeight: "200px", backgroundSize: 'cover' }} />
                                 <div className="flex-grow-1 mx-3">
@@ -81,8 +81,8 @@ export default function SearchBar(props) {
                                     </div>
                                 </div>
                                 <div className="ml-auto align-self-start mx-4">
-                                    {element.id != props.userId && !element.is_following && <button className="btn btn-dark btn-sm rounded-5 d-flex align-items-center" onClick={followUser} followuserid={element.id} >Follow <i className="fa-solid fa-circle-plus d-flex align-items-center mx-1" style={{ color: "#fff" }} followuserid={element.id}></i></button>}
-                                    {element.id != props.userId && element.is_following && <button className="btn btn-secondary btn-sm rounded-5 d-flex align-items-center" onClick={unFollow} unfollowuserid={element.id} >unfollow </button>}
+                                    {element.id != props.userId && !element.is_following && <button className="btn btn-dark btn-sm follow_button rounded-5 d-flex align-items-center" onClick={followUser} followuserid={element.id} >Follow <i className="fa-solid fa-circle-plus d-flex align-items-center mx-1 follow_button" style={{ color: "#fff" }} followuserid={element.id}></i></button>}
+                                    {element.id != props.userId && element.is_following && <button className="btn btn-secondary btn-sm unfollow_button rounded-5 d-flex align-items-center" onClick={unFollow} unfollowuserid={element.id} >unfollow </button>}
                                 </div>
                             </div>
                         </div>
