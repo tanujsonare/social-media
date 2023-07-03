@@ -23,3 +23,14 @@
   cursor: pointer;
   height: -webkit-fill-available;
 }
+
+
+.search_card :hover{
+  background-color: rgba(231, 229, 229, 0.856);
+}
+.search_card :hover .follow_button{
+  background-color: black;
+}
+.search_card :hover .unfollow_button{
+  background-color: #6c757d;
+}
