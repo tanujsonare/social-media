@@ -9,6 +9,7 @@ export default function NavbarForAuthenticated(props) {
   const searchUserProfile = (e) =>{
     e.preventDefault();
     const searchText = e.target.firstChild.value;
+    navigate(`/search?user_name=${searchText}`)
   }
   return (
     <div>
