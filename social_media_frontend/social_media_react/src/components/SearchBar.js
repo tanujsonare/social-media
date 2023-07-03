@@ -3,7 +3,7 @@ import axios from 'axios';
 
 import backgroundImage from './images/social_media_back.jpg'
 import NavbarForAuthenticated from './NavbarForAuthenticated'
-import defaultProfileImage from './images/default_profile_img.webp'
+import defaultProfileImage from './images/default_pr_img.webp'
 
 export default function SearchBar(props) {
     var searchText;
@@ -31,12 +31,12 @@ export default function SearchBar(props) {
     return (
         <div style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', width: '100%', minHeight: '700px' }}>
             <NavbarForAuthenticated userName={props.userName} userToken={props.userToken} />
-            <div className="row my-5">
+            <div className="row my-2">
                 {usersData && usersData.map((element) => {
                     return <div className="col-md-11 mx-auto d-flex justify-content-center">
-                        <div className="card my-2" style={{ maxWidth: "1000px" }}>
+                        <div className="card my-2" style={{ minWidth: "700px", maxWidth:"700px" }}>
                             <div className='d-flex justify-content-start'>
-                                <img className="card-i-mg-top" src={element.profile_image ? element.profile_image : defaultProfileImage} style={{ width: "30%", maxHeight: "250px", backgroundSize: 'cover' }} />
+                                <img className="card-i-mg-top" src={element.profile_image ? element.profile_image : defaultProfileImage} style={{ width: "30%", minHeight:"100px", maxHeight: "200px", backgroundSize: 'cover' }} />
                                 <div className="row mx-5 me-0">
                                     <div className="col-sm-9">
                                         <h2 className="my-4">{element.username}</h2>
