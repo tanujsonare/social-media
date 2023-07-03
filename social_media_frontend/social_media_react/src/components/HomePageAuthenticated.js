@@ -146,12 +146,12 @@ export default function HomePageAuthenticated(props) {
       <div className='mx-4 my-4 d-flex'>
         <div className='mr-auto p-2 w-50'>
           {getTweet.map((element) => {
-            return <div className="card mb-3 my-4 mx-4" key={element.id} style={{minWidth:"400px"}}>
+            return <div className="card search_card mb-3 my-4 mx-4" key={element.id} style={{minWidth:"400px"}}>
               <div className='card-header d-flex justify-content-start'>
                 <img src={element.user_profile_image ? element.user_profile_image : defaultProfileImage} className="rounded-circle my-2" width="30" height="30" onClick={showUserProfile} userid={element.user} role='button'/>
                 <h6 className="my-2 p-2" role="button" onClick={showUserProfile} userid={element.user}>{element.user_name}</h6>
-                {element.user != props.userId && !element.is_following && <button className='btn btn-dark mx-auto btn-sm my-2 rounded-5 me-0' onClick={addFollow} followuserid={element.user}> Follow <i className="fa-solid fa-circle-plus" style={{color: "#fff",}} followuserid={element.user}></i></button>}
-                {element.user != props.userId && element.is_following && <button className='btn btn-secondary mx-auto btn-sm my-2 rounded-5 me-0' onClick={unFollow} unfollowuserid={element.user}> Unfollow </button>}
+                {element.user != props.userId && !element.is_following && <button className='btn btn-dark mx-auto btn-sm my-2 rounded-5 me-0 follow_button' onClick={addFollow} followuserid={element.user}> Follow <i className="fa-solid fa-circle-plus follow_button" style={{color: "#fff",}} followuserid={element.user}></i></button>}
+                {element.user != props.userId && element.is_following && <button className='btn btn-secondary mx-auto btn-sm my-2 rounded-5 me-0 unfollow_button' onClick={unFollow} unfollowuserid={element.user}> Unfollow </button>}
               </div>
               <div className="card-body">
                 <div id="tweet_content" tweetid={element.id} onClick={tweetDetail} role='button'>
