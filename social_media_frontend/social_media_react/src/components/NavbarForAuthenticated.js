@@ -9,7 +9,8 @@ export default function NavbarForAuthenticated(props) {
   const searchUserProfile = (e) =>{
     e.preventDefault();
     const searchText = e.target.firstChild.value;
-    navigate(`/search?user_name=${searchText}`)
+    navigate(`/search?user_name=${searchText}`);
+    window.location.reload();
   }
   return (
     <div>
@@ -37,7 +38,7 @@ export default function NavbarForAuthenticated(props) {
                     <Link className="nav-link" to="/logout">Logout</Link>
                 </li>
             </ul>
-            <form className="d-flex mx-3" role="search" onSubmit={searchUserProfile}>
+            <form className="search_form d-flex mx-3" role="search" onSubmit={searchUserProfile}>
                 <input className="form-control me-2 mx-4" type="search" placeholder="Enter username to search" aria-label="Search" />
                 <button className="btn btn-outline-success" type="submit">Search</button>
             </form>
