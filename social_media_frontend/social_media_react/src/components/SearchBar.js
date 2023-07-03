@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 import backgroundImage from './images/social_media_back.jpg'
 import NavbarForAuthenticated from './NavbarForAuthenticated'
 import defaultProfileImage from './images/default_pr_img.webp'
 
 export default function SearchBar(props) {
+    const navigate = useNavigate();
     var searchText;
     if (window.location.href.includes("user_name=")) {
         let text = window.location.href.split("user_name=");
@@ -29,13 +31,35 @@ export default function SearchBar(props) {
         getSearchUsers();
     }, searchText)
 
+    const followUser = async (e) => {
+        const followUserId = e.target.getAttribute("followuserid");
+        const requestedUserId = props.userId;
+        await props.followUser(requestedUserId, followUserId);
+        getSearchUsers();
+    }
+
+    const unFollow = async (e) => {
+        const unfollowUserId = e.target.getAttribute("unfollowuserid");
+        await props.unFollowUser(unfollowUserId);
+        await getSearchUsers();
+    }
+
+    const seeUserProfile = (e) =>{
+        if (!(e.target && (e.target.classList.contains('btn') || e.target.classList.contains('fa-circle-plus')))){
+            const userId = e.target.offsetParent.getAttribute("userid");
+            if (userId){
+                navigate(`/profile?user_id=${userId}`);
+            }
+        }
+    } 
+
     return (
         <div style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', width: '100%', minHeight: '700px' }}>
             <NavbarForAuthenticated userName={props.userName} userToken={props.userToken} />
             <div className="row my-2">
                 {usersData && usersData.map((element) => {
                     return <div className="col-md-11 mx-auto d-flex justify-content-center" key={element.id}>
-                        <div className="card my-2" style={{ minWidth: "700px", maxWidth: "700px" }}>
+                        <div className="card my-2" style={{ minWidth: "700px", maxWidth: "700px" }} onClick={seeUserProfile} userid={element.id} role='button'>
                             <div className="card-body d-flex">
                                 <img className="card-i-mg-top" src={element.profile_image ? element.profile_image : defaultProfileImage} style={{ width: "30%", minHeight: "100px", maxHeight: "200px", backgroundSize: 'cover' }} />
                                 <div className="flex-grow-1 mx-3">
@@ -57,7 +81,8 @@ export default function SearchBar(props) {
                                     </div>
                                 </div>
                                 <div className="ml-auto align-self-start mx-4">
-                                    <button className="btn btn-dark btn-sm rounded-5 d-flex align-items-center">Follow <i className="fa-solid fa-circle-plus d-flex align-items-center mx-1" style={{ color: "#fff" }}></i></button>
+                                    {element.id != props.userId && !element.is_following && <button className="btn btn-dark btn-sm rounded-5 d-flex align-items-center" onClick={followUser} followuserid={element.id} >Follow <i className="fa-solid fa-circle-plus d-flex align-items-center mx-1" style={{ color: "#fff" }} followuserid={element.id}></i></button>}
+                                    {element.id != props.userId && element.is_following && <button className="btn btn-secondary btn-sm rounded-5 d-flex align-items-center" onClick={unFollow} unfollowuserid={element.id} >unfollow </button>}
                                 </div>
                             </div>
                         </div>
