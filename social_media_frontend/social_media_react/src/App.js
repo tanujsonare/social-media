@@ -123,7 +123,7 @@ function App() {
           <Route path='/' element={<HomePageAuthenticated userName={userName} userToken={userToken} userId={userId} followUser={followUser} removeLike={removeLike} deleteTweet={deleteTweet} unFollowUser={unFollowUser} />} />
           <Route path='/profile' element={<UserProfile userName={userName} userToken={userToken} userId={userId} getUserProfile={getUserProfile} userProfileData={userProfileData} followUser={followUser} unFollowUser={unFollowUser} removeFollower={removeFollower} />} />
           <Route path='/tweet_detail' element={<TweetDetail userName={userName} userToken={userToken} userId={userId} removeLike={removeLike} deleteTweet={deleteTweet} followUser={followUser} unFollowUser={unFollowUser} />} />
-          <Route path='/search' element={<SearchBar userName={userName} userToken={userToken} userId={userId} />} />
+          <Route path='/search' element={<SearchBar userName={userName} userToken={userToken} userId={userId} followUser={followUser} unFollowUser={unFollowUser}/>} />
         </Routes>
         </Router>}
     </div>
