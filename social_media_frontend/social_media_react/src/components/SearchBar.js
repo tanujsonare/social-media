@@ -89,6 +89,11 @@ export default function SearchBar(props) {
                     </div>
                 })
                 }
+                {!usersData &&
+                <div className='my-5'>
+                    <h2 className='my-5 text-light'> No User Available with this name <u>{searchText}</u></h2>
+                </div>
+                }
             </div>
         </div>
     )
