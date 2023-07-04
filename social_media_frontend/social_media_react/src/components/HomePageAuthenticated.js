@@ -161,7 +161,7 @@ export default function HomePageAuthenticated(props) {
                 <div className='card-footer d-flex jsutify-content-start'>
                   {!element.is_liked && <span className='text-dark'><i className="fa-sharp fa-regular fa-heart fa-beat fa-lg" tweetid={element.id} style={{ color: "#595959"}} onClick={addLike} role="button"></i> {element.likes} likes </span>}
                   {element.is_liked && <span className='text-dark'><i className="fa-sharp fa-solid fa-heart fa-lg" tweetid={element.id} style={{color: "#e85e5e"}} onClick={removeTweetLike} role='button'></i> {element.likes} likes </span>}
-                  {props.userId == element.user && <i className="fa-solid fa-pen mx-3" tweetid={element.id} style={{ color: "#696363"}}></i>}
+                  {/* {props.userId == element.user && <i className="fa-solid fa-pen mx-3" tweetid={element.id} style={{ color: "#696363"}}></i>} */}
                   {props.userId == element.user && <i className="fa-solid fa-trash mx-3" tweetid={element.id} style={{ color: "#696363"}} onClick={requestDeleteTweet} role='button'></i>}
                   <i className="fa-solid fa-up-right-and-down-left-from-center mx-4 me-0" tweetid={element.id} style={{ color: "#696363"}} onClick={tweetDetail} role='button'></i>
                 </div>
@@ -177,7 +177,7 @@ export default function HomePageAuthenticated(props) {
                 <label htmlFor="tweetimage" className='my-2 d-flex mx-4'>Upload Image (optional)</label>
                 <div className='d-flex justify-content-start'>
                   <div className='d-flex file btn btn-lg file form-control-file col-xl-12 mx-5 font-weight-bold'>
-                    Choose file
+                    Upload file
                     <input type="file" className="upload_tweet_image" onChange={checkUploadImage} id="image" accept="image/*" />
                   </div>
                   <label htmlFor="tweetimage" className='ms-0 my-2 uploaded_image_name'></label>
