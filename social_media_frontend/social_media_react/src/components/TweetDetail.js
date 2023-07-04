@@ -109,7 +109,7 @@ export default function TweetDetail(props) {
                         <div className='card-footer d-flex justify-content-between'>
                             {!tweetDetail.is_liked && <span className='text-dark'><i className="fa-sharp fa-regular fa-heart fa-beat fa-lg" tweetid={tweetDetail.id} style={{ color: "#595959" }} onClick={addLike} role="button"></i> {tweetDetail.likes} likes </span>}
                             {tweetDetail.is_liked && <span className='text-dark'><i className="fa-sharp fa-solid fa-heart fa-lg " tweetid={tweetDetail.id} style={{ color: "#e85e5e" }} onClick={removeTweetLike} role='button'></i> {tweetDetail.likes} likes </span>}
-                            {props.userId == tweetDetail.user && <i className="fa-solid fa-pen" tweetid={tweetDetail.id} style={{ color: "#696363" }}></i>}
+                            {/* {props.userId == tweetDetail.user && <i className="fa-solid fa-pen" tweetid={tweetDetail.id} style={{ color: "#696363" }}></i>} */}
                             {props.userId == tweetDetail.user && <i className="fa-solid fa-trash me-0" tweetid={tweetDetail.id} style={{ color: "#696363" }} onClick={requestDeleteTweet} role='button'></i>}
                         </div>
                     </div>
