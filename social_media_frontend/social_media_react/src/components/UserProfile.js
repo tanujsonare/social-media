@@ -72,6 +72,12 @@ export default function UserProfile(props) {
         props.getUserProfile(userId);
     }
 
+    const unFollow = async (e) => {
+        const unfollowUserId = e.target.getAttribute("unfollowuserid");
+        await props.unFollowUser(unfollowUserId);
+        await props.getUserProfile(userId);
+    }
+
     return (
         <div style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', width: '100%', minHeight: '700px' }}>
             <NavbarForAuthenticated userName={props.userName} userToken={props.userToken} />
@@ -149,6 +155,7 @@ export default function UserProfile(props) {
                         <div style={{ backgroundImage: `url(${tweetBackgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', width: '100%', height: '220px' }}>
                             <div className='d-flex justify-content-end my-1'>
                                 {userData && userData.username !== props.userName && !userData.is_following && <button className='btn btn-dark btn-sm mx-2 my-2 rounded-5' onClick={followUser} followuserid={userData.id}> Follow <i className="fa-solid fa-circle-plus" style={{ color: "#fff", }} followuserid={userData.id}></i></button>}
+                                {userData && userData.username !== props.userName && userData.is_following && <button className='btn btn-dark btn-sm mx-2 my-2 rounded-5' onClick={unFollow} unfollowuserid={userData.id}> Unfollow </button>}
                             </div>
                             <div className="user text-center">
                                 <div className="profile my-2">
