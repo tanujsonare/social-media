@@ -143,3 +143,16 @@ class RemoveFollower(APIView):
             return Response({"message":f" You removed {follower_user.username} from followers!!!"})
         else:
             return Response({"error_message": "User not found !!!!"}, status=status.HTTP_400_BAD_REQUEST)
+   
+
+class EditTweet(APIView):
+    def patch(self, request, pk, format=None):
+        tweet = get_object_or_404(models.Tweet, id=pk)
+        serializer = serializers.AddTweetSerializer(tweet, data=request.data, context={"request":request})
+        try:
+            if serializer.is_valid():
+                serializer.save()
+                response = {"message": "Post updated successfully !!"}
+                return Response(response, status=status.HTTP_201_CREATED)
+        except:
+            return Response({"error_message": "Please Fill all fields properly!!!"}, status=status.HTTP_400_BAD_REQUEST)
