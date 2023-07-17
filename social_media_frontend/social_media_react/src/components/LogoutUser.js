@@ -17,7 +17,7 @@ export default function LogoutUser(props) {
     }
 
   return (
-    <div style={{backgroundImage:`url(${backgroundImage})`,backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', width: '100%', height: '600px'}}>
+    <div className="custom-background" style={{ backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', width: '100%', height: '668px'}}>
         <NavbarForAuthenticated userName={props.userName} userToken={props.userToken} />
         <div className="text-center my-4">
             <div className="card-body">
@@ -26,9 +26,6 @@ export default function LogoutUser(props) {
                 <Link className="btn btn-success my-3 mx-3 btn-sm" to="/">Cancel</Link>
                 <button className="btn btn-danger my-3 mx-3 btn-sm" onClick={logoutUser}>Logout</button>
             </div>
-            {/* <div className="card-footer text-muted">
-                2 days ago
-            </div> */}
         </div>
     </div>
   )

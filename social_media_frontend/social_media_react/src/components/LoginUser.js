@@ -4,7 +4,6 @@ import axios from 'axios'
 
 import { getCookie } from '../CsrfToken'
 import NavbarForNotAuthenticated from './NavbarForNotAuthenticated'
-import backgroundImage from './images/social_media_back.jpg'
 
 
 export default function LoginUser() {
@@ -38,15 +37,15 @@ export default function LoginUser() {
         });
     }
     return (
-        <div style={{backgroundImage:`url(${backgroundImage})`,backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', width: '100%', height: '600px'}}>
+        <div className="custom-background" style={{backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', width: '100%', height: '668px'}}>
             <NavbarForNotAuthenticated />
-            <div>
+            <div className='my-5'>
                 <form id="userLoginForm" onSubmit={userLogin}>
                     <div className="form-group mx-4">
                         <label htmlFor="userName" className="d-flex my-3 text-light">Username*</label>
                         <input type="text" className="form-control" id="username" placeholder="Enter your username" />
                     </div>
-                    <div className="form-group mx-4">
+                    <div className="form-group mx-4 my-4">
                         <label htmlFor="userPassword" className="d-flex my-3 text-light">Password*</label>
                         <input type="password" className="form-control" id="password" placeholder="Enter your password" />
                     </div>
