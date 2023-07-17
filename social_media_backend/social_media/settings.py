@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     # apps
     "user",
     "tweet",
+    "chat",
 ]
 
 MIDDLEWARE = [
