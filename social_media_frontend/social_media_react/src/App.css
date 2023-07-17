@@ -1,8 +1,21 @@
+/* background color for all pages including navbar */
+
+.custom-background {
+  /* fallback for old browsers */
+  background: rgb(128, 127, 126);
+
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: -webkit-linear-gradient(to bottom right, rgb(26, 25, 26), rgb(167, 166, 164));
+
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: linear-gradient(to bottom right, rgba(26, 25, 26), rgb(167, 166, 164))
+}
+
 .App {
   text-align: center;
 }
 
-.upload_button .file{
+.upload_button .file {
   position: relative;
   overflow: hidden;
   background-color: transparent;
@@ -24,13 +37,39 @@
   height: -webkit-fill-available;
 }
 
+/* search user card css */
 
-.search_card :hover{
+.search_card :hover {
   background-color: rgba(231, 229, 229, 0.856);
 }
-.search_card :hover .follow_button{
+
+.search_card :hover .follow_button {
   background-color: black;
 }
-.search_card :hover .unfollow_button{
+
+.search_card :hover .unfollow_button {
   background-color: #6c757d;
+}
+
+
+/* chat application css */
+
+.gradient-custom {
+  /* fallback for old browsers */
+  background: #fccb90;
+
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: -webkit-linear-gradient(to bottom right, rgb(199, 198, 196), rgb(26, 25, 26));
+
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: linear-gradient(to bottom right, rgba(199, 198, 196), rgb(26, 25, 26))
+}
+
+.mask-custom {
+  background: rgba(24, 24, 16, .2);
+  border-radius: 2em;
+  backdrop-filter: blur(15px);
+  border: 2px solid rgba(255, 255, 255, 0.05);
+  background-clip: padding-box;
+  box-shadow: 10px 10px 10px rgba(46, 54, 68, 0.03);
 }
