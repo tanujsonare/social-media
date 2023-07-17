@@ -4,7 +4,6 @@ import axios from 'axios';
 
 import { getCookie } from '../CsrfToken';
 import NavbarForNotAuthenticated from './NavbarForNotAuthenticated'
-import backgroundImage from './images/social_media_back.jpg'
 
 
 export default function RegisterUser() {
@@ -85,7 +84,7 @@ export default function RegisterUser() {
     }
 
     return (
-        <div style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', width: '100%', minHeight: '700px' }}>
+        <div className="custom-background" style={{ backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', width: '100%', minHeight: '700px' }}>
             <NavbarForNotAuthenticated />
             <div className='mx-4'>
                 <form id="userRegistrationForm" onSubmit={submitUserRegistration}>
