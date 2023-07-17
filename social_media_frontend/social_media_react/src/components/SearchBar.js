@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-import backgroundImage from './images/social_media_back.jpg'
 import NavbarForAuthenticated from './NavbarForAuthenticated'
 import defaultProfileImage from './images/default_pr_img.webp'
 
@@ -54,7 +53,7 @@ export default function SearchBar(props) {
     } 
 
     return (
-        <div style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', width: '100%', minHeight: '700px' }}>
+        <div className="custom-background" style={{ backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', width: '100%', minHeight: '700px' }}>
             <NavbarForAuthenticated userName={props.userName} userToken={props.userToken} />
             <div className="row my-2">
                 {usersData && usersData.map((element) => {

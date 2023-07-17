@@ -3,7 +3,6 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 import NavbarForAuthenticated from './NavbarForAuthenticated'
-import backgroundImage from './images/social_media_back.jpg'
 import defaultProfileImage from './images/default_profile_img.webp'
 
 export default function TweetDetail(props) {
@@ -92,7 +91,7 @@ export default function TweetDetail(props) {
     }
 
     return (
-        <div style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', width: '100%', minHeight: '700px', paddingBottom:"20px" }}>
+        <div className="custom-background" style={{ backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', width: '100%', minHeight: '700px', paddingBottom:"20px" }}>
             <NavbarForAuthenticated userName={props.userName} userToken={props.userToken} />
             <div className='d-flex justify-content-center my-3 text-light'>
                 {tweetDetail && <div className="card w-50 my-4 mx-4" key={tweetDetail.id} style={{minWidth:"60%"}}>
