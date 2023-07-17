@@ -39,6 +39,9 @@ export default function NavbarForAuthenticated(props) {
                 <input className="form-control me-2 mx-4" type="search" placeholder="Enter username to search" aria-label="Search" />
                 <button className="btn btn-outline-success" type="submit">Search</button>
             </form>
+            <div className='mx-3 my-2 text-light' >
+              <Link to="/chat" role='button'><i class="fa-regular fa-comment-dots fa-2xl mx-2" style={{ color: "#f1f2f3" }}></i></Link>
+            </div>
           </div>
       </nav>
     </div>
