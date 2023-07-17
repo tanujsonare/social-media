@@ -3,7 +3,6 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom'
 
 import NavbarForAuthenticated from './NavbarForAuthenticated'
-import backgroundImage from './images/social_media_back.jpg'
 import defaultProfileImage from './images/default_profile_img.webp'
 import { getCookie } from '../CsrfToken';
 
