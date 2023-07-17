@@ -140,7 +140,7 @@ export default function HomePageAuthenticated(props) {
   }
 
   return (
-    <div className="" style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', width: '100%', minHeight: '700px' }}>
+    <div className="custom-background" style={{ backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', width: '100%', minHeight: '700px' }}>
       <NavbarForAuthenticated userName={props.userName} userToken={props.userToken} />
       <div className='mx-4 my-4 d-flex'>
         <div className='mr-auto p-2 w-50'>
