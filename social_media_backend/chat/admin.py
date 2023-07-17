@@ -1,3 +1,12 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import Message
+
+
+@admin.register(Message)
+class TweetAdmin(admin.ModelAdmin):
+    list_display=[
+        'sender_user',
+        'receiver_user',
+        'created_at',
+    ]
