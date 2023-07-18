@@ -60,13 +60,17 @@ class SearchUser(APIView):
     def get(self, request, format=None):
         user_name = request.GET.get("user_name")
         requested_user_id = request.GET.get("requested_user_id")
+        is_chat = request.GET.get("chat")
         if not user_name:
             raise Exception({"user_name": "This field is required."})
         if not requested_user_id:
             raise Exception({"requested_user_id": "This field is required."})
         user = CustomUser.objects.filter(username__icontains = user_name)
+        if is_chat:
+            requested_user = CustomUser.objects.get(id=requested_user_id)
+            user = user.filter(following=requested_user, followers=requested_user)
         if user:
             serializer = serializers.GetUserProfileSerializer(user, context={"requested_user_id": requested_user_id}, many=True)
             response = {"user_profiles": serializer.data}
             return Response(response, status.HTTP_200_OK)
-        return Response(status.HTTP_400_BAD_REQUEST)
+        return Response({"error_message": "User not found !!"}, status.HTTP_400_BAD_REQUEST)
