@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import CustomUser
+from chat.models import Message
 
 
 class RegisterNewUserSerializer(serializers.ModelSerializer):
@@ -20,6 +21,10 @@ class GetUserProfileSerializer(serializers.ModelSerializer):
     is_following = serializers.SerializerMethodField(read_only=True)
     following_user = serializers.SerializerMethodField(read_only=True)
     followers_user = serializers.SerializerMethodField(read_only=True)
+    
+    # Fields related to chat functionality
+    is_conversation = serializers.SerializerMethodField(read_only=True)
+    
     class Meta:
         model = CustomUser
         fields = [
@@ -33,6 +38,7 @@ class GetUserProfileSerializer(serializers.ModelSerializer):
             "following_count",
             "following_user",
             "followers_user",
+            "is_conversation",
         ]
 
     def get_followers_count(self, obj):
@@ -88,3 +94,12 @@ class GetUserProfileSerializer(serializers.ModelSerializer):
                 followers_user_dict["is_following"] = False
             followers_list.append(followers_user_dict)
         return followers_list if followers_list else None
+    
+    def get_is_conversation(self, obj):
+        requested_user_id = self.context.get("requested_user_id") if self.context else None
+        try:
+            requested_user = CustomUser.objects.get(id=requested_user_id)
+            messages = Message.objects.filter(sender_user=obj, receiver_user=requested_user) | Message.objects.filter(sender_user=requested_user, receiver_user=obj)
+            return messages.exists()
+        except Exception as e:
+            raise Exception("Error in user chat application")
