@@ -40,7 +40,7 @@ export default function NavbarForAuthenticated(props) {
                 <button className="btn btn-outline-success" type="submit">Search</button>
             </form>
             <div className='mx-3 my-2 text-light' >
-              <Link to="/chat" role='button'><i class="fa-regular fa-comment-dots fa-2xl mx-2" style={{ color: "#f1f2f3" }}></i></Link>
+              <Link to="/chat" role='button'><i className="fa-regular fa-comment-dots fa-2xl mx-2" style={{ color: "#f1f2f3" }}></i></Link>
             </div>
           </div>
       </nav>
