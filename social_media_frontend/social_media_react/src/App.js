@@ -17,6 +17,7 @@ import TweetDetail from './components/TweetDetail';
 import { getCookie } from './CsrfToken';
 import SearchBar from './components/SearchBar';
 import ChatApplicationHome from './components/ChatApplicationHome';
+import SearchUserForChat from './components/SearchUserForChat';
 
 
 function App() {
@@ -126,6 +127,7 @@ function App() {
           <Route path='/tweet_detail' element={<TweetDetail userName={userName} userToken={userToken} userId={userId} removeLike={removeLike} deleteTweet={deleteTweet} followUser={followUser} unFollowUser={unFollowUser} />} />
           <Route path='/search' element={<SearchBar userName={userName} userToken={userToken} userId={userId} followUser={followUser} unFollowUser={unFollowUser}/>} />
           <Route path='/chat' element={<ChatApplicationHome userName={userName} userToken={userToken} userId={userId} followUser={followUser} unFollowUser={unFollowUser}/>} />
+          <Route path='/chat_search' element={<SearchUserForChat userName={userName} userToken={userToken} userId={userId} followUser={followUser} unFollowUser={unFollowUser}/>} />
         </Routes>
         </Router>}
     </div>
