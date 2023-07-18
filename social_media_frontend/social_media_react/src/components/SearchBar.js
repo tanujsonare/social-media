@@ -21,9 +21,9 @@ export default function SearchBar(props) {
         ).then(response => {
             setUsersData(response.data.user_profiles)
         })
-            .catch(error => {
-                console.log(error.response.data);
-            });
+        .catch(error => {
+            console.log(error.response.data);
+        });
     }
 
     useEffect(() => {
