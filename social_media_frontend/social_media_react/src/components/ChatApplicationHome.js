@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
-import axios from 'axios';
+import axios from 'axios'
+import { Link } from 'react-router-dom'
 
 import NavbarForAuthenticated from './NavbarForAuthenticated'
+import defaultProfileImage from './images/default_pr_img.webp'
 
 export default function ChatApplicationHome(props) {
     const [searchData, setSearchData] = useState(null)
@@ -9,12 +11,12 @@ export default function ChatApplicationHome(props) {
         e.preventDefault();
         const searchText = document.getElementsByClassName("search_text");
         if (searchText) {
-            await axios.get(`http://127.0.0.1/api/search_user?requested_user_id=${props.userId}&user_name=${searchText[0].value}`
+            await axios.get(`http://127.0.0.1/api/search_user?requested_user_id=${props.userId}&user_name=${searchText[0].value}&chat=True`
             ).then(response => {
                 setSearchData(response.data.user_profiles)
             })
                 .catch(error => {
-                    console.log(error.response.data);
+                    console.log(error.response.error_message);
                 });
         } else {
             alert("Please enter some text to search")
@@ -26,31 +28,21 @@ export default function ChatApplicationHome(props) {
             <NavbarForAuthenticated userName={props.userName} userToken={props.userToken} />
             <section >
                 <div className="container py-5">
-
                     <div className="row">
-
                         <div className="col-md-6 col-lg-5 col-xl-5 mb-4 mb-md-0">
-                            <form className="search_form d-flex" role="search" onSubmit={searchUsersForChat}>
-                                <div className="input-group rounded mb-3">
-                                    <input type="search" className="form-control rounded search_text" placeholder="Search" aria-label="Search"
-                                        aria-describedby="search-addon" />
-                                    <button className="input-group-text border-0" id="search-addon">
-                                        <i className="fas fa-search"></i>
-                                    </button>
-                                </div>
-                            </form>
-
-                            <h5 className="font-weight-bold mb-3 text-center text-white">Member</h5>
-
-                            <div className="card mask-custom">
+                            <Link className="text-light" to="/chat_search" style={{textDecoration:"none"}}>
+                                <i className="fas fa-search" style={{ color: "white" }}></i> 
+                                &nbsp; Search
+                            </Link>
+                            <div className="card mask-custom my-4">
                                 <div className="card-body">
-                                    <ul className="list-unstyled mb-0">
+                                    <ul className="list-unstyled mb-0" style={{minHeight:"400px"}}>
                                         {searchData && searchData.map((element) => {
                                             return element.is_following == true && <li className="p-2 border-bottom search_user" style={{ borderBottom: "1px solid rgba(255,255,255,.3) !important" }} key={element.id}>
                                                 <a href="#!" className="d-flex justify-content-between link-light">
                                                     <div className="d-flex flex-row">
-                                                        <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/avatar-8.webp" alt="avatar"
-                                                            className="rounded-circle d-flex align-self-center me-3 shadow-1-strong" width="60" />
+                                                        <img src={element.profile_image ? element.profile_image : defaultProfileImage} alt="avatar"
+                                                            className="rounded-circle d-flex align-self-center me-3 shadow-1-strong" width="60" height="60" />
                                                         <div className="pt-1">
                                                             <p className="fw-bold mb-0">{element.username}</p>
                                                             <p className="small text-white">Hello, Are you there?</p>
@@ -64,10 +56,6 @@ export default function ChatApplicationHome(props) {
                                             </li>
                                         })
                                         }
-                                        {
-                                            document.getElementsByClassName("search_user").length <= 0 && 
-                                            <p className='text-light'>No search found !!</p>
-                                        }
                                     </ul>
 
                                 </div>
@@ -75,7 +63,7 @@ export default function ChatApplicationHome(props) {
 
                         </div>
 
-                        <div className="col-md-6 col-lg-7 col-xl-7">
+                        {/* <div className="col-md-6 col-lg-7 col-xl-7">
 
                             <ul className="list-unstyled text-white">
                                 <li className="d-flex justify-content-between mb-4">
@@ -121,7 +109,7 @@ export default function ChatApplicationHome(props) {
                                 <button type="button" className="btn btn-light btn-lg btn-rounded float-end">Send</button>
                             </ul>
 
-                        </div>
+                        </div> */}
 
                     </div>
 
