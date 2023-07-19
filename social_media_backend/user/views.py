@@ -60,15 +60,21 @@ class SearchUser(APIView):
     def get(self, request, format=None):
         user_name = request.GET.get("user_name")
         requested_user_id = request.GET.get("requested_user_id")
-        is_chat = request.GET.get("chat")
-        if not user_name:
-            raise Exception({"user_name": "This field is required."})
+        request_from_chat_search = request.GET.get("chat_search")
+        request_from_chat = request.GET.get("chat")
+        if not request_from_chat:
+            if not user_name:
+                raise Exception({"user_name": "This field is required."})
         if not requested_user_id:
             raise Exception({"requested_user_id": "This field is required."})
-        user = CustomUser.objects.filter(username__icontains = user_name)
-        if is_chat:
-            requested_user = CustomUser.objects.get(id=requested_user_id)
+        user = None
+        requested_user = CustomUser.objects.get(id=requested_user_id)
+        if user_name:
+            user = CustomUser.objects.filter(username__icontains = user_name)
+        if request_from_chat_search:
             user = user.filter(following=requested_user, followers=requested_user)
+        if request_from_chat:
+            user = requested_user.followers.all()
         if user:
             serializer = serializers.GetUserProfileSerializer(user, context={"requested_user_id": requested_user_id}, many=True)
             response = {"user_profiles": serializer.data}
