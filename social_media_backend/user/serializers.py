@@ -24,7 +24,7 @@ class GetUserProfileSerializer(serializers.ModelSerializer):
     
     # Fields related to chat functionality
     is_conversation = serializers.SerializerMethodField(read_only=True)
-    last_message = serializers.SerializerMethodField(read_only=True)
+    last_message_detail = serializers.SerializerMethodField(read_only=True)
     
     
     class Meta:
@@ -41,7 +41,7 @@ class GetUserProfileSerializer(serializers.ModelSerializer):
             "following_user",
             "followers_user",
             "is_conversation",
-            "last_message",
+            "last_message_detail",
         ]
 
     def get_followers_count(self, obj):
@@ -107,11 +107,19 @@ class GetUserProfileSerializer(serializers.ModelSerializer):
         except Exception as e:
             raise Exception("Error in user chat application")
         
-    def get_last_message(self,obj):
+    def get_last_message_detail(self,obj):
         requested_user_id = self.context.get("requested_user_id") if self.context else None
         try:
             requested_user = CustomUser.objects.get(id=requested_user_id)
             messages = Message.objects.filter(sender_user=obj, receiver_user=requested_user) | Message.objects.filter(sender_user=requested_user, receiver_user=obj)
-            return messages.last().content if messages else None
+            messages_detail = {}
+            if messages:
+                latest_message = messages.last()
+                unseen_messages = messages.filter(is_seen=False)
+                messages_detail["content"] = latest_message.content
+                messages_detail["created_at"] = latest_message.created_at
+                messages_detail["is_seen"] = latest_message.is_seen
+                messages_detail["unseen_message_count"] = unseen_messages.count() if unseen_messages else 0 
+            return messages_detail if messages_detail else None
         except Exception as e:
             raise Exception("Error in user chat application")
