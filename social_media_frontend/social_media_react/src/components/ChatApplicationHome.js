@@ -31,7 +31,7 @@ export default function ChatApplicationHome(props) {
                     <div className="row">
                         <div className="col-md-6 col-lg-5 col-xl-5 mb-4 mb-md-0">
                             <Link className="text-light" to="/chat_search" style={{textDecoration:"none"}}>
-                                <i className="fas fa-search" style={{ color: "white" }}></i> 
+                                <i className="fas fa-search text-light"></i> 
                                 &nbsp; Search
                             </Link>
                             <div className="card mask-custom my-4">

@@ -10,10 +10,11 @@ export default function SearchUserForChat(props) {
         e.preventDefault();
         const searchText = document.getElementsByClassName("search_text");
         if (searchText) {
-            await axios.get(`http://127.0.0.1/api/search_user?requested_user_id=${props.userId}&user_name=${searchText[0].value}&chat=True`
-            ).then(response => {
-                setSearchData(response.data.user_profiles);
-            })
+            if (searchText[0].value != "" && searchText[0].value != null && searchText[0].value != undefined){
+                await axios.get(`http://127.0.0.1/api/search_user?requested_user_id=${props.userId}&user_name=${searchText[0].value}&chat=True`
+                ).then(response => {
+                    setSearchData(response.data.user_profiles);
+                })
                 .catch(error => {
                     if (error.response) {
                         if (error.response.status == 400) {
@@ -21,6 +22,9 @@ export default function SearchUserForChat(props) {
                         }
                     }
                 });
+            }else{
+                setSearchData(null);
+            }
         } else {
             alert("Please enter some text to search")
         }
@@ -33,7 +37,7 @@ export default function SearchUserForChat(props) {
                     <div className="col-md-6 col-lg-5 col-xl-5 mb-4 mb-md-0">
                         <form className="search_form d-flex" role="search" onSubmit={searchUsersForChat}>
                             <div className="input-group rounded mb-3">
-                                <input type="search" className="form-control rounded search_text" placeholder="Search user by user name" aria-label="Search"
+                                <input type="search" className="form-control rounded search_text" onChange={searchUsersForChat} placeholder="Search user by user name" aria-label="Search"
                                     aria-describedby="search-addon" />
                                 <button className="input-group-text border-0" id="search-addon">
                                     <i className="fas fa-search"></i>
@@ -46,20 +50,20 @@ export default function SearchUserForChat(props) {
                                 <ul className="list-unstyled mb-0">
                                     {searchData.map((element) => {
                                         return element.is_following == true && <li className="p-2 border-bottom search_user" style={{ borderBottom: "1px solid rgba(255,255,255,.3) !important" }} key={element.id}>
-                                            <a href="#!" className="d-flex justify-content-between link-light">
+                                            <div className="d-flex justify-content-between link-light">
                                                 <div className="d-flex flex-row">
                                                     <img src={element.profile_image ? element.profile_image : defaultProfileImage} alt="avatar"
                                                         className="rounded-circle d-flex align-self-center me-3 shadow-1-strong" width="60" height="60" />
                                                     <div className="pt-1">
-                                                        <p className="fw-bold mb-0">{element.username}</p>
-                                                        <p className="small text-white">Hello, Are you there?</p>
+                                                        <h5 className="fw-bold mb-0">{element.username}</h5>
+                                                        <p className="small text-white my-2">{element.last_message_detail ? element.last_message_detail.content: "No conversation yet"}</p>
                                                     </div>
                                                 </div>
                                                 <div className="pt-1">
-                                                    <p className="small text-white mb-1">Just now</p>
-                                                    <span className="badge bg-success float-end">2</span>
+                                                    <p className="small text-white mb-1">{element.last_message_detail ? props.getTimeDifference(element.last_message_detail.created_at): ""}</p>
+                                                    <span className="badge bg-success float-end">{element.last_message_detail ? element.last_message_detail.unseen_message_count : ""}</span>
                                                 </div>
-                                            </a>
+                                            </div>
                                         </li>
                                     })
                                     }
