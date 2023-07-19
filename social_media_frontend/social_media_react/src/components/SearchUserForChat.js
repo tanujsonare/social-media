@@ -11,7 +11,7 @@ export default function SearchUserForChat(props) {
         const searchText = document.getElementsByClassName("search_text");
         if (searchText) {
             if (searchText[0].value != "" && searchText[0].value != null && searchText[0].value != undefined){
-                await axios.get(`http://127.0.0.1/api/search_user?requested_user_id=${props.userId}&user_name=${searchText[0].value}&chat=True`
+                await axios.get(`http://127.0.0.1/api/search_user?requested_user_id=${props.userId}&user_name=${searchText[0].value}&chat_search=True`
                 ).then(response => {
                     setSearchData(response.data.user_profiles);
                 })
