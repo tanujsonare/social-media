@@ -115,11 +115,11 @@ class GetUserProfileSerializer(serializers.ModelSerializer):
             messages_detail = {}
             if messages:
                 latest_message = messages.last()
-                unseen_messages = messages.filter(is_seen=False)
+                unseen_messages = messages.filter(is_seen=False, receiver_user=requested_user)
                 messages_detail["content"] = latest_message.content
                 messages_detail["created_at"] = latest_message.created_at
                 messages_detail["is_seen"] = latest_message.is_seen
-                messages_detail["unseen_message_count"] = unseen_messages.count() if unseen_messages else 0 
+                messages_detail["unseen_message_count"] = unseen_messages.count() if unseen_messages else None 
             return messages_detail if messages_detail else None
         except Exception as e:
             raise Exception("Error in user chat application")
