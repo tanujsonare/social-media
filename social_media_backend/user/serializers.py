@@ -112,6 +112,6 @@ class GetUserProfileSerializer(serializers.ModelSerializer):
         try:
             requested_user = CustomUser.objects.get(id=requested_user_id)
             messages = Message.objects.filter(sender_user=obj, receiver_user=requested_user) | Message.objects.filter(sender_user=requested_user, receiver_user=obj)
-            return messages.last() if messages else None
+            return messages.last().content if messages else None
         except Exception as e:
             raise Exception("Error in user chat application")
