@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
 
@@ -7,11 +7,10 @@ import defaultProfileImage from './images/default_pr_img.webp'
 
 export default function ChatApplicationHome(props) {
     const [searchData, setSearchData] = useState(null)
-    const searchUsersForChat = async (e) => {
-        e.preventDefault();
+    const searchUsersForChat = async () => {
         const searchText = document.getElementsByClassName("search_text");
         if (searchText) {
-            await axios.get(`http://127.0.0.1/api/search_user?requested_user_id=${props.userId}&user_name=${searchText[0].value}&chat=True`
+            await axios.get(`http://127.0.0.1/api/search_user?requested_user_id=${props.userId}&chat=True`
             ).then(response => {
                 setSearchData(response.data.user_profiles)
             })
@@ -22,6 +21,11 @@ export default function ChatApplicationHome(props) {
             alert("Please enter some text to search")
         }
     }
+
+    useEffect(() => {
+        searchUsersForChat();
+    })
+    
 
     return (
         <div className="custom-background" style={{ backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', width: '100%', minHeight: '700px' }}>
@@ -39,7 +43,8 @@ export default function ChatApplicationHome(props) {
                                     <ul className="list-unstyled mb-0" style={{minHeight:"400px"}}>
                                         {searchData && searchData.map((element) => {
                                             return element.is_following == true && <li className="p-2 border-bottom search_user" style={{ borderBottom: "1px solid rgba(255,255,255,.3) !important" }} key={element.id}>
-                                                <a href="#!" className="d-flex justify-content-between link-light">
+                                                <div className="d-flex justify-content-between link-light">
+                                                {/* <a href="#!" className="d-flex justify-content-between link-light"> */}
                                                     <div className="d-flex flex-row">
                                                         <img src={element.profile_image ? element.profile_image : defaultProfileImage} alt="avatar"
                                                             className="rounded-circle d-flex align-self-center me-3 shadow-1-strong" width="60" height="60" />
@@ -50,9 +55,10 @@ export default function ChatApplicationHome(props) {
                                                     </div>
                                                     <div className="pt-1">
                                                         <p className="small text-white mb-1">Just now</p>
-                                                        <span className="badge bg-danger float-end">1</span>
+                                                        <span className="badge bg-success float-end">1</span>
                                                     </div>
-                                                </a>
+                                                {/* </a> */}
+                                                </div>
                                             </li>
                                         })
                                         }
