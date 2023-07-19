@@ -8,4 +8,5 @@ class Message(models.Model):
     receiver_user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="message_received_to")
     content = models.TextField()
     media = models.FileField(upload_to="images/", null=True, blank=True)
+    is_seen = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
