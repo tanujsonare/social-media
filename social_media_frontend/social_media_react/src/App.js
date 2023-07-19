@@ -110,6 +110,31 @@ function App() {
     });
   }
 
+  const getTimeDifference = (createdAt) =>{
+    const targetDate = new Date(createdAt);
+    const currentDate = new Date();
+
+    const timeDifference = currentDate - targetDate;
+    const secondsDifference = Math.floor(timeDifference / 1000);
+
+    if (secondsDifference < 60) {
+        return "Just now";
+    }
+
+    const minutesDifference = Math.floor(secondsDifference / 60);
+    if (minutesDifference < 60) {
+        return `${minutesDifference} ${minutesDifference === 1 ? 'minute' : 'minutes'} ago`;
+    }
+
+    const hoursDifference = Math.floor(minutesDifference / 60);
+    if (hoursDifference < 24) {
+        return `${hoursDifference} ${hoursDifference === 1 ? 'hour' : 'hours'} ago`;
+    }
+
+    const daysDifference = Math.floor(hoursDifference / 24);
+    return `${daysDifference} ${daysDifference === 1 ? 'day' : 'days'} ago`;
+  }
+
   return (
     <div className="App">
       {!userToken && <Router>
@@ -127,7 +152,7 @@ function App() {
           <Route path='/tweet_detail' element={<TweetDetail userName={userName} userToken={userToken} userId={userId} removeLike={removeLike} deleteTweet={deleteTweet} followUser={followUser} unFollowUser={unFollowUser} />} />
           <Route path='/search' element={<SearchBar userName={userName} userToken={userToken} userId={userId} followUser={followUser} unFollowUser={unFollowUser}/>} />
           <Route path='/chat' element={<ChatApplicationHome userName={userName} userToken={userToken} userId={userId} followUser={followUser} unFollowUser={unFollowUser}/>} />
-          <Route path='/chat_search' element={<SearchUserForChat userName={userName} userToken={userToken} userId={userId} followUser={followUser} unFollowUser={unFollowUser}/>} />
+          <Route path='/chat_search' element={<SearchUserForChat userName={userName} userToken={userToken} userId={userId} followUser={followUser} unFollowUser={unFollowUser} getTimeDifference={getTimeDifference} />} />
         </Routes>
         </Router>}
     </div>
