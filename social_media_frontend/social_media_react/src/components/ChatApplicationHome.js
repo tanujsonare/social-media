@@ -17,9 +17,9 @@ export default function ChatApplicationHome(props) {
             ).then(response => {
                 setSearchData(response.data.user_profiles)
             })
-            .catch(error => {
-                console.log(error.response.error_message);
-            });
+                .catch(error => {
+                    console.log(error.response.error_message);
+                });
         } else {
             alert("Please enter some text to search")
         }
@@ -29,7 +29,7 @@ export default function ChatApplicationHome(props) {
         searchUsersForChat();
     }, [])
 
-    const getMessages = async(e)=>{
+    const getMessages = async (e) => {
         const userId = e.currentTarget.getAttribute("userid");
         setActiceChatUserId(userId);
         setActiceChatUserName(e.currentTarget.getAttribute("username"));
@@ -39,13 +39,13 @@ export default function ChatApplicationHome(props) {
                 setMessagesData(response.data.messages);
             }
         })
-        .catch(error => {
-            if (error.response) {
-                if (error.response.status == 400) {
-                    alert(error.response.error_message);
+            .catch(error => {
+                if (error.response) {
+                    if (error.response.status == 400) {
+                        alert(error.response.error_message);
+                    }
                 }
-            }
-        });
+            });
     }
 
     return (
@@ -89,76 +89,51 @@ export default function ChatApplicationHome(props) {
                     </div>
 
                     {/* personal chat section */}
-                    <div className="card col-md-6 col-lg-7 col-xl-7 custom-background text-light">
-                        
+                    {messagesData && <div className="card col-md-6 col-lg-7 col-xl-7 custom-background text-light">
+
                         {/* card header */}
 
-                        <div className="card-header msg_head my-2" style={{borderBottom: "1px solid white"}}>
+                        <div className="card-header msg_head my-2" style={{ borderBottom: "1px solid white" }}>
                             <div className="d-flex bd-highlight">
                                 <div className="img_cont">
                                     <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg" className="rounded-circle user_img" width="60" height="60" />
                                     <span className="online_icon"></span>
                                 </div>
                                 <div className="user_info">
-                                    <span className='mx-3'>Chat with Khalid</span>
+                                    <span className='mx-3'>{acticeChatUserName ? acticeChatUserName : ""}</span>
                                     <p className='text-success'>Online</p>
                                 </div>
-                                {/* <div className="video_cam mx-5">
-                                    <span><i className="fas fa-video"></i></span>
-                                    <span><i className="fas fa-phone mx-4"></i></span>
-                                </div> */}
                             </div>
                         </div>
 
                         {/* message section */}
 
                         <ul className="list-unstyled text-white overflow-auto my-3" style={{ maxHeight: "380px", minHeight: "380px" }}>
-                            <li className="d-flex justify-content-between mb-4">
-                                <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/avatar-6.webp" alt="avatar"
-                                    className="rounded-circle d-flex align-self-center me-3 shadow-1-strong" width="30" height="30" />
-                                <div className="card mask-custom">
-                                    {/* <div className="card-header d-flex justify-content-between p-3"
-                                        style={{ borderBottom: "1px solid rgba(255,255,255,.3)" }}>
-                                        <p className="fw-bold mb-0 text-light">Brad Pitt</p>
-                                        <p className="text-light small mb-0"><i className="far fa-clock"></i> 12 mins ago</p>
-                                    </div> */}
-                                    <div className="card-body">
-                                        <p className="mb-0" style={{textAlign: "justify", color:"#e1be3f"}}>
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                                            labore et dolore magna aliqua.
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                                            labore et dolore magna aliqua.
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                                            labore et dolore magna aliqua.
-                                        </p>
-                                        <p className="text-light small mb-0 text-end"><i className="far fa-clock"></i> 13 mins ago</p>
+                            {messagesData.map((element) => {
+                                return element.sender_user === Number(props.userId) ? 
+                                (<li className="d-flex justify-content-end mb-4">
+                                    <div className="card mask-custom w-50 mx-2">
+                                        <div className="card-body">
+                                            <p className="mb-0" style={{ textAlign: "justify", color: "#e1be3f" }}>{element.content}</p>
+                                            <p className="text-light small mb-0 text-end"><i className="far fa-clock"></i>{element.created_at ? props.getTimeDifference(element.created_at) : ""}</p>
+                                        </div>
                                     </div>
-                                </div>
-                            </li>
-                            <li className="d-flex justify-content-between mb-4">
-                                <div className="card mask-custom w-100">
-                                    {/* <div className="card-header d-flex justify-content-between p-3  text-light"
-                                        style={{ borderBottom: "1px solid rgba(255,255,255,.3)" }}>
-                                        <p className="fw-bold mb-0">Lara Croft</p>
-                                        <p className="text-light small mb-0"><i className="far fa-clock"></i> 13 mins ago</p>
-                                    </div> */}
-                                    <div className="card-body">
-                                        <p className="mb-0" style={{textAlign: "justify", color:"#9be7fd"}}>
-                                            Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque
-                                            laudantium.
-                                            Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque
-                                            laudantium.
-                                            Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque
-                                            laudantium.
-                                            Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque
-                                            laudantium.
-                                        </p>
-                                        <p className="small mb-0 text-end text-light"><i className="far fa-clock"></i> 13 mins ago</p>
+                                    <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/avatar-6.webp" alt="avatar"
+                                        className="rounded-circle d-flex align-self-center me-1 shadow-1-strong" width="30" height="30" />
+                                </li>)
+                                : 
+                                (<li className="d-flex justify-content-start mb-4">
+                                    <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/avatar-5.webp" alt="avatar"
+                                        className="rounded-circle align-self-center ms-1 shadow-1-strong" width="30" height="30" />
+                                    <div className="card mask-custom w-50 mx-2">
+                                        <div className="card-body">
+                                            <p className="mb-0" style={{ textAlign: "justify", color: "#9be7fd" }}>{element.content}</p>
+                                            <p className="small mb-0 text-end text-light"><i className="far fa-clock"></i> {element.created_at ? props.getTimeDifference(element.created_at) : ""}</p>
+                                        </div>
                                     </div>
-                                </div>
-                                <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/avatar-5.webp" alt="avatar"
-                                    className="rounded-circle d-flex align-self-center ms-1 shadow-1-strong" width="30" height="30"/>
-                            </li>
+                                </li>)
+                            })
+                            }
                         </ul>
 
                         {/* card footer */}
@@ -166,15 +141,15 @@ export default function ChatApplicationHome(props) {
                         <div className="card-footer">
                             <div className="input-group">
                                 <div className="input-group-append">
-                                    <span className="input-group-text attach_btn" style={{ padding: "28px 11px 31px 11px"}}><i className="fas fa-paperclip fa-xl"></i></span>
+                                    <span className="input-group-text attach_btn" style={{ padding: "28px 11px 31px 11px" }}><i className="fas fa-paperclip fa-xl"></i></span>
                                 </div>
                                 <textarea name="" className="form-control type_msg" rows="2" placeholder="Type your message..."></textarea>
                                 <div className="input-group-append">
-                                    <span className="input-group-text send_btn" style={{ padding: "28px 11px 31px 11px"}}><i className="fas fa-location-arrow fa-xl"></i></span>
+                                    <span className="input-group-text send_btn" style={{ padding: "28px 11px 31px 11px" }}><i className="fas fa-location-arrow fa-xl"></i></span>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div>}
                 </div>
             </div>
         </div>
