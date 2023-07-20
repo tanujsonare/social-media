@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 
 import NavbarForAuthenticated from './NavbarForAuthenticated'
 import defaultProfileImage from './images/default_pr_img.webp'
+import whatsappWebConnectImg from './images/whatsapp_web_connected.jpg'
 
 export default function ChatApplicationHome(props) {
     const [searchData, setSearchData] = useState(null)
@@ -150,6 +151,9 @@ export default function ChatApplicationHome(props) {
                             </div>
                         </div>
                     </div>}
+                    {!messagesData &&
+                        <img className="card-i-mg-top my-5" src={whatsappWebConnectImg} style={{ display: "block", marginLeft: "auto", marginRight: "auto", width: "50%", height: "480px"}} />
+                    }
                 </div>
             </div>
         </div>
