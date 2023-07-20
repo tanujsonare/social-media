@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom';
 
 import NavbarForAuthenticated from './NavbarForAuthenticated'
 import defaultProfileImage from './images/default_pr_img.webp'
 
 export default function SearchUserForChat(props) {
+    const navigate = useNavigate();
     const [searchData, setSearchData] = useState([])
     const searchUsersForChat = async (e) => {
         e.preventDefault();
@@ -29,6 +31,11 @@ export default function SearchUserForChat(props) {
             alert("Please enter some text to search")
         }
     }
+    const getUserChat = async(e)=>{
+        const userId = e.currentTarget.getAttribute("userid");
+        const userName = e.currentTarget.getAttribute("username");
+        navigate(`/chat?userid=${userId}&username=${userName}`);
+    }
     return (
         <div className="custom-background" style={{ backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', width: '100%', minHeight: '700px' }}>
             <NavbarForAuthenticated userName={props.userName} userToken={props.userToken} />
@@ -49,7 +56,7 @@ export default function SearchUserForChat(props) {
                             <div className="card-body">
                                 <ul className="list-unstyled mb-0">
                                     {searchData.map((element) => {
-                                        return element.is_following == true && <li className="p-2 border-bottom search_user" style={{ borderBottom: "1px solid rgba(255,255,255,.3) !important" }} key={element.id}>
+                                        return element.is_following == true && <li className="p-2 border-bottom search_user" style={{ borderBottom: "1px solid rgba(255,255,255,.3) !important" }} key={element.id} userid={element.id} username={element.username} onClick={getUserChat} role='button'>
                                             <div className="d-flex justify-content-between link-light">
                                                 <div className="d-flex flex-row">
                                                     <img src={element.profile_image ? element.profile_image : defaultProfileImage} alt="avatar"
