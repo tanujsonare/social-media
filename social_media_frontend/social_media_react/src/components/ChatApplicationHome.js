@@ -7,6 +7,9 @@ import defaultProfileImage from './images/default_pr_img.webp'
 
 export default function ChatApplicationHome(props) {
     const [searchData, setSearchData] = useState(null)
+    const [messagesData, setMessagesData] = useState(null)
+    const [acticeChatUserName, setActiceChatUserName] = useState(null)
+    const [acticeChatUserId, setActiceChatUserId] = useState(null)
     const searchUsersForChat = async () => {
         const searchText = document.getElementsByClassName("search_text");
         if (searchText) {
@@ -14,9 +17,9 @@ export default function ChatApplicationHome(props) {
             ).then(response => {
                 setSearchData(response.data.user_profiles)
             })
-                .catch(error => {
-                    console.log(error.response.error_message);
-                });
+            .catch(error => {
+                console.log(error.response.error_message);
+            });
         } else {
             alert("Please enter some text to search")
         }
@@ -24,7 +27,26 @@ export default function ChatApplicationHome(props) {
 
     useEffect(() => {
         searchUsersForChat();
-    })
+    }, [])
+
+    const getMessages = async(e)=>{
+        const userId = e.currentTarget.getAttribute("userid");
+        setActiceChatUserId(userId);
+        setActiceChatUserName(e.currentTarget.getAttribute("username"));
+        await axios.get(`http://127.0.0.1/api/get_messages?user_id=${userId}&requested_user_id=${props.userId}`
+        ).then(response => {
+            if (response.data) {
+                setMessagesData(response.data.messages);
+            }
+        })
+        .catch(error => {
+            if (error.response) {
+                if (error.response.status == 400) {
+                    alert(error.response.error_message);
+                }
+            }
+        });
+    }
 
     return (
         <div className="custom-background" style={{ backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', width: '100%', minHeight: '700px' }}>
@@ -40,7 +62,7 @@ export default function ChatApplicationHome(props) {
                             <div className="card-body">
                                 <ul className="list-unstyled mb-0 overflow-auto" style={{ minHeight: "400px", maxHeight: "470px" }}>
                                     {searchData && searchData.map((element) => {
-                                        return element.is_following == true && element.is_conversation && <li className="p-2 border-bottom search_user" style={{ borderBottom: "1px solid rgba(255,255,255,.3) !important" }} key={element.id}>
+                                        return element.is_following == true && element.is_conversation && <li className="p-2 border-bottom search_user" style={{ borderBottom: "1px solid rgba(255,255,255,.3) !important" }} key={element.id} userid={element.id} username={element.username} role='button' onClick={getMessages}>
                                             <div className="d-flex justify-content-between link-light">
                                                 {/* <a href="#!" className="d-flex justify-content-between link-light"> */}
                                                 <div className="d-flex flex-row">
@@ -64,31 +86,30 @@ export default function ChatApplicationHome(props) {
 
                             </div>
                         </div>
-
                     </div>
 
                     {/* personal chat section */}
-                    <div class="card col-md-6 col-lg-7 col-xl-7 custom-background text-light">
+                    <div className="card col-md-6 col-lg-7 col-xl-7 custom-background text-light">
                         
                         {/* card header */}
 
-                        <div class="card-header msg_head my-2">
-                            <div class="d-flex bd-highlight">
-                                <div class="img_cont">
-                                    <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg" class="rounded-circle user_img" width="60" height="60" />
-                                    <span class="online_icon"></span>
+                        <div className="card-header msg_head my-2" style={{borderBottom: "1px solid white"}}>
+                            <div className="d-flex bd-highlight">
+                                <div className="img_cont">
+                                    <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg" className="rounded-circle user_img" width="60" height="60" />
+                                    <span className="online_icon"></span>
                                 </div>
-                                <div class="user_info">
+                                <div className="user_info">
                                     <span className='mx-3'>Chat with Khalid</span>
-                                    <p>Online</p>
+                                    <p className='text-success'>Online</p>
                                 </div>
-                                {/* <div class="video_cam mx-5">
-                                    <span><i class="fas fa-video"></i></span>
-                                    <span><i class="fas fa-phone mx-4"></i></span>
+                                {/* <div className="video_cam mx-5">
+                                    <span><i className="fas fa-video"></i></span>
+                                    <span><i className="fas fa-phone mx-4"></i></span>
                                 </div> */}
                             </div>
                         </div>
-                        
+
                         {/* message section */}
 
                         <ul className="list-unstyled text-white overflow-auto my-3" style={{ maxHeight: "380px", minHeight: "380px" }}>
@@ -142,14 +163,14 @@ export default function ChatApplicationHome(props) {
 
                         {/* card footer */}
 
-                        <div class="card-footer">
-                            <div class="input-group">
-                                <div class="input-group-append">
-                                    <span class="input-group-text attach_btn" style={{ padding: "28px 11px 31px 11px"}}><i class="fas fa-paperclip fa-xl"></i></span>
+                        <div className="card-footer">
+                            <div className="input-group">
+                                <div className="input-group-append">
+                                    <span className="input-group-text attach_btn" style={{ padding: "28px 11px 31px 11px"}}><i className="fas fa-paperclip fa-xl"></i></span>
                                 </div>
-                                <textarea name="" class="form-control type_msg" rows="2" placeholder="Type your message..."></textarea>
-                                <div class="input-group-append">
-                                    <span class="input-group-text send_btn" style={{ padding: "28px 11px 31px 11px"}}><i class="fas fa-location-arrow fa-xl"></i></span>
+                                <textarea name="" className="form-control type_msg" rows="2" placeholder="Type your message..."></textarea>
+                                <div className="input-group-append">
+                                    <span className="input-group-text send_btn" style={{ padding: "28px 11px 31px 11px"}}><i className="fas fa-location-arrow fa-xl"></i></span>
                                 </div>
                             </div>
                         </div>
