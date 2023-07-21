@@ -28,11 +28,11 @@ class UserLoginView(APIView):
             if user:
                 if user.is_superuser or user.password == password:
                     token, created = Token.objects.get_or_create(user=user)
-
                     response_data = {
                         'token': token.key,
                         'user_id': user.pk,
-                        'username': user.username
+                        'username': user.username,
+                        'profile_image':user.profile_image.url if user.profile_image else None
                     }
 
                     return Response(response_data, status=status.HTTP_200_OK)            
