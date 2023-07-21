@@ -11,6 +11,7 @@ export default function ChatApplicationHome(props) {
     const [messagesData, setMessagesData] = useState(null)
     const [acticeChatUserName, setActiceChatUserName] = useState(null)
     const [acticeChatUserId, setActiceChatUserId] = useState(null)
+    const [acticeChatUserProfileImage, setActiceChatUserProfileImage] = useState(null)
     const searchUsersForChat = async () => {
         const searchText = document.getElementsByClassName("search_text");
         if (searchText) {
@@ -30,24 +31,44 @@ export default function ChatApplicationHome(props) {
         searchUsersForChat();
     }, [])
 
-    const getMessages = async (e) => {
-        const userId = e.currentTarget.getAttribute("userid");
-        setActiceChatUserId(userId);
-        setActiceChatUserName(e.currentTarget.getAttribute("username"));
-        await axios.get(`http://127.0.0.1/api/get_messages?user_id=${userId}&requested_user_id=${props.userId}`
+    const getMessages = async (userid, username, userimage) => {
+        setActiceChatUserId(userid);
+        setActiceChatUserName(username);
+        setActiceChatUserProfileImage(userimage);
+        await axios.get(`http://127.0.0.1/api/get_messages?user_id=${userid}&requested_user_id=${props.userId}`
         ).then(response => {
             if (response.data) {
                 setMessagesData(response.data.messages);
             }
         })
-            .catch(error => {
-                if (error.response) {
-                    if (error.response.status == 400) {
-                        alert(error.response.error_message);
-                    }
+        .catch(error => {
+            if (error.response) {
+                if (error.response.status == 400) {
+                    alert(error.response.error_message);
                 }
-            });
+            }
+        });
     }
+
+    const getChat = async (e) =>{
+        const userId = e.currentTarget.getAttribute("userid");
+        const userName = e.currentTarget.getAttribute("username");
+        const userImage = e.currentTarget.getAttribute("profile_image");
+        getMessages(userId, userName, userImage);
+    }
+
+    useEffect(() => {
+        if (window.location.href.includes("userid") && window.location.href.includes("username")) {
+            const userIdNameAndImage = window.location.href.split("userid=")[1].split("&username=");
+            const userId = userIdNameAndImage[0];
+            const userNameAndImage = userIdNameAndImage[1].split("&profile_image=");
+            const userName = userNameAndImage[0];
+            const userImage = userNameAndImage[1];
+            if (userId, userName){
+                getMessages(userId, userName, userImage);   
+            }  
+        }
+    }, [])
 
     return (
         <div className="custom-background" style={{ backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', width: '100%', minHeight: '700px' }}>
@@ -63,7 +84,7 @@ export default function ChatApplicationHome(props) {
                             <div className="card-body">
                                 <ul className="list-unstyled mb-0 overflow-auto" style={{ minHeight: "400px", maxHeight: "470px" }}>
                                     {searchData && searchData.map((element) => {
-                                        return element.is_following == true && element.is_conversation && <li className="p-2 border-bottom search_user" style={{ borderBottom: "1px solid rgba(255,255,255,.3) !important" }} key={element.id} userid={element.id} username={element.username} role='button' onClick={getMessages}>
+                                        return element.is_following == true && element.is_conversation && <li className="p-2 border-bottom search_user" style={{ borderBottom: "1px solid rgba(255,255,255,.3) !important" }} key={element.id} userid={element.id} username={element.username} profile_image={element.profile_image} role='button' onClick={getChat}>
                                             <div className="d-flex justify-content-between link-light">
                                                 {/* <a href="#!" className="d-flex justify-content-between link-light"> */}
                                                 <div className="d-flex flex-row">
@@ -97,7 +118,7 @@ export default function ChatApplicationHome(props) {
                         <div className="card-header msg_head my-2" style={{ borderBottom: "1px solid white" }}>
                             <div className="d-flex bd-highlight">
                                 <div className="img_cont">
-                                    <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg" className="rounded-circle user_img" width="60" height="60" />
+                                    <img src={acticeChatUserProfileImage !== null  && acticeChatUserProfileImage != "" ? acticeChatUserProfileImage : defaultProfileImage} className="rounded-circle user_img" width="60" height="60" />
                                     <span className="online_icon"></span>
                                 </div>
                                 <div className="user_info">
@@ -112,7 +133,7 @@ export default function ChatApplicationHome(props) {
                         <ul className="list-unstyled text-white overflow-auto my-3" style={{ maxHeight: "380px", minHeight: "380px" }}>
                             {messagesData.map((element) => {
                                 return element.sender_user === Number(props.userId) ? 
-                                (<li className="d-flex justify-content-end mb-4">
+                                (<li className="d-flex justify-content-end mb-4" key={element.id}>
                                     <div className="card mask-custom w-50 mx-2">
                                         <div className="card-body">
                                             <p className="mb-0" style={{ textAlign: "justify", color: "#e1be3f" }}>{element.content}</p>
@@ -123,7 +144,7 @@ export default function ChatApplicationHome(props) {
                                         className="rounded-circle d-flex align-self-center me-1 shadow-1-strong" width="30" height="30" />
                                 </li>)
                                 : 
-                                (<li className="d-flex justify-content-start mb-4">
+                                (<li className="d-flex justify-content-start mb-4" key={element.id}>
                                     <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/avatar-5.webp" alt="avatar"
                                         className="rounded-circle align-self-center ms-1 shadow-1-strong" width="30" height="30" />
                                     <div className="card mask-custom w-50 mx-2">
