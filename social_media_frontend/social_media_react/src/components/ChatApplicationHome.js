@@ -54,7 +54,8 @@ export default function ChatApplicationHome(props) {
         const userId = e.currentTarget.getAttribute("userid");
         const userName = e.currentTarget.getAttribute("username");
         const userImage = e.currentTarget.getAttribute("profile_image");
-        getMessages(userId, userName, userImage);
+        window.history.pushState({}, '', '/chat');
+        await getMessages(userId, userName, userImage);
     }
 
     useEffect(() => {
