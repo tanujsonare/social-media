@@ -136,17 +136,16 @@ export default function ChatApplicationHome(props) {
                                     })
                                     }
                                 </ul>
-
                             </div>
                         </div>
                     </div>
 
                     {/* personal chat section */}
-                    {<div className="card col-md-6 col-lg-7 col-xl-7 custom-background text-light">
+                    {searchData && <div className="card col-md-6 col-lg-7 col-xl-7 custom-background text-light chat_box">
 
                         {/* card header */}
 
-                        <div className="card-header msg_head my-2" style={{ borderBottom: "1px solid white" }}>
+                        {acticeChatUserId && acticeChatUserName && <div className="card-header msg_head my-2" style={{ borderBottom: "1px solid white" }}>
                             <div className="d-flex bd-highlight">
                                 <div className="img_cont">
                                     <img src={acticeChatUserProfileImage !== null  && acticeChatUserProfileImage != "" ? acticeChatUserProfileImage : defaultProfileImage} className="rounded-circle user_img" width="60" height="60" />
@@ -157,8 +156,10 @@ export default function ChatApplicationHome(props) {
                                     <p className='text-success'>Online</p>
                                 </div>
                             </div>
-                        </div>
-
+                        </div>}
+                        {!acticeChatUserId && !acticeChatUserName &&
+                            <h1 className='text-light my-5'>Search user to start chat</h1>
+                        }
                         {/* message section */}
 
                         <ul className="list-unstyled text-white overflow-auto my-3" style={{ maxHeight: "380px", minHeight: "380px" }}>
@@ -193,7 +194,7 @@ export default function ChatApplicationHome(props) {
 
                         {/* card footer */}
 
-                        <div className="card-footer">
+                        {acticeChatUserId && acticeChatUserName && <div className="card-footer">
                             <div className="input-group">
                                     <div className="input-group-append">
                                         <span className="input-group-text attach_btn media_content" style={{ padding: "28px 11px 31px 11px" }}><i className="fas fa-paperclip fa-xl"></i></span>
@@ -203,11 +204,8 @@ export default function ChatApplicationHome(props) {
                                         <span className="input-group-text send_btn" type="submit" style={{ padding: "28px 11px 31px 11px" }} onClick={addNewMessage}><i className="fas fa-location-arrow fa-xl"></i></span>
                                     </div>
                             </div>
-                        </div>
+                        </div>}
                     </div>}
-                    {/* {!messagesData &&
-                        <img className="card-i-mg-top my-5" src={whatsappWebConnectImg} style={{ display: "block", marginLeft: "auto", marginRight: "auto", width: "50%", height: "480px"}} />
-                    } */}
                 </div>
             </div>
         </div>
