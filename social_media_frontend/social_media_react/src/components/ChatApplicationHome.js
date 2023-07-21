@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import NavbarForAuthenticated from './NavbarForAuthenticated'
 import defaultProfileImage from './images/default_pr_img.webp'
 import whatsappWebConnectImg from './images/whatsapp_web_connected.jpg'
+import { getCookie } from '../CsrfToken'
 
 export default function ChatApplicationHome(props) {
     const [searchData, setSearchData] = useState(null)
@@ -71,6 +72,35 @@ export default function ChatApplicationHome(props) {
         }
     }, [])
 
+    const addNewMessage = async()=>{
+        var data = new FormData();
+        let messageText = document.getElementsByClassName("message_content")[0].value;
+        if (messageText != null && messageText != undefined && messageText != ""){
+            data.append("receiver_user", acticeChatUserId);
+            data.append("sender_user", props.userId);
+            data.append("content", messageText);
+            const headers = {
+                'X-CSRFToken': getCookie("csrftoken")
+            };
+            await axios.post('http://127.0.0.1/api/add_new_message',
+                data,
+                { headers }
+            ).then(response => {
+                getMessages(acticeChatUserId, acticeChatUserName, acticeChatUserProfileImage);
+                document.getElementsByClassName("message_content")[0].value = "";
+            })
+            .catch(error => {
+                if (error.response) {
+                    if (error.response.status == 400) {
+                        alert(error.response.error_message);
+                    }
+                }
+            });
+        }else{
+            alert("Please write some content to send message.")
+        }
+    }
+
     return (
         <div className="custom-background" style={{ backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', width: '100%', minHeight: '700px' }}>
             <NavbarForAuthenticated userName={props.userName} userToken={props.userToken} />
@@ -112,7 +142,7 @@ export default function ChatApplicationHome(props) {
                     </div>
 
                     {/* personal chat section */}
-                    {messagesData && <div className="card col-md-6 col-lg-7 col-xl-7 custom-background text-light">
+                    {<div className="card col-md-6 col-lg-7 col-xl-7 custom-background text-light">
 
                         {/* card header */}
 
@@ -132,26 +162,28 @@ export default function ChatApplicationHome(props) {
                         {/* message section */}
 
                         <ul className="list-unstyled text-white overflow-auto my-3" style={{ maxHeight: "380px", minHeight: "380px" }}>
-                            {messagesData.map((element) => {
+                            {messagesData &&  messagesData.map((element) => {
                                 return element.sender_user === Number(props.userId) ? 
+                                /* sender user */
                                 (<li className="d-flex justify-content-end mb-4" key={element.id}>
                                     <div className="card mask-custom w-50 mx-2">
                                         <div className="card-body">
                                             <p className="mb-0" style={{ textAlign: "justify", color: "#e1be3f" }}>{element.content}</p>
-                                            <p className="text-light small mb-0 text-end"><i className="far fa-clock"></i>{element.created_at ? props.getTimeDifference(element.created_at) : ""}</p>
+                                            <p className="text-light small mb-0 text-end"><i className="far fa-clock"></i>&nbsp; {element.created_at ? props.getTimeDifference(element.created_at) : ""}</p>
                                         </div>
                                     </div>
-                                    <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/avatar-6.webp" alt="avatar"
+                                    <img src={props.profileImage ? props.profileImage : defaultProfileImage} alt="avatar"
                                         className="rounded-circle d-flex align-self-center me-1 shadow-1-strong" width="30" height="30" />
                                 </li>)
                                 : 
+                                /* receiver user */
                                 (<li className="d-flex justify-content-start mb-4" key={element.id}>
-                                    <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/avatar-5.webp" alt="avatar"
+                                    <img src={acticeChatUserProfileImage ? acticeChatUserProfileImage : defaultProfileImage } alt="avatar"
                                         className="rounded-circle align-self-center ms-1 shadow-1-strong" width="30" height="30" />
                                     <div className="card mask-custom w-50 mx-2">
                                         <div className="card-body">
                                             <p className="mb-0" style={{ textAlign: "justify", color: "#9be7fd" }}>{element.content}</p>
-                                            <p className="small mb-0 text-end text-light"><i className="far fa-clock"></i> {element.created_at ? props.getTimeDifference(element.created_at) : ""}</p>
+                                            <p className="small mb-0 text-end text-light"><i className="far fa-clock"></i>&nbsp; {element.created_at ? props.getTimeDifference(element.created_at) : ""}</p>
                                         </div>
                                     </div>
                                 </li>)
@@ -163,19 +195,19 @@ export default function ChatApplicationHome(props) {
 
                         <div className="card-footer">
                             <div className="input-group">
-                                <div className="input-group-append">
-                                    <span className="input-group-text attach_btn" style={{ padding: "28px 11px 31px 11px" }}><i className="fas fa-paperclip fa-xl"></i></span>
-                                </div>
-                                <textarea name="" className="form-control type_msg" rows="2" placeholder="Type your message..."></textarea>
-                                <div className="input-group-append">
-                                    <span className="input-group-text send_btn" style={{ padding: "28px 11px 31px 11px" }}><i className="fas fa-location-arrow fa-xl"></i></span>
-                                </div>
+                                    <div className="input-group-append">
+                                        <span className="input-group-text attach_btn media_content" style={{ padding: "28px 11px 31px 11px" }}><i className="fas fa-paperclip fa-xl"></i></span>
+                                    </div>
+                                    <textarea name="" className="form-control message_content" rows="2" placeholder="Type your message..."></textarea>
+                                    <div className="input-group-append">
+                                        <span className="input-group-text send_btn" type="submit" style={{ padding: "28px 11px 31px 11px" }} onClick={addNewMessage}><i className="fas fa-location-arrow fa-xl"></i></span>
+                                    </div>
                             </div>
                         </div>
                     </div>}
-                    {!messagesData &&
+                    {/* {!messagesData &&
                         <img className="card-i-mg-top my-5" src={whatsappWebConnectImg} style={{ display: "block", marginLeft: "auto", marginRight: "auto", width: "50%", height: "480px"}} />
-                    }
+                    } */}
                 </div>
             </div>
         </div>

@@ -46,7 +46,7 @@ export default function HomePageAuthenticated(props) {
     const headers = {
         'X-CSRFToken': getCookie("csrftoken")
     };
-    console.log(data)
+
     await axios.post('http://127.0.0.1/api/add_tweet',
         data,
         { headers }
