@@ -24,6 +24,7 @@ function App() {
   const userToken = localStorage.getItem("user_token");
   const userName = localStorage.getItem("user_name");
   const userId = localStorage.getItem("user_id");
+  const profileImage = localStorage.getItem("profile_image");
   const [userProfileData, setUserProfileData] = useState()
 
   const followUser = async(requestedUserId, followUserId)=>{
@@ -151,7 +152,7 @@ function App() {
           <Route path='/profile' element={<UserProfile userName={userName} userToken={userToken} userId={userId} getUserProfile={getUserProfile} userProfileData={userProfileData} followUser={followUser} unFollowUser={unFollowUser} removeFollower={removeFollower} />} />
           <Route path='/tweet_detail' element={<TweetDetail userName={userName} userToken={userToken} userId={userId} removeLike={removeLike} deleteTweet={deleteTweet} followUser={followUser} unFollowUser={unFollowUser} />} />
           <Route path='/search' element={<SearchBar userName={userName} userToken={userToken} userId={userId} followUser={followUser} unFollowUser={unFollowUser}/>} />
-          <Route path='/chat' element={<ChatApplicationHome userName={userName} userToken={userToken} userId={userId} followUser={followUser} unFollowUser={unFollowUser} getTimeDifference={getTimeDifference} />} />
+          <Route path='/chat' element={<ChatApplicationHome userName={userName} userToken={userToken} userId={userId} profileImage={profileImage} followUser={followUser} unFollowUser={unFollowUser} getTimeDifference={getTimeDifference} />} />
           <Route path='/chat_search' element={<SearchUserForChat userName={userName} userToken={userToken} userId={userId} followUser={followUser} unFollowUser={unFollowUser} getTimeDifference={getTimeDifference} />} />
         </Routes>
         </Router>}

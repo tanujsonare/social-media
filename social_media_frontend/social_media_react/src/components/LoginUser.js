@@ -29,6 +29,7 @@ export default function LoginUser() {
             localStorage.setItem("user_token", response.data.token);
             localStorage.setItem("user_name", response.data.username);
             localStorage.setItem("user_id", response.data.user_id);
+            localStorage.setItem("profile_image", response.data.profile_image);
             navigate("/");
             window.location.reload();
         })
