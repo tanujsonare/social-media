@@ -14,3 +14,9 @@ class GetMessagesSerializer(serializers.ModelSerializer):
             "is_seen",
             "created_at",
         ]
+
+
+class AddNewMessagesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Message
+        fields = '__all__'
