@@ -34,7 +34,8 @@ export default function SearchUserForChat(props) {
     const getUserChat = async(e)=>{
         const userId = e.currentTarget.getAttribute("userid");
         const userName = e.currentTarget.getAttribute("username");
-        navigate(`/chat?userid=${userId}&username=${userName}`);
+        const userProfileImage = e.currentTarget.getAttribute("profile_image");
+        navigate(`/chat?userid=${userId}&username=${userName}&profile_image=${userProfileImage}`);
     }
     return (
         <div className="custom-background" style={{ backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', width: '100%', minHeight: '700px' }}>
@@ -56,7 +57,7 @@ export default function SearchUserForChat(props) {
                             <div className="card-body">
                                 <ul className="list-unstyled mb-0">
                                     {searchData.map((element) => {
-                                        return element.is_following == true && <li className="p-2 border-bottom search_user" style={{ borderBottom: "1px solid rgba(255,255,255,.3) !important" }} key={element.id} userid={element.id} username={element.username} onClick={getUserChat} role='button'>
+                                        return element.is_following == true && <li className="p-2 border-bottom search_user" style={{ borderBottom: "1px solid rgba(255,255,255,.3) !important" }} key={element.id} userid={element.id} username={element.username} profile_image={element.profile_image ? element.profile_image : ""}onClick={getUserChat} role='button'>
                                             <div className="d-flex justify-content-between link-light">
                                                 <div className="d-flex flex-row">
                                                     <img src={element.profile_image ? element.profile_image : defaultProfileImage} alt="avatar"
