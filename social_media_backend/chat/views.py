@@ -6,7 +6,7 @@ from django.shortcuts import get_object_or_404
 
 from user.models import CustomUser
 from .models import Message
-from .serializers import GetMessagesSerializer
+from .serializers import GetMessagesSerializer, AddNewMessagesSerializer
 
      
 class GetMessages(APIView):
@@ -26,3 +26,14 @@ class GetMessages(APIView):
                 return Response({"messages": serializer.data}, status.HTTP_200_OK)
         except:
             return Response({"error_message": "Message not found !!"}, status.HTTP_400_BAD_REQUEST)
+
+
+class AddNewMessage(APIView):
+    def post(self, request, format=None):
+        serializer = AddNewMessagesSerializer(data=request.data, context = {"request": request})
+        try:
+            if serializer.is_valid():
+                serializer.save()
+                return Response({"message": serializer.data}, status=status.HTTP_201_CREATED)
+        except:
+            return Response({"error_message": "Please write some text to send message"})
