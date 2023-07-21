@@ -10,3 +10,6 @@ class Message(models.Model):
     media = models.FileField(upload_to="images/", null=True, blank=True)
     is_seen = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+
+    class Meta:
+        ordering = ("created_at",)

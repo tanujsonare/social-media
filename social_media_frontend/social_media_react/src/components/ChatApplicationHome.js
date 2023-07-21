@@ -158,7 +158,7 @@ export default function ChatApplicationHome(props) {
                             </div>
                         </div>}
                         {!acticeChatUserId && !acticeChatUserName &&
-                            <h1 className='text-light my-5'>Search user to start chat</h1>
+                            <h1 className='text-light my-5'>Select any user or search user to start chat</h1>
                         }
                         {/* message section */}
 
