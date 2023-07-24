@@ -4,10 +4,11 @@ import { Link } from 'react-router-dom'
 
 import NavbarForAuthenticated from './NavbarForAuthenticated'
 import defaultProfileImage from './images/default_pr_img.webp'
-import whatsappWebConnectImg from './images/whatsapp_web_connected.jpg'
 import { getCookie } from '../CsrfToken'
 
 export default function ChatApplicationHome(props) {
+    var messageIdsToSeenPromises = [];
+    var messageIdsToSeen = [];
     const [searchData, setSearchData] = useState(null)
     const [messagesData, setMessagesData] = useState(null)
     const [acticeChatUserName, setActiceChatUserName] = useState(null)
@@ -57,7 +58,28 @@ export default function ChatApplicationHome(props) {
         const userImage = e.currentTarget.getAttribute("profile_image");
         window.history.pushState({}, '', '/chat');
         await getMessages(userId, userName, userImage);
+        await Promise.all(messageIdsToSeenPromises).then((response) => {
+            if (messageIdsToSeenPromises.length > 0){
+                callMessageSeenApi(messageIdsToSeenPromises);
+            }
+        })
     }
+
+    const callMessageSeenApi = async(messageIdsToSeen) =>{
+        await axios.get(`http://127.0.0.1/api/message_seen?message_ids=${messageIdsToSeen}`
+        ).then(response => {
+            if (response.data) {
+                console.log(response.data);
+            }
+        })
+        .catch(error => {
+            if (error.response) {
+                if (error.response.status == 400) {
+                    console.log(error.response.error_message);
+                }
+            }
+        });
+    } 
 
     useEffect(() => {
         if (window.location.href.includes("userid") && window.location.href.includes("username")) {
@@ -107,17 +129,16 @@ export default function ChatApplicationHome(props) {
             <div className="container py-5">
                 <div className="row">
                     <div className="col-md-6 col-lg-5 col-xl-5 mb-4 mb-md-0">
-                        <Link className="text-light" to="/chat_search" style={{ textDecoration: "none" }}>
+                        <div className="card mask-custom my-4">
+                        <Link className="text-light my-3" to="/chat_search" style={{ textDecoration: "none" }}>
                             <i className="fas fa-search text-light"></i>
                             &nbsp; Search
                         </Link>
-                        <div className="card mask-custom my-4">
-                            <div className="card-body">
+                            <div className="card-body" >
                                 <ul className="list-unstyled mb-0 overflow-auto" style={{ minHeight: "400px", maxHeight: "470px" }}>
                                     {searchData && searchData.map((element) => {
                                         return element.is_following == true && element.is_conversation && <li className="p-2 border-bottom search_user" style={{ borderBottom: "1px solid rgba(255,255,255,.3) !important" }} key={element.id} userid={element.id} username={element.username} profile_image={element.profile_image} role='button' onClick={getChat}>
                                             <div className="d-flex justify-content-between link-light">
-                                                {/* <a href="#!" className="d-flex justify-content-between link-light"> */}
                                                 <div className="d-flex flex-row">
                                                     <img src={element.profile_image ? element.profile_image : defaultProfileImage} alt="avatar"
                                                         className="rounded-circle d-flex align-self-center me-3 shadow-1-strong" width="60" height="60" />
@@ -130,7 +151,6 @@ export default function ChatApplicationHome(props) {
                                                     <p className="small text-white mb-1">{element.last_message_detail ? props.getTimeDifference(element.last_message_detail.created_at) : ""}</p>
                                                     <span className="badge bg-success float-end">{element.last_message_detail ? element.last_message_detail.unseen_message_count : ""}</span>
                                                 </div>
-                                                {/* </a> */}
                                             </div>
                                         </li>
                                     })
@@ -141,7 +161,7 @@ export default function ChatApplicationHome(props) {
                     </div>
 
                     {/* personal chat section */}
-                    {searchData && <div className="card col-md-6 col-lg-7 col-xl-7 custom-background text-light chat_box">
+                    {searchData && <div className="card col-md-6 col-lg-7 col-xl-7 custom-background text-light chat_box rounded-5">
 
                         {/* card header */}
 
@@ -164,7 +184,9 @@ export default function ChatApplicationHome(props) {
 
                         <ul className="list-unstyled text-white overflow-auto my-3" style={{ maxHeight: "380px", minHeight: "380px" }}>
                             {messagesData &&  messagesData.map((element) => {
+                                messageIdsToSeenPromises.push(element.sender_user !== Number(props.userId) && !element.is_seen ? element.id : null)
                                 return element.sender_user === Number(props.userId) ? 
+
                                 /* sender user */
                                 (<li className="d-flex justify-content-end mb-4" key={element.id}>
                                     <div className="card mask-custom w-50 mx-2">
@@ -178,7 +200,8 @@ export default function ChatApplicationHome(props) {
                                 </li>)
                                 : 
                                 /* receiver user */
-                                (<li className="d-flex justify-content-start mb-4" key={element.id}>
+                                (
+                                <li className="d-flex justify-content-start mb-4" key={element.id}>
                                     <img src={acticeChatUserProfileImage ? acticeChatUserProfileImage : defaultProfileImage } alt="avatar"
                                         className="rounded-circle align-self-center ms-1 shadow-1-strong" width="30" height="30" />
                                     <div className="card mask-custom w-50 mx-2">
