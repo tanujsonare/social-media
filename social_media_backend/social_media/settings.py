@@ -35,6 +35,8 @@ AUTH_USER_MODEL = "user.CustomUser"
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
+    'channels',
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -49,7 +51,7 @@ INSTALLED_APPS = [
     # apps
     "user",
     "tweet",
-    "chat",
+    "chat.apps.ChatConfig",
 ]
 
 MIDDLEWARE = [
@@ -154,3 +156,11 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+ASGI_APPLICATION = "social_media.asgi.application"
+
+CHANNEL_LAYERS = {
+    "default":{
+        "BACKEND": "channels.layers.InMemoryChannelLayer"
+    }
+}
