@@ -14,6 +14,7 @@ export default function ChatApplicationHome(props) {
     const [acticeChatUserName, setActiceChatUserName] = useState(null)
     const [acticeChatUserId, setActiceChatUserId] = useState(null)
     const [acticeChatUserProfileImage, setActiceChatUserProfileImage] = useState(null)
+    var ws_client;
     const searchUsersForChat = async () => {
         const searchText = document.getElementsByClassName("search_text");
         if (searchText) {
@@ -63,6 +64,19 @@ export default function ChatApplicationHome(props) {
                 callMessageSeenApi(messageIdsToSeenPromises);
             }
         })
+        ws_client = new WebSocket(
+            'ws://' +
+            window.location.host +
+            '/ws/chat/' +
+            props.userName + 
+            userName +
+            "_chat"
+        );
+        // await ws_client;
+        ws_client.onmessage = (e) =>{
+            const data = JSON.parse(e.data);
+            console.log(data);
+        }
     }
 
     const callMessageSeenApi = async(messageIdsToSeen) =>{
